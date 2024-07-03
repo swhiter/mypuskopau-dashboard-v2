@@ -1,0 +1,14 @@
+{
+  "accountLogin": "Account Login",
+  "login": "Log in",
+  "processing": "Processing",
+  "names": {
+    "title": "label",
+    "username": "Staff ID",
+    "password": "Password"
+  },
+  "placeholder": {
+    "inputUsername": "Input User ID",
+    "inputPassword": "******"
+  }
+}

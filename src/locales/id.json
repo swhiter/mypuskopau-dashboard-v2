@@ -1,0 +1,14 @@
+{
+  "accountLogin": "Login Akun",
+  "login": "Log In",
+  "processing": "Memroses",
+  "names": {
+    "title": "label",
+    "username": "ID Staf",
+    "password": "Kata Sandi"
+  },
+  "placeholder": {
+    "inputUsername": "Masukkan Nomor ID",
+    "inputPassword": "******"
+  }
+}
