@@ -1,6 +1,10 @@
 <template>
   <RouterLink :to="menu.href" class="menu">
-    {{ menu.title }}
+    <span class="material-symbols-outlined" v-if="menu.isMdi">
+      {{ menu.icon }}
+    </span>
+    <img :src="menu.icon" alt="Icons" class="w-6" v-else>
+    <span>{{ menu.title }}</span>
   </RouterLink>
 </template>
 
@@ -14,11 +18,12 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   // 
 })
+
 </script>
 
 <style scoped>
 .menu {
-  @apply flex w-full px-8 py-2 font-medium hover:text-accentPurple
+  @apply flex w-full px-8 py-2 font-medium hover:text-accentPurple space-x-2
 }
 
 .router-link-active {

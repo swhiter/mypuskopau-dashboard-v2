@@ -1,6 +1,9 @@
 <template>
   <TopNavbar />
-  <SideNavbar />
+  <div class="flex">
+    <SideNavbar />
+    <RouterView />
+  </div>
 </template>
 
 <script setup lang="ts">
