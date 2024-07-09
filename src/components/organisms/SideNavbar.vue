@@ -60,7 +60,7 @@ const menus: Ref<MenuItem[]> = ref([
 
 <style scoped>
 .sidebar-container {
-  @apply flex flex-col w-fit h-screen font-body
+  @apply flex flex-col w-fit h-full font-body
 }
 
 .sidebar-background {

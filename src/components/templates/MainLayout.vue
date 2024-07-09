@@ -1,8 +1,10 @@
 <template>
-  <TopNavbar />
-  <div class="flex">
-    <SideNavbar />
-    <RouterView />
+  <div class="flex flex-col w-full h-dvh max-h-dvh">
+    <TopNavbar />
+    <div class="flex h-full">
+      <SideNavbar />
+      <RouterView />
+    </div>
   </div>
 </template>
 
