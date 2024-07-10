@@ -4,17 +4,27 @@ import axios from 'axios'
 
 class HttpClient {
   private client: AxiosInstance
-  private authStore
 
   constructor() {
-    this.authStore = useAuthStore()
     this.client = axios.create({
       baseURL: import.meta.env.VITE_API_ENDPOINT,
       headers: {
-        Authorization: 'Bearer ' + this.authStore.token,
         'Content-Type': 'application/json'
       }
     })
+
+    this.client.interceptors.request.use(
+      (config) => {
+        const authStore = useAuthStore()
+        if (authStore.token) {
+          config.headers!.Authorization = `Bearer ${authStore.token}`
+        }
+        return config
+      },
+      (error) => {
+        return Promise.reject(error)
+      }
+    )
   }
 
   private handleResponse<T>(response: AxiosResponse): T {

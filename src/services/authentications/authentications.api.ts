@@ -3,7 +3,7 @@ import httpClient from '../httpClient'
 
 class AuthenticationService {
   async login(data: any): Promise<UserCredential> {
-    return await httpClient.post<UserCredential>('/login', data)
+    return await httpClient.post<UserCredential>('/auth/login', data)
   }
 }
 
