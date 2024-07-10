@@ -1,6 +1,7 @@
 <template>
   <div class="form-group" :class="{ 'multi-row': isSeparateRow }">
-    <div class="label" :class="isSeparateRow ? 'w-fit' : `w-${labelSpacing}/12`">
+    <div class="label"
+      :class="[(isSeparateRow ? 'w-fit' : `w-${labelSpacing}/12`), { 'font-semibold': semiboldLabel }]">
       <label :for="name">{{ label }}</label>
     </div>
     <div class="input-container"
@@ -13,7 +14,7 @@
         :class="{ 'invalid': meta.touched && !meta.valid }" :disabled="disabled" @change="handleChange"
         @blur="handleBlur" v-else>
       <span class="input-affix suf" v-if="suffix">{{ suffix }}</span>
-      <button class="password-toggler" v-if="hasPasswordToggler" @click="togglePassword()">
+      <button type="button" class="password-toggler" v-if="hasPasswordToggler" @click="togglePassword()">
         <FontAwesomeIcon class="fa-fw" :icon="faEye" v-if="isPasswordShown" />
         <FontAwesomeIcon class="fa-fw" :icon="faEyeSlash" v-else />
       </button>
@@ -43,6 +44,7 @@ interface Props {
   labelSpacing?: number
   fieldSize?: number
   bordered?: boolean
+  semiboldLabel?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -55,7 +57,8 @@ const props = withDefaults(defineProps<Props>(), {
   suffix: null,
   labelSpacing: 4,
   fieldSize: 8,
-  bordered: false
+  bordered: false,
+  semiboldLabel: false
 })
 
 const { handleChange, value, handleBlur, errorMessage, meta } = useField(() => props.name, props.rules, { syncVModel: true })
@@ -89,7 +92,7 @@ const togglePassword = (): void => {
 }
 
 .label {
-  @apply font-semibold text-sm 2xl:text-base flex items-center
+  @apply text-sm 2xl:text-base flex items-center
 }
 
 .input-container {
