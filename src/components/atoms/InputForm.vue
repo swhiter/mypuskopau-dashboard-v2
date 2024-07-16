@@ -32,7 +32,7 @@ import { useField } from 'vee-validate';
 interface Props {
   name: string
   label: string
-  modelValue: string | number | boolean | null
+  modelValue: number | string | boolean | null
   type?: string
   placeholder?: string
   rules?: string | Record<string, any>
