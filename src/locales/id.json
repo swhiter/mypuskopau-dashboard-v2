@@ -2,13 +2,43 @@
   "accountLogin": "Login Akun",
   "login": "Log In",
   "processing": "Memroses",
+  "save": "Simpan",
+  "generate": "Generate",
+  "browse": "Telusuri",
   "names": {
     "title": "label",
     "username": "ID Staf",
-    "password": "Kata Sandi"
+    "password": "Kata Sandi",
+    "fullname": "Nama Lengkap",
+    "idCardNumber": "NIK",
+    "photo": "Upload Foto",
+    "code": "Kode",
+    "licensePlate": "Plat Nomor",
+    "distance": "Jarak",
+    "argo": "Argo"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",
-    "inputPassword": "******"
+    "inputPassword": "******",
+    "inputFullname": "Masukkan nama lengkap",
+    "inputIdCardNumber": "Masukkan Nomor Induk Kependudukan",
+    "inputCode": "Masukkan kode kendaraan",
+    "inputLicensePlate": "Masukkan plat nomor kendaraan",
+    "inputDriverPassword": "Masukkan password untuk pengemudi",
+    "uploadImage": "Jatuhkan gambar di sini, atau"
+  },
+  "title": {
+    "dashboard": "Dashboard",
+    "driverManagement": "Manajemen Pengemudi",
+    "staffManagement": "Manajemen Staf",
+    "orderManagement": "Manajemen Pesanan",
+    "tariffManagement": "Manajemen Tarif",
+    "driverTracking": "Pelacakan Pengemudi",
+    "driverInformation": "Informasi Pengemudi",
+    "vehicleInformation": "Informasi Kendaraan",
+    "staffInformation": "Informasi Staf",
+    "driverAccessInformation": "Informasi Akses Pengemudi",
+    "staffAccessInformation": "Informasi Akses Staf",
+    "tariffSetting": "Pengaturan Tarif"
   }
 }

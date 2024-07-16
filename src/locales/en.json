@@ -2,13 +2,43 @@
   "accountLogin": "Account Login",
   "login": "Log in",
   "processing": "Processing",
+  "save": "Save",
+  "generate": "Generate",
+  "browse": "Browse",
   "names": {
     "title": "label",
     "username": "Staff ID",
-    "password": "Password"
+    "password": "Password",
+    "fullname": "Full Name",
+    "idCardNumber": "ID Card Number",
+    "photo": "Upload Photo",
+    "code": "Code",
+    "licensePlate": "License Plate",
+    "distance": "Distance",
+    "argo": "Argo"
   },
   "placeholder": {
     "inputUsername": "Input User ID",
-    "inputPassword": "******"
+    "inputPassword": "******",
+    "inputFullname": "Input full name",
+    "inputIdCardNumber": "Input ID Card number",
+    "inputCode": "Input vehicle code",
+    "inputLicensePlate": "Input license plate number",
+    "inputDriverPassword": "Input driver password",
+    "uploadImage": "Drop your image here, or"
+  },
+  "title": {
+    "dashboard": "Dashboard",
+    "driverManagement": "Driver Management",
+    "staffManagement": "Staff Management",
+    "orderManagement": "Order Management",
+    "tariffManagement": "Tariff Management",
+    "driverTracking": "Driver Tracking",
+    "driverInformation": "Driver Information",
+    "vehicleInformation": "Vehicle Information",
+    "staffInformation": "Staff Information",
+    "driverAccessInformation": "Driver Access Information",
+    "staffAccessInformation": "Staff Access Information",
+    "tariffSetting": "Tariff Setting"
   }
 }
