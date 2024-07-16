@@ -10,7 +10,7 @@
       (isDragging ? 'border-green-400' : 'border-black'),
       { 'h-full': grow }
     ]" @dragover="dragOver" @dragleave="dragLeave" @drop="drop">
-      <template v-if="files.length != 0">
+      <template v-if="files && files.length != 0">
         <div v-for="(item, index) in files" :key="index" class="preview-container">
           <div class="input-preview">
             <img :src="readImage(item)" :alt="item.name" v-if="isImage(item)">
@@ -38,7 +38,7 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faFile, faImage } from '@fortawesome/free-regular-svg-icons';
 import { useField } from 'vee-validate';
-import { ref, toRef, watch, type Ref } from 'vue';
+import { ref, watch, type Ref } from 'vue';
 
 interface Props {
   name: string
@@ -69,16 +69,14 @@ const props = withDefaults(defineProps<Props>(), {
   semiboldLabel: false
 })
 
-const { handleBlur, errorMessage, meta } = useField(() => props.name, props.rules, { syncVModel: true })
-
 const emits = defineEmits<{
-  modelValue: [modelValue: File[]]
+  (event: 'update:modelValue', modelValue: File[]): void
 }>()
 
-const files = toRef(props.modelValue)
+const { handleBlur, value: files, errorMessage, meta } = useField<File[]>(() => props.name, props.rules)
 
 watch(files, (newValue) => {
-  emits('modelValue', newValue)
+  emits('update:modelValue', newValue)
 })
 
 const fileInputRef: Ref<HTMLInputElement | null> = ref(null)
@@ -104,19 +102,18 @@ const drop = (e: DragEvent): void => {
     const fileList: FileList = e.dataTransfer.files
     if (props.multiple) {
       for (let i = 0; i < fileList.length; i++) {
-        let isExist = files.value!.some(item => {
+        let isExist = files.value.some(item => {
           return item.name === fileList.item(i)?.name && item.size === fileList.item(i)?.size
         })
         if (isExist) {
           console.log('file duplikat')
         } else {
-          files.value?.push(fileList.item(i)!)
+          (files.value as File[]).push(fileList.item(i)!)
         }
       }
     } else {
       files.value = []
       files.value.push(fileList.item(0)!)
-      console.log(files.value)
     }
   }
   isDragging.value = false
@@ -127,13 +124,13 @@ const handleInputChange = (e: Event): void => {
   if (file) {
     if (props.multiple) {
       for (let i = 0; i < file.length; i++) {
-        let isExist = files.value!.some(item => {
+        let isExist = files.value.some(item => {
           return item.name === file.item(i)?.name && item.size === file.item(i)?.size
         })
         if (isExist) {
           console.log('file duplikat')
         } else {
-          files.value?.push(file.item(i)!)
+          files.value.push(file.item(i)!)
         }
       }
     } else {
