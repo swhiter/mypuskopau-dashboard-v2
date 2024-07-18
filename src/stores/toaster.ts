@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { reactive } from 'vue'
 
 export type TToastStatus = 'success' | 'info' | 'warning' | 'error'
 type TToastPayload = { text: string; timeout?: number }
@@ -17,32 +18,37 @@ const createToast = (text: string, status: TToastStatus): IToast => ({
   id: Math.random() * 1000
 })
 
-export const useToasterStore = defineStore('toaster', {
-  state: (): { toasts: IToast[] } => ({
-    toasts: []
-  }),
-  actions: {
-    updateState(payload: TToastPayload, status: TToastStatus) {
-      const { text, timeout } = payload
-      const toast = createToast(text, status)
+export const useToasterStore = defineStore('toaster', () => {
+  const state = reactive({
+    toasts: [] as IToast[]
+  })
 
-      this.toasts.push(toast)
+  function updateState(payload: TToastPayload, status: TToastStatus) {
+    const { text, timeout } = payload
+    const toast = createToast(text, status)
 
-      setTimeout(() => {
-        this.toasts = this.toasts.filter((t) => t.id !== toast.id)
-      }, timeout ?? defaultTimeout)
-    },
-    success(payload: TToastPayload) {
-      this.updateState(payload, 'success')
-    },
-    info(payload: TToastPayload) {
-      this.updateState(payload, 'info')
-    },
-    warning(payload: TToastPayload) {
-      this.updateState(payload, 'warning')
-    },
-    error(payload: TToastPayload) {
-      this.updateState(payload, 'error')
-    }
+    state.toasts.push(toast)
+
+    setTimeout(() => {
+      state.toasts = state.toasts.filter((t) => t.id !== toast.id)
+    }, timeout ?? defaultTimeout)
   }
+
+  function success(payload: TToastPayload) {
+    updateState(payload, 'success')
+  }
+
+  function info(payload: TToastPayload) {
+    updateState(payload, 'info')
+  }
+
+  function warning(payload: TToastPayload) {
+    updateState(payload, 'warning')
+  }
+
+  function error(payload: TToastPayload) {
+    updateState(payload, 'error')
+  }
+
+  return { state, updateState, success, info, warning, error }
 })

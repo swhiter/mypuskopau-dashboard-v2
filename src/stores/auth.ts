@@ -1,19 +1,16 @@
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
-interface AuthState {
-  token: string | null
-}
+export const useAuthStore = defineStore('auth', () => {
+  const token = ref<string | null>(null)
 
-export const useAuthStore = defineStore('auth', {
-  state: (): AuthState => ({
-    token: null
-  }),
-  actions: {
-    setCredentials(token: string): void {
-      this.token = token
-    },
-    clearCredentials(): void {
-      this.token = null
-    }
+  function setCredentials(newToken: string): void {
+    token.value = newToken
   }
+
+  function clearCredentials(): void {
+    token.value = null
+  }
+
+  return { token, setCredentials, clearCredentials }
 })
