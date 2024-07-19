@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 <style scoped>
 .container {
-  @apply flex flex-col w-full p-4 bg-white rounded-lg border border-buttonGray shadow-lg
+  @apply flex flex-col max-w-full min-w-full p-4 bg-white rounded-lg border border-buttonGray shadow-lg
 }
 
 .card-title {

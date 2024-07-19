@@ -1,17 +1,18 @@
 <template>
-  <div class="flex flex-col w-full h-dvh max-h-dvh">
+  <div class="flex flex-col w-screen h-dvh max-h-dvh">
     <TopNavbar />
-    <div class="flex h-full">
+    <div class="flex flex-1 max-w-full">
       <SideNavbar />
-      <RouterView />
+      <div class="w-full max-w-full">
+        <RouterView />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import SideNavbar from '../organisms/SideNavbar.vue';
-import TopNavbar from '../organisms/TopNavbar.vue';
-
+import SideNavbar from '@/components/organisms/SideNavbar.vue';
+import TopNavbar from '@/components/organisms/TopNavbar.vue';
 </script>
 
 <style scoped></style>

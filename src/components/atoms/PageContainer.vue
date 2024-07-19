@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 <style scoped>
 .container {
-  @apply font-body p-6 space-y-6
+  @apply font-body p-6 space-y-6 min-w-full max-w-full
 }
 
 .title {
