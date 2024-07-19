@@ -8,3 +8,26 @@
   height: 6dvh;
   @apply absolute top-3 left-8;
 }
+
+/* Scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  @apply bg-accentGray;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-buttonBiGray rounded-lg;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primaryDarkBlue;
+}
