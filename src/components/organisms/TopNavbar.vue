@@ -8,14 +8,10 @@
 </template>
 
 <script setup lang="ts">
-import { useModalStore } from '@/stores/modal';
 import { ArrowRightStartOnRectangleIcon } from '@heroicons/vue/24/solid'
-import ModalBase from '../atoms/ModalBase.vue';
-
-const modal = useModalStore()
 
 const logout = () => {
-  // modal.openModal({ component: ModalBase })
+  // 
 }
 </script>
 
