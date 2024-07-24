@@ -1,0 +1,110 @@
+<template>
+  <Form id="staff-form" class="flex flex-col space-y-4" @submit="onSubmit()" autocomplete="off">
+    <UserInformationForm :form="userInfoForm" @update="userInfoForm = $event" />
+    <UserAccessInformationForm :form="userAccessForm" @update="userAccessForm = $event" :generated="isUsernameGenerated"
+      @generated="isUsernameGenerated = $event" />
+  </Form>
+</template>
+
+<script setup lang="ts">
+import type { UserAccessInfo, UserInfo } from '@/types/Forms';
+import UserInformationForm from '../molecules/forms/UserInformationForm.vue';
+import { inject, reactive, ref, toRefs, watch, type Ref } from 'vue';
+import UserAccessInformationForm from '../molecules/forms/UserAccessInformationForm.vue';
+import { Form } from 'vee-validate';
+import staffService from '@/services/drivers/staff.api';
+import { handleErrorResponse } from '@/utils/common';
+import type { Staff } from '@/types/Data';
+import { useI18n } from 'vue-i18n';
+import { useToasterStore } from '@/stores/toaster';
+import type { GeneralResponse } from '@/types/Main';
+import { formState } from '@/injects/keys';
+
+const { t } = useI18n()
+const toast = useToasterStore()
+
+interface Props {
+  staff: Staff | null
+}
+
+const props = defineProps<Props>()
+const { staff } = toRefs(props)
+
+const emits = defineEmits<{
+  saveEnabled: [enabled: boolean]
+}>()
+
+const isUsernameGenerated: Ref<boolean> = ref(false)
+const parentForm = inject(formState)
+
+watch(staff, (newValue) => {
+  if (newValue != null) {
+    isUsernameGenerated.value = true
+    // User Info
+    userInfoForm.name = newValue.name
+    userInfoForm.nik = newValue.nik
+    userInfoForm.photo = newValue.photo
+    // User Access Info
+    userAccessForm.id = newValue.id!
+    userAccessForm.userId = newValue.userId
+  } else {
+    reset()
+  }
+})
+
+watch(isUsernameGenerated, (newValue) => {
+  emits('saveEnabled', newValue)
+})
+
+const userInfoForm: UserInfo = reactive({
+  name: '',
+  nik: '',
+  photo: ''
+})
+
+const userAccessForm: UserAccessInfo = reactive({
+  id: 0,
+  userId: '',
+  password: '',
+  role: ''
+})
+
+const onSubmit = async (): Promise<void> => {
+  const form = new FormData()
+
+  Object.entries(userInfoForm).forEach(([key, value]) => {
+    form.append(key, value as string | File)
+  })
+
+  Object.entries(userAccessForm).forEach(([key, value]) => {
+    form.append(key, value)
+  })
+
+  try {
+    let response: GeneralResponse<Staff>
+    if (userAccessForm.id != 0) {
+      console.log('harusnya masuk sini')
+      response = await staffService.updateStaff(form, userAccessForm.id)
+    } else {
+      response = await staffService.createStaff(form)
+    }
+    toast.success({ text: t('alert.successSave') })
+    reset()
+    parentForm?.updateSubmittedState()
+  } catch (error) {
+    handleErrorResponse(error)
+  }
+}
+
+const reset = (): void => {
+  isUsernameGenerated.value = false
+  // User Info
+  userInfoForm.name = ''
+  userInfoForm.nik = ''
+  userInfoForm.photo = ''
+  // User Access Info
+  userAccessForm.id = 0
+  userAccessForm.userId = ''
+  userAccessForm.password = ''
+}
+</script>
