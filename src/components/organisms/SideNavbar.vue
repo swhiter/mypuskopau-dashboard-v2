@@ -45,7 +45,7 @@ const menus: Ref<MenuItem[]> = ref([
   },
   {
     title: 'Manajemen Tarif',
-    href: '/rates-management',
+    href: '/tariff-management',
     icon: '/icons/manajemen-tarif.svg',
     isMdi: false
   },

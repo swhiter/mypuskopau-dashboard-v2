@@ -1,9 +1,9 @@
 <template>
   <Teleport to="body">
     <Transition name="toast">
-      <div v-if="toasterStore.toasts.length" class="toast-wrapper">
+      <div v-if="toasterStore.state.toasts.length" class="toast-wrapper">
         <TransitionGroup name="toast" tag="ul">
-          <li v-for="toast in toasterStore.toasts" class="toast-list" :class="toastColorMap[toast.status]"
+          <li v-for="toast in toasterStore.state.toasts" class="toast-list" :class="toastColorMap[toast.status]"
             :key="toast.id">
             <span class="toast-icon">
               <FontAwesomeIcon class="fa-fw" :icon="toastIconMap[toast.status]" />

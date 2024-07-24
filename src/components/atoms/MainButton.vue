@@ -23,6 +23,7 @@ interface Props {
   type?: ButtonTypes
   label: string
   wide?: boolean
+  tall?: boolean
   form?: string | undefined
   disabled?: boolean
   loading?: boolean
@@ -31,6 +32,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   type: 'button',
   wide: false,
+  tall: false,
   disabled: false,
   loading: false
 })
@@ -38,7 +40,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 <style scoped>
 .button {
-  @apply bg-primaryDarkBlue text-white px-8 py-2 rounded-lg text-sm hover:bg-hoverDarkBlue disabled:bg-hoverDarkBlue
+  @apply bg-primaryDarkBlue text-white px-8 py-2 rounded-lg text-sm hover:bg-hoverDarkBlue disabled:bg-buttonGray disabled:text-accentGray
 }
 
 .wide {

@@ -8,10 +8,10 @@
       <h1 class="auth-title">{{ $t('accountLogin') }}</h1>
       <Form class="my-12 flex flex-col space-y-4" id="login-form" @submit="login()">
         <InputForm name="username" :label="$t('names.username')" v-model="username"
-          :placeholder="$t('placeholder.inputUsername')" is-separate-row :rules="{ required: true }" />
+          :placeholder="$t('placeholder.inputUsername')" is-separate-row :rules="{ required: true }" semibold-label />
         <InputForm name="password" :label="$t('names.password')" v-model="password"
           :placeholder="$t('placeholder.inputPassword')" is-separate-row type="password" has-password-toggler
-          :rules="{ required: true }" />
+          :rules="{ required: true }" semibold-label />
       </Form>
       <div class="flex w-full items-center justify-center">
         <MainButton type="submit" :label="$t('login')" wide form="login-form" :loading="isLoading"
@@ -24,10 +24,15 @@
 <script setup lang="ts">
 import InputForm from '@/components/atoms/InputForm.vue';
 import MainButton from '@/components/atoms/MainButton.vue';
+import router from '@/router';
 import authenticationService from '@/services/authentications/authentications.api';
+import { useAuthStore } from '@/stores/auth';
 import type UserCredential from '@/types/Credential';
+import type { GeneralResponse } from '@/types/Main';
 import { Form } from 'vee-validate';
 import { ref, type Ref } from 'vue';
+
+const authStore = useAuthStore()
 
 const isLoading: Ref<boolean> = ref(false)
 
@@ -35,19 +40,20 @@ const username: Ref<string> = ref('')
 const password: Ref<string> = ref('')
 
 const login = async () => {
-  console.log('loginned')
   isLoading.value = true
-  // try {
-  //   const payload = {
-  //     usename: username.value,
-  //     password: password.value
-  //   }
-  //   const credentials: UserCredential = await authenticationService.login(payload)
-  // } catch (error) {
-  //   console.error(error)
-  // } finally {
-  //   isLoading.value = false
-  // }
+  try {
+    const payload = {
+      userId: username.value,
+      password: password.value
+    }
+    const credentials: GeneralResponse<UserCredential> = await authenticationService.login(payload)
+    authStore.setCredentials(credentials.data!.token)
+    router.push('/dashboard')
+  } catch (error) {
+    console.error(error)
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>
 
