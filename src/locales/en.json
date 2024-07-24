@@ -39,6 +39,31 @@
     "staffInformation": "Staff Information",
     "driverAccessInformation": "Driver Access Information",
     "staffAccessInformation": "Staff Access Information",
-    "tariffSetting": "Tariff Setting"
+    "tariffSetting": "Tariff Setting",
+    "driverInformationData": "Drivers Information Data",
+    "staffInformationData": "Staffs Information Data"
+  },
+  "errors": {
+    "badRequest": "Something wrong with your request.",
+    "unauthorized": "Your session has expired. Please login again.",
+    "forbidden": "You do not have the necessary permissions to access this resource.",
+    "notFound": "The requested resources is not found.",
+    "internalServerError": "An internal server error occurred. Please try again later.",
+    "noResponse": "No response received from the server. Please check your network connection."
+  },
+  "label": {
+    "actions": "Actions",
+    "driverName": "Driver Name",
+    "idCardNumber": "ID Card Number",
+    "vehicleCode": "Vehicle Code",
+    "licensePlate": "License Plate",
+    "driverId": "Driver ID",
+    "totalEarnings": "Total Earnings",
+    "profilePhoto": "Profile Photo",
+    "staffName": "Staff Name",
+    "staffId": "Staff ID"
+  },
+  "alert": {
+    "successSave": "Data saved"
   }
 }

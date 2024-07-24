@@ -39,6 +39,31 @@
     "staffInformation": "Informasi Staf",
     "driverAccessInformation": "Informasi Akses Pengemudi",
     "staffAccessInformation": "Informasi Akses Staf",
-    "tariffSetting": "Pengaturan Tarif"
+    "tariffSetting": "Pengaturan Tarif",
+    "driverInformationData": "Data Informasi Pengemudi",
+    "staffInformationData": "Data Informasi Staf"
+  },
+  "errors": {
+    "badRequest": "Ada kesalahan dalam request Anda.",
+    "unauthorized": "Sesi Anda telah habis. Mohon login kembali.",
+    "forbidden": "Anda tidak punya hak akses yang diperlukan untuk mengakses konten ini.",
+    "notFound": "Konten yang diminta tidak ada.",
+    "internalServerError": "Kesalahan internal server. Harap coba lagi nanti.",
+    "noResponse": "Tidak ada respon diterima dari server. Harap cek koneksi internet Anda."
+  },
+  "label": {
+    "actions": "Aksi",
+    "driverName": "Nama Pengemudi",
+    "idCardNumber": "NIK",
+    "vehicleCode": "Kode Kendaraan",
+    "licensePlate": "Plat Nomor Kendaraan",
+    "driverId": "ID Pengemudi",
+    "totalEarnings": "Pendapatan Total",
+    "profilePhoto": "Foto Profil",
+    "staffName": "Nama Staf",
+    "staffId": "ID Staf"
+  },
+  "alert": {
+    "successSave": "Berhasil menyimpan data"
   }
 }
