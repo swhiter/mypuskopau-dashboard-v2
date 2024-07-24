@@ -4,6 +4,8 @@ import '@/utils/validationRules'
 import 'leaflet/dist/leaflet.css'
 import router from './router';
 import { useAuthStore } from './stores/auth';
+import ToasterNotification from './components/atoms/ToasterNotification.vue';
+import ModalBase from './components/atoms/ModalBase.vue';
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -33,4 +35,6 @@ router.beforeEach((to, from, next) => {
 
 <template>
   <RouterView />
+  <ModalBase />
+  <ToasterNotification />
 </template>
