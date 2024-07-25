@@ -9,12 +9,11 @@ import { onMounted, onUnmounted, ref, type Ref } from 'vue';
 import { Marker, type LatLngExpression } from 'leaflet';
 import { getDriversPosition, initializeMap, updateDriversPosition } from '@/utils/mapUtils';
 import type { Position } from '@/types/Position';
+import type { PaginationRequest } from '@/types/Main';
+import { handleErrorResponse } from '@/utils/common';
+import driverService from '@/services/drivers/drivers.api';
 
-const positions: Ref<Position[]> = ref([
-  { lat: -6.264814, lng: 106.883987, title: 'Pin 1' },
-  { lat: -6.263818, lng: 106.885989, title: 'Pin 2' },
-  { lat: -6.262986, lng: 106.885318, title: 'Pin 3' },
-])
+const positions: Ref<Position[]> = ref([])
 const drivers: Ref<Marker[]> = ref([])
 
 const center: Ref<LatLngExpression> = ref([-6.2653379, 106.8829779])
@@ -22,13 +21,42 @@ const zoom: Ref<number> = ref(17)
 
 let intervalId: number
 
-onMounted(() => {
+const pagination: Ref<PaginationRequest> = ref({
+  page: 1,
+  limit: 9999,
+  totalPages: 0,
+  totalRows: 0,
+  search: ''
+})
+
+const getDrivers = async (): Promise<void> => {
+  try {
+    const response = await driverService.getDrivers(pagination.value)
+    pagination.value.totalPages = response.pageCount
+    pagination.value.totalRows = response.total
+    for (let item of response.data) {
+      positions.value.push({
+        lat: item.lastLatitude,
+        lng: item.lastLongitude,
+        title: item.name
+      })
+    }
+  } catch (error) {
+    handleErrorResponse(error)
+  }
+}
+
+onMounted(async () => {
   const map = initializeMap(center.value, zoom.value)
+
+  // Get data Driver
+  await getDrivers()
 
   // Inisialisasi Posisi Awal Driver
   drivers.value = getDriversPosition(map, positions.value)
 
-  intervalId = setInterval(() => {
+  intervalId = setInterval(async () => {
+    await getDrivers()
     drivers.value = updateDriversPosition(map, drivers.value, positions.value)
   }, 60000) // Update setiap 1 menit
 })
