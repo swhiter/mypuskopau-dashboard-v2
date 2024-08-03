@@ -28,7 +28,12 @@
           </tr>
         </template>
         <tr v-if="rows.length == 0">
-          <td :colspan="columns.length" class="px-6 py-3 text-center">{{ $t('label.noData') }}</td>
+          <td :colspan="columns.length" class="px-6 py-3">
+            <div class="flex w-full items-center justify-center space-x-2">
+              <span class="material-symbols-outlined">warning</span>
+              <span>{{ $t('label.noData') }}</span>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
