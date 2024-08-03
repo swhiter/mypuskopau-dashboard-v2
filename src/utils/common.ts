@@ -1,7 +1,9 @@
 import i18nSetup from '@/locales/i18n'
+import { jwtDecode } from 'jwt-decode'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 import { useToasterStore } from '@/stores/toaster'
+import type { ExtJwtPayload } from '@/types/Credential'
 
 export const urlToFile = async (url: string, filename: string): Promise<File> => {
   if (url.startsWith('data:')) {
@@ -95,4 +97,10 @@ export const handleErrorResponse = (error: any): void => {
   // } else {
   //   toaster.error({ text: error.message })
   // }
+}
+
+export const getCurrentUser = (): ExtJwtPayload => {
+  const auth = useAuthStore()
+  const decoded = jwtDecode<ExtJwtPayload>(auth.token!)
+  return decoded
 }

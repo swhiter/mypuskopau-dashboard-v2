@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-container">
     <aside class="sidebar-background">
-      <SidebarProfile :name="name" :username="username" />
+      <SidebarProfile :name="name" :username="username" :image="userImage" />
       <div class="sidebar-menus">
         <MenuItems v-for="(item, index) in menus" :key="index" :menu="item" />
       </div>
@@ -10,13 +10,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref } from 'vue';
+import { onMounted, ref, type Ref } from 'vue';
 import MenuItems from '../atoms/MenuItems.vue';
 import type { MenuItem } from '@/types/MainComponents';
 import SidebarProfile from '../molecules/misc/SidebarProfile.vue';
+import { getCurrentUser } from '@/utils/common';
+import defaultImage from '@/assets/images/user.png';
 
-const name: Ref<string> = ref('Admin Putri')
-const username: Ref<string> = ref('144002')
+const name: Ref<string> = ref('')
+const username: Ref<string> = ref('')
+const userImage: Ref<string> = ref('')
 
 const menus: Ref<MenuItem[]> = ref([
   {
@@ -56,6 +59,13 @@ const menus: Ref<MenuItem[]> = ref([
     isMdi: false
   }
 ])
+
+onMounted(() => {
+  const user = getCurrentUser()
+  name.value = `${user.userDetail.firstName} ${user.userDetail.lastName}`
+  username.value = user.userDetail.userId
+  userImage.value = user.userDetail.photo ? user.userDetail.photo : defaultImage
+})
 </script>
 
 <style scoped>

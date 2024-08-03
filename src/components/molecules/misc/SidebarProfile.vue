@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-profile">
     <div class="image-container">
-      <img src="@/assets/images/user.png" alt="User Profile">
+      <img :src="image" alt="User Profile">
     </div>
     <div class="userdata-container">
       <span class="text-name">{{ name }}</span>
@@ -14,6 +14,7 @@
 interface Props {
   name: string
   username: string
+  image: string
 }
 
 const props = defineProps<Props>()
