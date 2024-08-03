@@ -22,7 +22,7 @@ import CustomTable from '../atoms/CustomTable.vue';
 import driverService from '@/services/drivers/drivers.api';
 import type { PaginationRequest, TableField } from '@/types/Main';
 import { handleErrorResponse } from '@/utils/common';
-import type { Driver, ExtendedDriver } from '@/types/Data';
+import type { ExtendedDriver } from '@/types/Data';
 import CustomTableButton from '../atoms/CustomTableButton.vue';
 import CustomTableImageViewer from '../atoms/CustomTableImageViewer.vue';
 import CustomTablePagination from '../atoms/CustomTablePagination.vue';
