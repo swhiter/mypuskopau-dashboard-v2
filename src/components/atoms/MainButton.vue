@@ -1,5 +1,7 @@
 <template>
-  <button :type="type" class="button" :class="{ 'wide': wide }" :form="form" :disabled="disabled">
+  <button :type="type" class="button"
+    :class="{ 'wide': wide, 'w-32': uniformWidth, 'outlined': outline, 'white': white }" :form="form"
+    :disabled="disabled">
     <div class="flex items-center justify-center space-x-1" v-if="loading">
       <svg aria-hidden="true" class="w-4 h-4 text-gray-200 animate-spin fill-white" viewBox="0 0 100 101" fill="none"
         xmlns="http://www.w3.org/2000/svg">
@@ -27,6 +29,9 @@ interface Props {
   form?: string | undefined
   disabled?: boolean
   loading?: boolean
+  uniformWidth?: boolean
+  outline?: boolean
+  white?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -34,13 +39,24 @@ const props = withDefaults(defineProps<Props>(), {
   wide: false,
   tall: false,
   disabled: false,
-  loading: false
+  loading: false,
+  uniformWidth: false,
+  outline: false,
+  white: false
 })
 </script>
 
 <style scoped>
 .button {
   @apply bg-primaryDarkBlue text-white px-8 py-2 rounded-lg text-sm hover:bg-hoverDarkBlue disabled:bg-buttonGray disabled:text-accentGray
+}
+
+.white {
+  @apply bg-white text-primaryDarkBlue hover:bg-buttonGray
+}
+
+.outlined {
+  @apply border-2 border-primaryDarkBlue
 }
 
 .wide {

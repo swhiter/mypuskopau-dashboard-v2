@@ -41,7 +41,8 @@
     "staffAccessInformation": "Informasi Akses Staf",
     "tariffSetting": "Pengaturan Tarif",
     "driverInformationData": "Data Informasi Pengemudi",
-    "staffInformationData": "Data Informasi Staf"
+    "staffInformationData": "Data Informasi Staf",
+    "orderHistoryInformationData": "Data Informasi Riwayat Pesanan"
   },
   "errors": {
     "badRequest": "Ada kesalahan dalam request Anda.",
@@ -61,9 +62,19 @@
     "totalEarnings": "Pendapatan Total",
     "profilePhoto": "Foto Profil",
     "staffName": "Nama Staf",
-    "staffId": "ID Staf"
+    "staffId": "ID Staf",
+    "orderNumber": "Nomor Pesanan",
+    "orderDate": "Tanggal Pesanan",
+    "orderPrice": "Tarif Pesanan",
+    "noData": "Tidak ada data",
+    "yes": "Ya",
+    "no": "Tidak"
   },
   "alert": {
-    "successSave": "Berhasil menyimpan data"
+    "successSave": "Berhasil menyimpan data",
+    "successLogout": "Berhasil keluar"
+  },
+  "message": {
+    "logout": "Yakin ingin keluar?"
   }
 }

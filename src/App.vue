@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css'
 import router from './router';
 import { useAuthStore } from './stores/auth';
 import ToasterNotification from './components/atoms/ToasterNotification.vue';
-import ModalBase from './components/atoms/ModalBase.vue';
+import ModalWindow from './components/atoms/ModalWindow.vue';
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -35,6 +35,6 @@ router.beforeEach((to, from, next) => {
 
 <template>
   <RouterView />
-  <ModalBase />
+  <ModalWindow />
   <ToasterNotification />
 </template>

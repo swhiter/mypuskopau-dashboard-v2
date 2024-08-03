@@ -8,10 +8,23 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth';
+import { useModalStore } from '@/stores/modal';
+import { useToasterStore } from '@/stores/toaster';
 import { ArrowRightStartOnRectangleIcon } from '@heroicons/vue/24/solid'
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
+const auth = useAuthStore()
+const modal = useModalStore()
+const toast = useToasterStore()
 
 const logout = () => {
-  // 
+  modal.openConfirmationModal(t('message.logout'))
+  modal.onOk(() => {
+    auth.logout()
+    toast.info({ text: t('alert.successLogout') })
+  })
 }
 </script>
 

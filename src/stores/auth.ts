@@ -1,3 +1,5 @@
+import router from '@/router'
+import authenticationService from '@/services/authentications/authentications.api'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -12,5 +14,11 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = null
   }
 
-  return { token, setCredentials, clearCredentials }
+  async function logout(): Promise<void> {
+    await authenticationService.logout()
+    clearCredentials()
+    router.push('/login')
+  }
+
+  return { token, setCredentials, clearCredentials, logout }
 })

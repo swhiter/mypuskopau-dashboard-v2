@@ -41,7 +41,8 @@
     "staffAccessInformation": "Staff Access Information",
     "tariffSetting": "Tariff Setting",
     "driverInformationData": "Drivers Information Data",
-    "staffInformationData": "Staffs Information Data"
+    "staffInformationData": "Staffs Information Data",
+    "orderHistoryInformationData": "Order History Information Data"
   },
   "errors": {
     "badRequest": "Something wrong with your request.",
@@ -61,9 +62,19 @@
     "totalEarnings": "Total Earnings",
     "profilePhoto": "Profile Photo",
     "staffName": "Staff Name",
-    "staffId": "Staff ID"
+    "staffId": "Staff ID",
+    "orderNumber": "Order Number",
+    "orderDate": "Order Date",
+    "orderPrice": "Order Price",
+    "noData": "No data",
+    "yes": "Yes",
+    "no": "No"
   },
   "alert": {
-    "successSave": "Data saved"
+    "successSave": "Data saved",
+    "successLogout": "Logout success"
+  },
+  "message": {
+    "logout": "Are you sure you want to logout?"
   }
 }

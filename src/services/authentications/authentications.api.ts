@@ -19,6 +19,9 @@ class AuthenticationService {
       data
     )
   }
+  async logout(): Promise<GeneralResponse<any>> {
+    return await httpClient.post<GeneralResponse<any>>('/auth/logout', { test: 'logout' })
+  }
 }
 
 const authenticationService = new AuthenticationService()
