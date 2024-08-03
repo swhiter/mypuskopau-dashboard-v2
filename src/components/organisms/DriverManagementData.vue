@@ -27,12 +27,11 @@ import CustomTableButton from '../atoms/CustomTableButton.vue';
 import CustomTableImageViewer from '../atoms/CustomTableImageViewer.vue';
 import CustomTablePagination from '../atoms/CustomTablePagination.vue';
 import { formState } from '@/injects/keys';
+import { useModalStore } from '@/stores/modal';
+import ModalDriver from '../molecules/modals/ModalDriver.vue';
 
 const { t } = useI18n()
-
-const emits = defineEmits<{
-  select: [driver: Driver]
-}>()
+const modal = useModalStore()
 
 const pagination: Ref<PaginationRequest> = ref({
   page: 1,
@@ -68,7 +67,7 @@ const columns: Ref<TableField[]> = ref([
     title: t('label.driverId')
   },
   {
-    name: 'totalEarnings',
+    name: 'totalIncome',
     title: t('label.totalEarnings')
   },
   {
@@ -78,7 +77,6 @@ const columns: Ref<TableField[]> = ref([
 ])
 
 const rows: Ref<ExtendedDriver[]> = ref([])
-const selectedDriver: Ref<Driver | null> = ref(null)
 
 const parentForm = inject(formState)
 
@@ -103,24 +101,25 @@ const getDrivers = async (): Promise<void> => {
   }
 }
 
-const getDriverById = async (id: number): Promise<void> => {
-  try {
-    const response = await driverService.getDriverById(id)
-    selectedDriver.value = response.data
-  } catch (error) {
-    handleErrorResponse(error)
-  }
-}
-
 const edit = async (id: number): Promise<void> => {
-  parentForm?.updateLoadingState()
-  await getDriverById(id)
-  emits('select', selectedDriver.value!)
-  parentForm?.updateLoadingState()
+  modal.openModal({
+    component: ModalDriver,
+    props: {
+      title: `${t('label.update')} ${t('title.driverInformationData')}`, id: id
+    }
+  })
+  modal.onOk(async () => {
+    await getDrivers()
+  })
 }
 
 const detail = async (id: number): Promise<void> => {
-  await getDriverById(id)
+  modal.openModal({
+    component: ModalDriver,
+    props: {
+      title: `${t('label.view')} ${t('title.driverInformationData')}`, id: id, readonly: true
+    }
+  })
 }
 
 const paginationRequest = async (page: number): Promise<void> => {

@@ -8,6 +8,7 @@ export interface Driver {
   licensePlate: string
   lastLongitude: number
   lastLatitude: number
+  totalIncome: number
   status: number
 }
 

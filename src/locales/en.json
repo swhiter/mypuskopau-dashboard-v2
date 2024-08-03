@@ -15,7 +15,8 @@
     "code": "Code",
     "licensePlate": "License Plate",
     "distance": "Distance",
-    "argo": "Argo"
+    "argo": "Argo",
+    "totalIncome": "Total Income"
   },
   "placeholder": {
     "inputUsername": "Input User ID",
@@ -68,7 +69,12 @@
     "orderPrice": "Order Price",
     "noData": "No data",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "add": "Add",
+    "update": "Update",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "view": "View"
   },
   "alert": {
     "successSave": "Data saved",

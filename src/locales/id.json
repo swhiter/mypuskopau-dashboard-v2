@@ -15,7 +15,8 @@
     "code": "Kode",
     "licensePlate": "Plat Nomor",
     "distance": "Jarak",
-    "argo": "Argo"
+    "argo": "Argo",
+    "totalIncome": "Total Penghasilan"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",
@@ -68,7 +69,12 @@
     "orderPrice": "Tarif Pesanan",
     "noData": "Tidak ada data",
     "yes": "Ya",
-    "no": "Tidak"
+    "no": "Tidak",
+    "add": "Tambah",
+    "update": "Perbarui",
+    "delete": "Hapus",
+    "cancel": "Batalkan",
+    "view": "Lihat"
   },
   "alert": {
     "successSave": "Berhasil menyimpan data",

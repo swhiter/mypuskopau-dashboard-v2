@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, reactive, ref, toRefs, watch, type Ref } from 'vue';
+import { inject, reactive, ref, watch, type Ref } from 'vue';
 import UserAccessInformationForm from '../molecules/forms/UserAccessInformationForm.vue';
 import UserInformationForm from '../molecules/forms/UserInformationForm.vue';
 import VehicleInformationForm from '../molecules/forms/VehicleInformationForm.vue';
@@ -16,8 +16,6 @@ import { type UserAccessInfo, type UserInfo, type VehicleInfo } from '@/types/Fo
 import { Form } from 'vee-validate';
 import driverService from '@/services/drivers/drivers.api';
 import { handleErrorResponse } from '@/utils/common';
-import type { Driver } from '@/types/Data';
-import type { GeneralResponse } from '@/types/Main';
 import { useToasterStore } from '@/stores/toaster';
 import { useI18n } from 'vue-i18n';
 import { formState } from '@/injects/keys';
@@ -25,37 +23,12 @@ import { formState } from '@/injects/keys';
 const { t } = useI18n()
 const toast = useToasterStore()
 
-interface Props {
-  driver: Driver | null
-}
-
-const props = defineProps<Props>()
-const { driver } = toRefs(props)
-
 const emits = defineEmits<{
   saveEnabled: [enabled: boolean]
 }>()
 
 const isUsernameGenerated: Ref<boolean> = ref(false)
 const parentForm = inject(formState)
-
-watch(driver, (newValue) => {
-  if (newValue != null) {
-    isUsernameGenerated.value = true
-    // User Info
-    userInfoForm.value.name = newValue.name
-    userInfoForm.value.nik = newValue.nik
-    userInfoForm.value.photo = newValue.photo
-    // Vehicle Info
-    vehicleInfoForm.vehicleCode = newValue.vehicleCode
-    vehicleInfoForm.licensePlate = newValue.licensePlate
-    // User Access Info
-    userAccessForm.id = newValue.id!
-    userAccessForm.userId = newValue.userId
-  } else {
-    reset()
-  }
-})
 
 watch(isUsernameGenerated, (newValue) => {
   emits('saveEnabled', newValue)
@@ -99,12 +72,7 @@ const onSubmit = async (): Promise<void> => {
   form.append('lastLongitude', '106.883987')
 
   try {
-    let response: GeneralResponse<Driver>
-    if (userAccessForm.id != 0) {
-      response = await driverService.updateDriver(form, userAccessForm.id)
-    } else {
-      response = await driverService.createDriver(form)
-    }
+    await driverService.createDriver(form)
     toast.success({ text: t('alert.successSave') })
     reset()
     parentForm?.updateSubmittedState()

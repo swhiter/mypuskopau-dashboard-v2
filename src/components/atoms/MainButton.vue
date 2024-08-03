@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<Props>(), {
 }
 
 .outlined {
-  @apply border-2 border-primaryDarkBlue
+  @apply border-2 border-primaryDarkBlue disabled:bg-buttonGray disabled:text-accentGray
 }
 
 .wide {
