@@ -1,10 +1,10 @@
 <template>
   <PageContainer :title="$t('title.staffManagement')">
     <PageCard has-save-button button-form="staff-form" :button-disabled="!saveEnabled" :loading="isFormLoading">
-      <StaffManagement :staff="selectedStaff" @save-enabled="saveEnabled = $event" />
+      <StaffManagement @save-enabled="saveEnabled = $event" />
     </PageCard>
     <PageCard>
-      <StaffManagementData @select="selectedStaff = $event" />
+      <StaffManagementData />
     </PageCard>
   </PageContainer>
 </template>
@@ -15,10 +15,8 @@ import PageContainer from '@/components/atoms/PageContainer.vue';
 import StaffManagement from '@/components/organisms/StaffManagement.vue';
 import StaffManagementData from '@/components/organisms/StaffManagementData.vue';
 import { formState } from '@/injects/keys';
-import type { Staff } from '@/types/Data';
 import { provide, ref, type Ref } from 'vue';
 
-const selectedStaff: Ref<Staff | null> = ref(null)
 const saveEnabled: Ref<boolean> = ref(false)
 const isFormLoading: Ref<boolean> = ref(false)
 const isFormSubmitted: Ref<boolean> = ref(false)

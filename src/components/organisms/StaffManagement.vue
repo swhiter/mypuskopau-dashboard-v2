@@ -9,26 +9,17 @@
 <script setup lang="ts">
 import type { UserAccessInfo, UserInfo } from '@/types/Forms';
 import UserInformationForm from '../molecules/forms/UserInformationForm.vue';
-import { inject, reactive, ref, toRefs, watch, type Ref } from 'vue';
+import { inject, reactive, ref, watch, type Ref } from 'vue';
 import UserAccessInformationForm from '../molecules/forms/UserAccessInformationForm.vue';
 import { Form } from 'vee-validate';
 import staffService from '@/services/drivers/staff.api';
 import { handleErrorResponse } from '@/utils/common';
-import type { Staff } from '@/types/Data';
 import { useI18n } from 'vue-i18n';
 import { useToasterStore } from '@/stores/toaster';
-import type { GeneralResponse } from '@/types/Main';
 import { formState } from '@/injects/keys';
 
 const { t } = useI18n()
 const toast = useToasterStore()
-
-interface Props {
-  staff: Staff | null
-}
-
-const props = defineProps<Props>()
-const { staff } = toRefs(props)
 
 const emits = defineEmits<{
   saveEnabled: [enabled: boolean]
@@ -36,21 +27,6 @@ const emits = defineEmits<{
 
 const isUsernameGenerated: Ref<boolean> = ref(false)
 const parentForm = inject(formState)
-
-watch(staff, (newValue) => {
-  if (newValue != null) {
-    isUsernameGenerated.value = true
-    // User Info
-    userInfoForm.name = newValue.name
-    userInfoForm.nik = newValue.nik
-    userInfoForm.photo = newValue.photo
-    // User Access Info
-    userAccessForm.id = newValue.id!
-    userAccessForm.userId = newValue.userId
-  } else {
-    reset()
-  }
-})
 
 watch(isUsernameGenerated, (newValue) => {
   emits('saveEnabled', newValue)
@@ -81,13 +57,7 @@ const onSubmit = async (): Promise<void> => {
   })
 
   try {
-    let response: GeneralResponse<Staff>
-    if (userAccessForm.id != 0) {
-      console.log('harusnya masuk sini')
-      response = await staffService.updateStaff(form, userAccessForm.id)
-    } else {
-      response = await staffService.createStaff(form)
-    }
+    await staffService.createStaff(form)
     toast.success({ text: t('alert.successSave') })
     reset()
     parentForm?.updateSubmittedState()

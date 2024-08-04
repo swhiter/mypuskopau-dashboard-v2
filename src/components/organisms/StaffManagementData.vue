@@ -21,18 +21,17 @@ import { useI18n } from 'vue-i18n';
 import CustomTable from '../atoms/CustomTable.vue';
 import type { PaginationRequest, TableField } from '@/types/Main';
 import { handleErrorResponse } from '@/utils/common';
-import type { ExtendedStaff, Staff } from '@/types/Data';
+import type { ExtendedStaff } from '@/types/Data';
 import CustomTableButton from '../atoms/CustomTableButton.vue';
 import CustomTableImageViewer from '../atoms/CustomTableImageViewer.vue';
 import CustomTablePagination from '../atoms/CustomTablePagination.vue';
 import { formState } from '@/injects/keys';
 import staffService from '@/services/drivers/staff.api';
+import { useModalStore } from '@/stores/modal';
+import ModalStaff from '../molecules/modals/ModalStaff.vue';
 
 const { t } = useI18n()
-
-const emits = defineEmits<{
-  select: [staff: Staff]
-}>()
+const modal = useModalStore()
 
 const pagination: Ref<PaginationRequest> = ref({
   page: 1,
@@ -66,7 +65,6 @@ const columns: Ref<TableField[]> = ref([
 ])
 
 const rows: Ref<ExtendedStaff[]> = ref([])
-const selectedStaff: Ref<Staff | null> = ref(null)
 
 const parentForm = inject(formState)
 
@@ -91,24 +89,25 @@ const getStaffs = async (): Promise<void> => {
   }
 }
 
-const getStaffById = async (id: number): Promise<void> => {
-  try {
-    const response = await staffService.getStaffById(id)
-    selectedStaff.value = response.data
-  } catch (error) {
-    handleErrorResponse(error)
-  }
-}
-
 const edit = async (id: number): Promise<void> => {
-  parentForm?.updateLoadingState()
-  await getStaffById(id)
-  emits('select', selectedStaff.value!)
-  parentForm?.updateLoadingState()
+  modal.openModal({
+    component: ModalStaff,
+    props: {
+      title: `${t('label.view')} ${t('title.staffInformationData')}`, id: id
+    }
+  })
+  modal.onOk(async () => {
+    await getStaffs()
+  })
 }
 
 const detail = async (id: number): Promise<void> => {
-  await getStaffById(id)
+  modal.openModal({
+    component: ModalStaff,
+    props: {
+      title: `${t('label.view')} ${t('title.staffInformationData')}`, id: id, readonly: true
+    }
+  })
 }
 
 const paginationRequest = async (page: number): Promise<void> => {
