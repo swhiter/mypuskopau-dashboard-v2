@@ -20,6 +20,7 @@ export default {
         accentOrangeGray: '#59534A',
         accentLightBlue: '#C7CEFF',
         accentPurple: '#5A6ACF',
+        accentDarkGreen: '#118B3E',
         textBlack2: '#1F1F1F',
         textBlack3: '#6A6A6A',
         hoverDarkBlue: '#3B6FA8'

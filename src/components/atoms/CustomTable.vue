@@ -12,7 +12,8 @@
         <template v-if="perPage && currentPage">
           <tr v-for="(item, index) in paginatedRows" :key="index">
             <td v-for="(colItem, colIndex) in columns" :key="colIndex">
-              <slot :name="`cell(${colItem.name})`" :value="item[colItem.name]" :item="item">
+              <slot :name="`cell(${colItem.name})`"
+                :value="colItem.field ? colItem.field(item[colItem.name]) : item[colItem.name]" :item="item">
                 <template v-if="colItem.field">
                   {{ colItem.field(item[colItem.name]) }}
                 </template>
@@ -26,7 +27,8 @@
         <template v-else>
           <tr v-for="(item, index) in rows" :key="index">
             <td v-for="(colItem, colIndex) in columns" :key="colIndex">
-              <slot :name="`cell(${colItem.name})`" :value="item[colItem.name]" :item="item">
+              <slot :name="`cell(${colItem.name})`"
+                :value="colItem.field ? colItem.field(item[colItem.name]) : item[colItem.name]" :item="item">
                 <template v-if="colItem.field">
                   {{ colItem.field(item[colItem.name]) }}
                 </template>
