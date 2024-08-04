@@ -26,4 +26,5 @@ export interface TableField {
   name: string
   title: string
   sortable?: boolean
+  field?: (value: number | string | boolean) => number | string | boolean
 }
