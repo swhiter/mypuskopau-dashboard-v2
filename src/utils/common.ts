@@ -4,6 +4,7 @@ import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 import { useToasterStore } from '@/stores/toaster'
 import type { ExtJwtPayload } from '@/types/Credential'
+import { DateTime } from 'luxon'
 
 export const urlToFile = async (url: string, filename: string): Promise<File> => {
   if (url.startsWith('data:')) {
@@ -103,4 +104,13 @@ export const getCurrentUser = (): ExtJwtPayload => {
   const auth = useAuthStore()
   const decoded = jwtDecode<ExtJwtPayload>(auth.token!)
   return decoded
+}
+
+export const formatDate = (d: string): string => {
+  const date = DateTime.fromISO(d).toFormat('dd/MM/yyyy HH:mm:ss').toString()
+  return date
+}
+
+export const formatNumber = (num: number): string => {
+  return num.toLocaleString('id-ID')
 }

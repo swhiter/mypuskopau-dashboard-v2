@@ -16,7 +16,9 @@
     "licensePlate": "License Plate",
     "distance": "Distance",
     "argo": "Argo",
-    "totalIncome": "Total Income"
+    "totalIncome": "Total Income",
+    "startDate": "Start Date",
+    "endDate": "End Date"
   },
   "placeholder": {
     "inputUsername": "Input User ID",
@@ -74,7 +76,14 @@
     "update": "Update",
     "delete": "Delete",
     "cancel": "Cancel",
-    "view": "View"
+    "view": "View",
+    "customerEmail": "Customer Email",
+    "customerName": "Customer Name",
+    "customerPhone": "Customer Phone",
+    "destinationAddress": "Destination Address",
+    "distance": "Distance",
+    "downloadReport": "Download Report",
+    "search": "Search"
   },
   "alert": {
     "successSave": "Data saved",

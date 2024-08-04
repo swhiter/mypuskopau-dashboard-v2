@@ -16,7 +16,9 @@
     "licensePlate": "Plat Nomor",
     "distance": "Jarak",
     "argo": "Argo",
-    "totalIncome": "Total Penghasilan"
+    "totalIncome": "Total Penghasilan",
+    "startDate": "Tanggal Awal",
+    "endDate": "Tanggal Akhir"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",
@@ -74,7 +76,14 @@
     "update": "Perbarui",
     "delete": "Hapus",
     "cancel": "Batalkan",
-    "view": "Lihat"
+    "view": "Lihat",
+    "customerEmail": "Email Penumpang",
+    "customerName": "Nama Penumpang",
+    "customerPhone": "Telp. Penumpang",
+    "destinationAddress": "Alamat Tujuan",
+    "distance": "Jarak",
+    "downloadReport": "Unduh Laporan",
+    "search": "Cari"
   },
   "alert": {
     "successSave": "Berhasil menyimpan data",
