@@ -34,18 +34,18 @@ watch(isUsernameGenerated, (newValue) => {
   emits('saveEnabled', newValue)
 })
 
-const userInfoForm: Ref<UserInfo> = ref({
+let userInfoForm: Ref<UserInfo> = ref({
   name: '',
   nik: '',
   photo: ''
 })
 
-const vehicleInfoForm: VehicleInfo = reactive({
+let vehicleInfoForm: VehicleInfo = reactive({
   vehicleCode: '',
   licensePlate: ''
 })
 
-const userAccessForm: UserAccessInfo = reactive({
+let userAccessForm: UserAccessInfo = reactive({
   id: 0,
   userId: '',
   password: '',

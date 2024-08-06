@@ -32,13 +32,13 @@ watch(isUsernameGenerated, (newValue) => {
   emits('saveEnabled', newValue)
 })
 
-const userInfoForm: UserInfo = reactive({
+let userInfoForm: UserInfo = reactive({
   name: '',
   nik: '',
   photo: ''
 })
 
-const userAccessForm: UserAccessInfo = reactive({
+let userAccessForm: UserAccessInfo = reactive({
   id: 0,
   userId: '',
   password: '',
