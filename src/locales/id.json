@@ -45,7 +45,14 @@
     "tariffSetting": "Pengaturan Tarif",
     "driverInformationData": "Data Informasi Pengemudi",
     "staffInformationData": "Data Informasi Staf",
-    "orderHistoryInformationData": "Data Informasi Riwayat Pesanan"
+    "orderHistoryInformationData": "Data Informasi Riwayat Pesanan",
+    "earnings": "Pendapatan",
+    "order": "Pesanan",
+    "orderTime": "Waktu Pesanan",
+    "totalOrder": "Total Pesanan",
+    "pendingOrder": "Transaksi Tertunda",
+    "successOrder": "Transaksi Sukses",
+    "failedOrder": "Transaksi Gagal"
   },
   "errors": {
     "badRequest": "Ada kesalahan dalam request Anda.",

@@ -45,7 +45,14 @@
     "tariffSetting": "Tariff Setting",
     "driverInformationData": "Drivers Information Data",
     "staffInformationData": "Staffs Information Data",
-    "orderHistoryInformationData": "Order History Information Data"
+    "orderHistoryInformationData": "Order History Information Data",
+    "earnings": "Earnings",
+    "order": "Order",
+    "orderTime": "Order Time",
+    "totalOrder": "Total Order",
+    "pendingOrder": "Pending Order",
+    "successOrder": "Successful Order",
+    "failedOrder": "Failed Order"
   },
   "errors": {
     "badRequest": "Something wrong with your request.",
