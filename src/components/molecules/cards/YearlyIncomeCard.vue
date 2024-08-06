@@ -27,7 +27,12 @@ const { income } = toRefs(props)
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const chartOptions: ChartOptions<'bar'> = {
-  responsive: true
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom'
+    }
+  }
 }
 
 const chartData: Ref<ChartData<'bar'>> = ref({
@@ -54,19 +59,19 @@ const convertToChartDatasets = (value: YearlyIncome): ChartData<'bar'> => {
 
   const dataset: ChartDataset<'bar'>[] = [
     {
-      label: 'Pagi',
+      label: '00.00 - 07.59',
       data: earlyMorningIncome,
       backgroundColor: '#C7CEFF',
       borderRadius: 10
     },
     {
-      label: 'Siang',
+      label: '08.00 - 16.59',
       data: dayIncome,
       backgroundColor: '#94959A',
       borderRadius: 10
     },
     {
-      label: 'Sore',
+      label: '17.00 - 23.59',
       data: eveningIncome,
       backgroundColor: '#5A6ACF',
       borderRadius: 10
