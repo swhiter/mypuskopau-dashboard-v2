@@ -7,7 +7,7 @@
     <div class="input-container"
       :class="[(isSeparateRow ? 'w-full' : `w-${fieldSize}/12`), { 'border border-black': bordered }]">
       <span class="input-affix pre" v-if="prefix">{{ prefix }}</span>
-      <textarea :name="name" :id="name" v-model="(value as string)" class="input"
+      <textarea :name="name" :id="name" v-model="value" class="input"
         :class="{ 'invalid': meta.touched && !meta.valid }" :disabled="disabled" @change="handleChange"
         @blur="handleBlur" v-if="inputType == 'textarea'"></textarea>
       <input :type="inputType" :name="name" :id="name" v-model="value" :placeholder="placeholder" class="input"

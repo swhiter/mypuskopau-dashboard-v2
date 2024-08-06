@@ -55,7 +55,7 @@ onMounted(async () => {
   // Inisialisasi Posisi Awal Driver
   drivers.value = getDriversPosition(map, positions.value)
 
-  intervalId = setInterval(async () => {
+  intervalId = window.setInterval(async () => {
     await getDrivers()
     drivers.value = updateDriversPosition(map, drivers.value, positions.value)
   }, 60000) // Update setiap 1 menit
