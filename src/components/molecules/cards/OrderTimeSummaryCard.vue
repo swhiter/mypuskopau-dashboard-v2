@@ -32,7 +32,10 @@ const chartOptions: ChartOptions<'doughnut'> = {
   aspectRatio: 2,
   plugins: {
     legend: {
-      position: 'bottom'
+      position: 'bottom',
+      labels: {
+        usePointStyle: true
+      }
     }
   }
 }
@@ -55,7 +58,7 @@ const convertToChartDatasets = (value: OrderPerPeriod): ChartData<'doughnut'> =>
 
   const datasets: ChartDataset<'doughnut'>[] = [
     {
-      label: 'Dataset 1',
+      label: 'Jumlah',
       data: [],
       backgroundColor: ['#C7CEFF', '#94959A', '#5A6ACF']
     }

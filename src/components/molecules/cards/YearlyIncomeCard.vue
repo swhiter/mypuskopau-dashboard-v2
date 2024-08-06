@@ -30,7 +30,10 @@ const chartOptions: ChartOptions<'bar'> = {
   responsive: true,
   plugins: {
     legend: {
-      position: 'bottom'
+      position: 'bottom',
+      labels: {
+        usePointStyle: true
+      }
     }
   }
 }
