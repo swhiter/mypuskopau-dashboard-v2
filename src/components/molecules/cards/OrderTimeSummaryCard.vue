@@ -27,7 +27,14 @@ const { summary } = toRefs(props)
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 const chartOptions: ChartOptions<'doughnut'> = {
-  responsive: true
+  responsive: true,
+  cutout: 60,
+  aspectRatio: 2,
+  plugins: {
+    legend: {
+      position: 'bottom'
+    }
+  }
 }
 
 const chartData: Ref<ChartData<'doughnut'>> = ref({
@@ -36,6 +43,40 @@ const chartData: Ref<ChartData<'doughnut'>> = ref({
 })
 
 watch(summary, (newValue) => {
-  // 
+  chartData.value = convertToChartDatasets(newValue)
 }, { deep: true })
+
+const convertToChartDatasets = (value: OrderPerPeriod): ChartData<'doughnut'> => {
+  const labels: string[] = Object.keys(value)
+  const orderIndex: number = labels.findIndex((name) => name == 'totalOrder')
+  if (orderIndex > -1) {
+    labels.splice(orderIndex, 1)
+  }
+
+  const datasets: ChartDataset<'doughnut'>[] = [
+    {
+      label: 'Dataset 1',
+      data: [],
+      backgroundColor: ['#C7CEFF', '#94959A', '#5A6ACF']
+    }
+  ]
+
+  for (const [index, item] of labels.entries()) {
+    datasets[0].data.push(value[item as keyof OrderPerPeriod])
+    if (labels[index] == 'earlyMorningOrder') {
+      labels[index] = '00.00 - 07.59'
+    } else if (labels[index] == 'dayOrders') {
+      labels[index] = '08.00 - 16.59'
+    } else if (labels[index] == 'eveningOrders') {
+      labels[index] = '17.00 - 23.59'
+    }
+  }
+
+  const chart: ChartData<'doughnut'> = {
+    labels: labels,
+    datasets: datasets
+  }
+
+  return chart
+}
 </script>
