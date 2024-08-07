@@ -1,6 +1,8 @@
 <template>
   <DashboardCard :title="t('title.earnings')" :loading="loading">
-    <Bar id="yearly-income-chart" :options="chartOptions" :data="chartData" />
+    <div class="flex w-full h-80 2xl:h-96 items-center justify-center">
+      <Bar id="yearly-income-chart" :options="chartOptions" :data="chartData" />
+    </div>
   </DashboardCard>
 </template>
 
@@ -28,6 +30,7 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const chartOptions: ChartOptions<'bar'> = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       position: 'bottom',
