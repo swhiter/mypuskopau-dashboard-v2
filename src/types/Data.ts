@@ -6,9 +6,9 @@ export interface Driver {
   photo: string
   vehicleCode: string
   licensePlate: string
-  lastLongitude: number
-  lastLatitude: number
-  totalIncome: number
+  lastLongitude: number | string
+  lastLatitude: number | string
+  totalIncome: number | string
   status: number
 }
 
@@ -43,7 +43,7 @@ export interface Transaction {
 interface OrderDetail {
   id: number
   latitudeStart: string
-  latitudeDestinaton: string
+  latitudeDestination: string
   longitudeStart: string
   longitudeDestination: string
   destinationAddress: string

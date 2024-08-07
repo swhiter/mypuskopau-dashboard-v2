@@ -35,8 +35,11 @@ import type { TableItemTransaction } from '@/types/Data';
 import MainButton from '../atoms/MainButton.vue';
 import DateForm from '../atoms/DateForm.vue';
 import CustomTablePagination from '../atoms/CustomTablePagination.vue';
+import { useModalStore } from '@/stores/modal';
+import ModalOrder from '../molecules/modals/ModalOrder.vue';
 
 const { t } = useI18n()
+const modal = useModalStore()
 
 const startDate: Ref<string | null> = ref(null)
 const endDate: Ref<string | null> = ref(null)
@@ -93,8 +96,13 @@ const columns: Ref<TableField[]> = ref([
 
 const rows: Ref<TableItemTransaction[]> = ref([])
 
-const detail = async (): Promise<void> => {
-  // 
+const detail = async (id: number): Promise<void> => {
+  modal.openModal({
+    component: ModalOrder,
+    props: {
+      title: `${t('label.view')} ${t('title.orderHistoryInformationData')}`, id: id
+    }
+  })
 }
 
 const getOrders = async (): Promise<void> => {
