@@ -90,7 +90,9 @@
     "destinationAddress": "Alamat Tujuan",
     "distance": "Jarak",
     "downloadReport": "Unduh Laporan",
-    "search": "Cari"
+    "search": "Cari",
+    "currentWeek": "Minggu Ini",
+    "lastWeek": "Minggu Lalu"
   },
   "alert": {
     "successSave": "Berhasil menyimpan data",

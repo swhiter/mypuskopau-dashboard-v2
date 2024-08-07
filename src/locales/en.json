@@ -90,7 +90,9 @@
     "destinationAddress": "Destination Address",
     "distance": "Distance",
     "downloadReport": "Download Report",
-    "search": "Search"
+    "search": "Search",
+    "currentWeek": "Current Week",
+    "lastWeek": "Minggu Lalu"
   },
   "alert": {
     "successSave": "Data saved",
