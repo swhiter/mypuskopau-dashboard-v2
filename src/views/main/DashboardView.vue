@@ -5,7 +5,7 @@
         <YearlyIncomeCard :income="yearlyIncome" />
       </div>
       <div class="flex w-full md:w-2/5">
-        <DailyOrderSummaryCard />
+        <DailyOrderSummaryCard :summary="dailyOrderSummary" />
       </div>
     </div>
     <div class="flex w-full max-w-full space-x-6">
@@ -26,7 +26,7 @@ import OrderSummaryCard from '@/components/molecules/cards/OrderSummaryCard.vue'
 import OrderTimeSummaryCard from '@/components/molecules/cards/OrderTimeSummaryCard.vue';
 import YearlyIncomeCard from '@/components/molecules/cards/YearlyIncomeCard.vue';
 import dashboardService from '@/services/dashboard/dashboard.api';
-import type { OrderCountByStatus, OrderPerPeriod, YearlyIncome } from '@/types/Dashboard';
+import type { DailyOrder, OrderCountByStatus, OrderPerPeriod, YearlyIncome } from '@/types/Dashboard';
 import { handleErrorResponse } from '@/utils/common';
 import { onMounted, ref, type Ref } from 'vue';
 
@@ -112,6 +112,8 @@ const orderTimeSummary: Ref<OrderPerPeriod> = ref({
   eveningOrders: 0
 })
 
+const dailyOrderSummary: Ref<DailyOrder[]> = ref([])
+
 const getData = async () => {
   const req = {
     year: year.value,
@@ -124,6 +126,7 @@ const getData = async () => {
     yearlyIncome.value = response.data.income
     orderCountByStatus.value = response.data.countOrderByStatus
     orderTimeSummary.value = response.data.calculateOrderPerPeriod
+    dailyOrderSummary.value = response.data.countOrderDaily
   } catch (error) {
     handleErrorResponse(error)
   } finally {
@@ -131,7 +134,15 @@ const getData = async () => {
   }
 }
 
+const initDate = () => {
+  const d = new Date()
+  endDate.value = d.toISOString()
+  d.setMonth(d.getMonth() - 1)
+  startDate.value = d.toISOString()
+}
+
 onMounted(() => {
+  initDate()
   getData()
 })
 </script>
