@@ -17,6 +17,11 @@ const authStore = useAuthStore()
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (to.path == '/') {
+      next({
+        path: '/dashboard'
+      })
+    }
     if (!authStore.token) {
       next({
         path: '/login',
