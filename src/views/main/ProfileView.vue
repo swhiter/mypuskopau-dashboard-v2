@@ -123,6 +123,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+#profile-form {
+  @apply flex flex-col w-full space-y-4
+}
+
 .image-group {
   @apply relative flex w-40 self-center
 }
