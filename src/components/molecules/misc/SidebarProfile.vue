@@ -1,12 +1,12 @@
 <template>
   <div class="sidebar-profile">
-    <div class="image-container">
+    <RouterLink to="/profile" class="image-container">
       <img :src="image" alt="User Profile">
-    </div>
-    <div class="userdata-container">
+    </RouterLink>
+    <RouterLink to="/profile" class="userdata-container">
       <span class="text-name">{{ name }}</span>
       <span class="text-username">{{ username }}</span>
-    </div>
+    </RouterLink>
   </div>
 </template>
 

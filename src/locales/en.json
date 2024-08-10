@@ -18,7 +18,10 @@
     "argo": "Argo",
     "totalIncome": "Total Income",
     "startDate": "Start Date",
-    "endDate": "End Date"
+    "endDate": "End Date",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "id": "ID"
   },
   "placeholder": {
     "inputUsername": "Input User ID",

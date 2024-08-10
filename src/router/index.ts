@@ -7,6 +7,7 @@ import DriverTrackingView from '@/views/main/DriverTrackingView.vue'
 import StaffManagementView from '@/views/main/StaffManagementView.vue'
 import TariffManagementView from '@/views/main/TariffManagementView.vue'
 import OrderManagementView from '@/views/main/OrderManagementView.vue'
+import ProfileView from '@/views/main/ProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,6 +64,14 @@ const router = createRouter({
           path: '/driver-tracking',
           name: 'driverTracking',
           component: DriverTrackingView,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: '/profile',
+          name: 'profile',
+          component: ProfileView,
           meta: {
             requiresAuth: true
           }

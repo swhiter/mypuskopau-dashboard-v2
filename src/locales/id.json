@@ -18,7 +18,10 @@
     "argo": "Argo",
     "totalIncome": "Total Penghasilan",
     "startDate": "Tanggal Awal",
-    "endDate": "Tanggal Akhir"
+    "endDate": "Tanggal Akhir",
+    "firstName": "Nama Depan",
+    "lastName": "Nama Belakang",
+    "id": "ID"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",
