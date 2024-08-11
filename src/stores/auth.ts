@@ -3,6 +3,7 @@ import authenticationService from '@/services/authentications/authentications.ap
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useModalStore } from './modal'
+import { getCurrentUser } from '@/utils/common'
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(null)
@@ -17,9 +18,13 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout(): Promise<void> {
-    await authenticationService.logout()
-    clearCredentials()
+    const user = getCurrentUser()
+    const currentTime = Date.now()
+    if (user.exp && user.exp! > currentTime) {
+      await authenticationService.logout()
+    }
     modal.closeModal()
+    clearCredentials()
     router.push('/login')
   }
 
