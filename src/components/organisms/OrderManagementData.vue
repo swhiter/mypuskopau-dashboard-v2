@@ -130,12 +130,13 @@ const getOrders = async (): Promise<void> => {
         customerPhone: item.customerPhone,
         destinationAddress: item.orderDetail.destinationAddress,
         distance: parseInt(item.orderDetail.distance),
-        driverName: item.driver.name,
-        licensePlate: item.driver.licensePlate
+        driverName: item.driver ? item.driver.name : '',
+        licensePlate: item.driver ? item.driver.licensePlate : ''
       }
       rows.value.push(res)
     }
   } catch (error) {
+    console.log(error)
     handleErrorResponse(error)
   }
 }

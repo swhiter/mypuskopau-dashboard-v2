@@ -15,10 +15,12 @@
       </div>
       <InputForm name="distance" :label="t('label.distance')" v-model="transaction.orderDetail.distance" bordered
         is-separate-row semibold-label disabled />
-      <InputForm name="driverName" :label="t('label.driverName')" v-model="transaction.driver.name" bordered
-        is-separate-row semibold-label disabled />
-      <InputForm name="licensePlate" :label="t('label.licensePlate')" v-model="transaction.driver.licensePlate" bordered
-        is-separate-row semibold-label disabled />
+      <template v-if="transaction.driver">
+        <InputForm name="driverName" :label="t('label.driverName')" v-model="transaction.driver.name" bordered
+          is-separate-row semibold-label disabled />
+        <InputForm name="licensePlate" :label="t('label.licensePlate')" v-model="transaction.driver.licensePlate"
+          bordered is-separate-row semibold-label disabled />
+      </template>
     </div>
   </ModalBaseWithHeader>
 </template>
