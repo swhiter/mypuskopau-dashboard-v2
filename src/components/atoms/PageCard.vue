@@ -2,7 +2,7 @@
   <div class="card-container">
     <slot />
     <div class="flex items-center justify-end" v-if="hasSaveButton">
-      <MainButton type="submit" :label="$t('save')" :form="buttonForm" :disabled="buttonDisabled"
+      <MainButton type="submit" :label="$t('save')" :form="buttonForm" :disabled="buttonDisabled || buttonLoading"
         :loading="buttonLoading" />
     </div>
     <ComponentLoading v-if="loading" />
