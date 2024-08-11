@@ -2,21 +2,23 @@
   <ModalBaseWithHeader :title="title" :has-save-button="!readonly" form="update-driver" :loading="modalLoading"
     :button-loading="buttonLoading" :submitted="submitted">
     <Form id="update-driver" class="form-container" @submit="onSubmit">
-      <div class="flex w-4/5 space-x-4">
-        <div class="w-1/2">
+      <div class="flex w-4/5">
+        <div class="grid grid-cols-2 gap-x-4 w-full">
           <InputForm name="fullname" v-model="userInfo.name" :label="t('names.fullname')" bordered is-separate-row
             semibold-label :rules="{ 'required': true }" :disabled="readonly" />
-          <InputForm name="code" v-model="userInfo.vehicleCode" :label="t('names.code')" bordered is-separate-row
-            semibold-label :rules="{ 'required': true }" :disabled="readonly" />
-          <InputForm name="username" v-model="userInfo.userId" :label="t('label.driverId')" bordered is-separate-row
-            semibold-label :rules="{ 'required': true }" disabled />
-        </div>
-        <div class="w-1/2">
           <InputForm name="idCardNumber" v-model="userInfo.nik" :label="t('names.idCardNumber')" bordered
             is-separate-row semibold-label :rules="{ 'required': true, 'numeric': true, 'length': 16 }"
             :disabled="readonly" />
+          <InputForm name="code" v-model="userInfo.vehicleCode" :label="t('names.code')" bordered is-separate-row
+            semibold-label :rules="{ 'required': true }" :disabled="readonly" />
           <InputForm name="licensePlate" v-model="userInfo.licensePlate" :label="t('names.licensePlate')" bordered
             is-separate-row semibold-label :rules="{ 'required': true }" :disabled="readonly" />
+          <div class="grid grid-cols-2 gap-2">
+            <InputForm name="username" v-model="userInfo.userId" :label="t('label.driverId')" bordered is-separate-row
+              semibold-label :rules="{ 'required': true }" disabled />
+            <InputForm name="password" v-model="password" :label="t('names.password')" bordered is-separate-row
+              semibold-label :rules="{ 'min': 8, 'max': 12 }" type="password" has-password-toggler />
+          </div>
           <InputForm name="totalIncome" v-model="userInfo.totalIncome" :label="t('names.totalIncome')" bordered
             is-separate-row semibold-label :rules="{ 'required': true }" disabled />
         </div>
@@ -80,6 +82,7 @@ const userInfo: Ref<Driver> = ref({
   status: 1
 })
 const images: Ref<File | null> = ref(null)
+const password: Ref<string> = ref('')
 
 const fileInputRef: Ref<HTMLInputElement | null> = ref(null)
 
@@ -125,6 +128,10 @@ const onSubmit = async (): Promise<void> => {
       form.append(key, value)
     }
   })
+
+  if (password.value) {
+    form.append('password', password.value)
+  }
 
   try {
     await driverService.updateDriver(form, userInfo.value.id!)
