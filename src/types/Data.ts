@@ -24,6 +24,7 @@ export interface Tariff {
   id: number
   distance: number
   price: number
+  minimumPrice: number | string
 }
 
 export interface Transaction {

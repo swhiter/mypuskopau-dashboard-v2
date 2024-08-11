@@ -12,6 +12,7 @@ import { onMounted, ref, watch, type Ref } from 'vue';
 import tariffService from '@/services/drivers/tariff.api';
 import type { Tariff } from '@/types/Data';
 import { useToasterStore } from '@/stores/toaster';
+import { handleErrorResponse } from '@/utils/common';
 
 const toaster = useToasterStore()
 
@@ -22,7 +23,8 @@ const emits = defineEmits<{
 
 const tariffSetting: Ref<TariffSetting> = ref({
   distance: 0,
-  price: 0
+  price: 0,
+  minimumPrice: 0
 })
 
 const cardLoading: Ref<boolean> = ref(false)
@@ -33,6 +35,7 @@ const onSubmit = async (): Promise<void> => {
   buttonLoading.value = true
   tariff.value!.distance = tariffSetting.value.distance
   tariff.value!.price = tariffSetting.value.price
+  tariff.value!.minimumPrice = tariffSetting.value.minimumPrice
   try {
     await tariffService.updateTariff(tariff.value as Tariff)
     buttonLoading.value = false
@@ -50,10 +53,11 @@ const getTariff = async (): Promise<void> => {
     tariff.value = response.data
     tariffSetting.value.distance = tariff.value.distance
     tariffSetting.value.price = tariff.value.price
+    tariffSetting.value.minimumPrice = (typeof tariff.value.minimumPrice == 'string') ? parseInt(tariff.value.minimumPrice) : tariff.value.minimumPrice
     cardLoading.value = false
   } catch (error) {
     cardLoading.value = false
-    console.error(error)
+    handleErrorResponse(error)
   }
 }
 

@@ -51,7 +51,8 @@
     "endDate": "End Date",
     "firstName": "First Name",
     "lastName": "Last Name",
-    "id": "ID"
+    "id": "ID",
+    "minimumPrice": "Minimum Price"
   },
   "placeholder": {
     "inputUsername": "Input User ID",

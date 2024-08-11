@@ -19,4 +19,5 @@ export interface UserAccessInfo {
 export interface TariffSetting {
   distance: number
   price: number
+  minimumPrice: number
 }

@@ -49,7 +49,8 @@
     "endDate": "Tanggal Akhir",
     "firstName": "Nama Depan",
     "lastName": "Nama Belakang",
-    "id": "ID"
+    "id": "ID",
+    "minimumPrice": "Tarif Minimum"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",
