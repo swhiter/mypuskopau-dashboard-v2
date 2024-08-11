@@ -28,7 +28,9 @@ pinia.use((context) => {
   // Subscribe untuk memantau perubahan
   context.store.$subscribe((mutation, state) => {
     const encoded = serializer.serialize(state)
-    localStorage.setItem(storeId, encoded)
+    if (storeId != 'modal') {
+      localStorage.setItem(storeId, encoded)
+    }
   })
 })
 

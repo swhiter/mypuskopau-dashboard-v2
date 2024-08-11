@@ -1,6 +1,5 @@
 import i18nSetup from '@/locales/i18n'
 import { jwtDecode } from 'jwt-decode'
-import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 import { useToasterStore } from '@/stores/toaster'
 import type { ExtJwtPayload } from '@/types/Credential'
@@ -59,8 +58,7 @@ export const handleErrorResponse = (error: any): void => {
     switch (error.message) {
       case 'Unauthorized':
         toaster.info({ text: i18nSetup.global.t('errors.unauthorized') })
-        auth.clearCredentials()
-        router.push('/login')
+        auth.logout()
         break
       default:
         toaster.error({ text: error.message })
