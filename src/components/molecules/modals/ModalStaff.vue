@@ -11,7 +11,8 @@
         </div>
         <div class="w-1/2">
           <InputForm name="idCardNumber" v-model="userInfo.nik" :label="t('names.idCardNumber')" bordered
-            is-separate-row semibold-label :rules="{ 'required': true }" :disabled="readonly" />
+            is-separate-row semibold-label :rules="{ 'required': true, 'numeric': true, 'length': 16 }"
+            :disabled="readonly" />
         </div>
       </div>
       <div class="flex flex-col w-1/5 space-y-2">

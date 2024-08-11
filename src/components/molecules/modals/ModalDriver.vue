@@ -13,7 +13,8 @@
         </div>
         <div class="w-1/2">
           <InputForm name="idCardNumber" v-model="userInfo.nik" :label="t('names.idCardNumber')" bordered
-            is-separate-row semibold-label :rules="{ 'required': true }" :disabled="readonly" />
+            is-separate-row semibold-label :rules="{ 'required': true, 'numeric': true, 'length': 16 }"
+            :disabled="readonly" />
           <InputForm name="licensePlate" v-model="userInfo.licensePlate" :label="t('names.licensePlate')" bordered
             is-separate-row semibold-label :rules="{ 'required': true }" :disabled="readonly" />
           <InputForm name="totalIncome" v-model="userInfo.totalIncome" :label="t('names.totalIncome')" bordered

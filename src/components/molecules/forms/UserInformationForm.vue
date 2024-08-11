@@ -5,7 +5,7 @@
         <InputForm name="fullname" :label="$t('names.fullname')" v-model="form.name" is-separate-row bordered
           :rules="{ required: true }" :placeholder="$t('placeholder.inputFullname')" />
         <InputForm name="idCardNumber" :label="$t('names.idCardNumber')" v-model="form.nik" is-separate-row bordered
-          :rules="{ required: true }" :placeholder="$t('placeholder.inputIdCardNumber')" />
+          :rules="{ required: true, numeric: true, length: 16 }" :placeholder="$t('placeholder.inputIdCardNumber')" />
       </div>
       <div class="flex w-1/3">
         <UploadFileForm name="photo" :label="$t('names.photo')" v-model="imageFile" @update="imageFile = $event"
