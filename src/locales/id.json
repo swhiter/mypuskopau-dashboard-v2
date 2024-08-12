@@ -42,8 +42,8 @@
     "photo": "Upload Foto",
     "code": "Kode",
     "licensePlate": "Plat Nomor",
-    "distance": "Jarak",
-    "argo": "Argo",
+    "distance": "Jarak Minimum",
+    "argo": "Argo/km",
     "totalIncome": "Total Penghasilan",
     "startDate": "Tanggal Awal",
     "endDate": "Tanggal Akhir",
@@ -131,6 +131,7 @@
     "successLogout": "Berhasil keluar"
   },
   "message": {
-    "logout": "Yakin ingin keluar?"
+    "logout": "Yakin ingin keluar?",
+    "save": "Apakah Anda yakin akan menyimpan perubahan ini?"
   }
 }

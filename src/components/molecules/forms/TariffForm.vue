@@ -1,11 +1,11 @@
 <template>
   <PageInnerCard :title="$t('title.tariffSetting')">
+    <InputForm name="minimumPrice" :label="`${$t('names.minimumPrice')} (Rp)`" v-model="form.minimumPrice"
+      is-separate-row bordered :rules="{ required: true }" prefix="Rp" type="number" />
     <InputForm name="distance" :label="`${$t('names.distance')} (km)`" v-model="form.distance" is-separate-row bordered
       :rules="{ required: true }" suffix="km" type="number" />
     <InputForm name="argo" :label="`${$t('names.argo')} (Rp)`" v-model="form.price" is-separate-row bordered
       :rules="{ required: true }" prefix="Rp" type="number" />
-    <InputForm name="minimumPrice" :label="`${$t('names.minimumPrice')} (Rp)`" v-model="form.minimumPrice"
-      is-separate-row bordered :rules="{ required: true }" prefix="Rp" type="number" />
   </PageInnerCard>
 </template>
 

@@ -44,8 +44,8 @@
     "photo": "Upload Photo",
     "code": "Code",
     "licensePlate": "License Plate",
-    "distance": "Distance",
-    "argo": "Argo",
+    "distance": "Minimum Distance",
+    "argo": "Argo/km",
     "totalIncome": "Total Income",
     "startDate": "Start Date",
     "endDate": "End Date",
@@ -133,6 +133,7 @@
     "successLogout": "Logout success"
   },
   "message": {
-    "logout": "Are you sure you want to logout?"
+    "logout": "Are you sure you want to logout?",
+    "save": "Are you sure you want to save?"
   }
 }

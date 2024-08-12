@@ -13,7 +13,11 @@ import tariffService from '@/services/drivers/tariff.api';
 import type { Tariff } from '@/types/Data';
 import { useToasterStore } from '@/stores/toaster';
 import { handleErrorResponse } from '@/utils/common';
+import { useModalStore } from '@/stores/modal';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n()
+const modal = useModalStore()
 const toaster = useToasterStore()
 
 const emits = defineEmits<{
@@ -32,6 +36,13 @@ const buttonLoading: Ref<boolean> = ref(false)
 const tariff: Ref<Tariff | null> = ref(null)
 
 const onSubmit = async (): Promise<void> => {
+  modal.openConfirmationModal(t('message.save'))
+  modal.onOk(() => {
+    save()
+  })
+}
+
+const save = async (): Promise<void> => {
   buttonLoading.value = true
   tariff.value!.distance = tariffSetting.value.distance
   tariff.value!.price = tariffSetting.value.price
