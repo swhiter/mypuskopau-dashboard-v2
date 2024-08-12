@@ -3,11 +3,11 @@
     <div class="flex w-full space-x-4">
       <div class="w-1/2">
         <InputForm name="code" :label="$t('names.code')" v-model="form.vehicleCode" is-separate-row bordered
-          :rules="{ required: true }" :placeholder="$t('placeholder.inputCode')" />
+          :rules="{ required: true }" :placeholder="$t('placeholder.inputCode')" :reset="reset" />
       </div>
       <div class="w-1/2">
         <InputForm name="licensePlate" :label="$t('names.licensePlate')" v-model="form.licensePlate" is-separate-row
-          bordered :rules="{ required: true }" :placeholder="$t('placeholder.inputLicensePlate')" />
+          bordered :rules="{ required: true }" :placeholder="$t('placeholder.inputLicensePlate')" :reset="reset" />
       </div>
     </div>
   </PageInnerCard>
@@ -21,9 +21,12 @@ import { toRefs, watch } from 'vue';
 
 interface Props {
   form: VehicleInfo
+  reset?: boolean
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  reset: false
+})
 
 const emits = defineEmits<{
   update: [form: VehicleInfo]

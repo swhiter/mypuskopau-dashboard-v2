@@ -3,13 +3,14 @@
     <div class="flex space-x-4">
       <div class="flex flex-col w-2/3">
         <InputForm name="fullname" :label="$t('names.fullname')" v-model="form.name" is-separate-row bordered
-          :rules="{ required: true }" :placeholder="$t('placeholder.inputFullname')" />
+          :rules="{ required: true }" :placeholder="$t('placeholder.inputFullname')" :reset="reset" />
         <InputForm name="idCardNumber" :label="$t('names.idCardNumber')" v-model="form.nik" is-separate-row bordered
-          :rules="{ required: true, numeric: true, length: 16 }" :placeholder="$t('placeholder.inputIdCardNumber')" />
+          :rules="{ required: true, numeric: true, length: 16 }" :placeholder="$t('placeholder.inputIdCardNumber')"
+          :reset="reset" />
       </div>
       <div class="flex w-1/3">
         <UploadFileForm name="photo" :label="$t('names.photo')" v-model="imageFile" @update="imageFile = $event"
-          is-separate-row bordered grow />
+          is-separate-row bordered grow :reset="reset" />
       </div>
     </div>
   </PageInnerCard>
@@ -26,10 +27,12 @@ import { onMounted, ref, toRefs, watch, type Ref } from 'vue';
 interface Props {
   form: UserInfo
   isDriver?: boolean
+  reset?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isDriver: false
+  isDriver: false,
+  reset: false
 })
 
 const emits = defineEmits<{

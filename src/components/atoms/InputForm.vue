@@ -19,14 +19,14 @@
         <FontAwesomeIcon class="fa-fw" :icon="faEyeSlash" v-else />
       </button>
     </div>
-    <span class="error-message">{{ errorMessage }}</span>
+    <span class="error-message">{{ reset ? null : errorMessage }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import { computed, ref, type Ref } from 'vue';
+import { computed, ref, toRefs, watch, type Ref } from 'vue';
 import { useField } from 'vee-validate';
 
 interface Props {
@@ -45,6 +45,7 @@ interface Props {
   fieldSize?: number
   bordered?: boolean
   semiboldLabel?: boolean
+  reset?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -58,12 +59,20 @@ const props = withDefaults(defineProps<Props>(), {
   labelSpacing: 4,
   fieldSize: 8,
   bordered: false,
-  semiboldLabel: false
+  semiboldLabel: false,
+  reset: false
 })
 
-const { handleChange, value, handleBlur, errorMessage, meta } = useField(() => props.name, props.rules, { syncVModel: true })
+const { handleChange, value, handleBlur, errorMessage, meta, resetField } = useField(() => props.name, props.rules, { syncVModel: true })
 
 const isPasswordShown: Ref<boolean> = ref(false)
+const { reset } = toRefs(props)
+
+watch(reset, (newValue) => {
+  if (newValue) {
+    resetField({ touched: false, errors: undefined })
+  }
+})
 
 const inputType = computed<string>(() => {
   if (props.hasPasswordToggler) {

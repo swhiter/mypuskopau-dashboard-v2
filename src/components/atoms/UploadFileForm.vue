@@ -38,7 +38,7 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faFile, faImage } from '@fortawesome/free-regular-svg-icons';
 import { useField } from 'vee-validate';
-import { ref, watch, type Ref } from 'vue';
+import { ref, toRefs, watch, type Ref } from 'vue';
 
 interface Props {
   name: string
@@ -55,6 +55,7 @@ interface Props {
   bordered?: boolean
   semiboldLabel?: boolean
   grow?: boolean
+  reset?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -66,14 +67,23 @@ const props = withDefaults(defineProps<Props>(), {
   labelSpacing: 4,
   fieldSize: 8,
   bordered: false,
-  semiboldLabel: false
+  semiboldLabel: false,
+  reset: false
 })
 
 const emits = defineEmits<{
   (event: 'update:modelValue', modelValue: File[]): void
 }>()
 
-const { handleBlur, value: files, errorMessage, meta } = useField<File[]>(() => props.name, props.rules)
+const { handleBlur, value: files, errorMessage, meta, resetField } = useField<File[]>(() => props.name, props.rules)
+
+const { reset } = toRefs(props)
+
+watch(reset, (newValue) => {
+  if (newValue) {
+    resetField({ touched: false, errors: undefined })
+  }
+})
 
 watch(files, (newValue) => {
   emits('update:modelValue', newValue)

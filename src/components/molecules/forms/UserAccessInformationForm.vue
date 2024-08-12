@@ -3,7 +3,7 @@
     <div class="flex w-full space-x-4">
       <div class="flex w-4/5">
         <InputForm name="password" v-model="form.password" :label="$t('names.password')" is-separate-row bordered
-          type="password" has-password-toggler :rules="{ required: true }" />
+          type="password" has-password-toggler :rules="{ required: true }" :reset="reset" />
       </div>
       <div class="flex flex-col w-1/5 py-2 justify-end">
         <MainButton :label="$t('generate')" tall @click="generateUsername()" :disabled="generated" />
@@ -11,7 +11,8 @@
     </div>
     <div class="flex w-full space-x-4" v-if="generated">
       <div class="flex w-4/5">
-        <InputForm name="username" v-model="form.userId" :label="$t('names.username')" is-separate-row bordered />
+        <InputForm name="username" v-model="form.userId" :label="$t('names.username')" is-separate-row bordered
+          :reset="reset" />
       </div>
       <div class="flex w-1/5">
         <!--  -->
@@ -32,10 +33,12 @@ interface Props {
   form: UserAccessInfo
   isDriver?: boolean
   generated: boolean
+  reset?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isDriver: false
+  isDriver: false,
+  reset: false
 })
 
 const emits = defineEmits<{

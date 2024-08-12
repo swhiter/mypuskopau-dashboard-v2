@@ -1,8 +1,8 @@
 <template>
   <Form id="staff-form" class="flex flex-col space-y-4" @submit="onSubmit()" autocomplete="off">
-    <UserInformationForm :form="userInfoForm" @update="userInfoForm = $event" />
+    <UserInformationForm :form="userInfoForm" @update="userInfoForm = $event" :reset="formReset" />
     <UserAccessInformationForm :form="userAccessForm" @update="userAccessForm = $event" :generated="isUsernameGenerated"
-      @generated="isUsernameGenerated = $event" />
+      @generated="isUsernameGenerated = $event" :reset="formReset" />
   </Form>
 </template>
 
@@ -27,6 +27,7 @@ const emits = defineEmits<{
 
 const isUsernameGenerated: Ref<boolean> = ref(false)
 const parentForm = inject(formState)
+const formReset: Ref<boolean> = ref(false)
 
 watch(isUsernameGenerated, (newValue) => {
   emits('saveEnabled', newValue)
@@ -76,5 +77,22 @@ const reset = (): void => {
   userAccessForm.id = 0
   userAccessForm.userId = ''
   userAccessForm.password = ''
+  formReset.value = true
 }
+
+watch(userInfoForm, (newValue) => {
+  if (formReset.value) {
+    if (newValue.name != '' || newValue.nik != '' || newValue.photo != '') {
+      formReset.value = false
+    }
+  }
+}, { deep: true })
+
+watch(userAccessForm, (newValue) => {
+  if (formReset.value) {
+    if (newValue.userId != '' || newValue.password != '') {
+      formReset.value = false
+    }
+  }
+}, { deep: true })
 </script>

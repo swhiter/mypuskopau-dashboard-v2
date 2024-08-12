@@ -1,9 +1,9 @@
 <template>
-  <Form id="driver-form" class="flex flex-col space-y-4" @submit="onSubmit()" autocomplete="off">
-    <UserInformationForm :form="userInfoForm" @update="userInfoForm = $event" is-driver />
-    <VehicleInformationForm :form="vehicleInfoForm" @update="vehicleInfoForm = $event" />
+  <Form id="driver-form" class="flex flex-col space-y-4" @submit="onSubmit" autocomplete="off">
+    <UserInformationForm :form="userInfoForm" @update="userInfoForm = $event" is-driver :reset="formReset" />
+    <VehicleInformationForm :form="vehicleInfoForm" @update="vehicleInfoForm = $event" :reset="formReset" />
     <UserAccessInformationForm :form="userAccessForm" @update="userAccessForm = $event" is-driver
-      :generated="isUsernameGenerated" @generated="isUsernameGenerated = $event" />
+      :generated="isUsernameGenerated" @generated="isUsernameGenerated = $event" :reset="formReset" />
   </Form>
 </template>
 
@@ -29,6 +29,7 @@ const emits = defineEmits<{
 
 const isUsernameGenerated: Ref<boolean> = ref(false)
 const parentForm = inject(formState)
+const formReset: Ref<boolean> = ref(false)
 
 watch(isUsernameGenerated, (newValue) => {
   emits('saveEnabled', newValue)
@@ -94,5 +95,30 @@ const reset = (): void => {
   userAccessForm.id = 0
   userAccessForm.userId = ''
   userAccessForm.password = ''
+  formReset.value = true
 }
+
+watch(userInfoForm, (newValue) => {
+  if (formReset.value) {
+    if (newValue.name != '' || newValue.nik != '' || newValue.photo != '') {
+      formReset.value = false
+    }
+  }
+}, { deep: true })
+
+watch(vehicleInfoForm, (newValue) => {
+  if (formReset.value) {
+    if (newValue.licensePlate != '' || newValue.vehicleCode != '') {
+      formReset.value = false
+    }
+  }
+}, { deep: true })
+
+watch(userAccessForm, (newValue) => {
+  if (formReset.value) {
+    if (newValue.userId != '' || newValue.password != '') {
+      formReset.value = false
+    }
+  }
+}, { deep: true })
 </script>
