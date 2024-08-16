@@ -11,7 +11,7 @@
       ...
     </span>
     <a href="#" aria-current="page" v-for="(page, index) in calculatedPages" :key="index" class="paging-button"
-      :class="{ 'active': page == page }" @click.prevent="changePage(page)">
+      :class="{ 'active': page == pagination.page }" @click.prevent="changePage(page)">
       {{ page }}
     </a>
     <span class="paging-button" v-if="hasLast">
