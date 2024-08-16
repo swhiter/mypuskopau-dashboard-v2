@@ -6,8 +6,8 @@ class OrderService {
   async getOrders(data: Partial<PaginationRequest>): Promise<PaginatedResponse<Transaction>> {
     return await httpClient.get<PaginatedResponse<Transaction>>('/order', { params: data })
   }
-  async getOrderById(id: number): Promise<GeneralResponse<Transaction>> {
-    return await httpClient.get<GeneralResponse<Transaction>>('/order/' + id)
+  async getOrderByTrxId(trxId: string): Promise<GeneralResponse<Transaction>> {
+    return await httpClient.get<GeneralResponse<Transaction>>('/order/' + trxId)
   }
 }
 

@@ -38,7 +38,7 @@ const { t } = useI18n()
 
 interface Props {
   title: string
-  id: number
+  trxId: string
 }
 
 const props = defineProps<Props>()
@@ -94,7 +94,7 @@ const modalLoading: Ref<boolean> = ref(false)
 const getOrderById = async (): Promise<void> => {
   modalLoading.value = true
   try {
-    const response = await orderService.getOrderById(props.id)
+    const response = await orderService.getOrderByTrxId(props.trxId)
     transaction.value = response.data
   } catch (error) {
     handleErrorResponse(error)

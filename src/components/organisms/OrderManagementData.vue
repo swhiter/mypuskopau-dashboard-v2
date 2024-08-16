@@ -5,7 +5,7 @@
       <div class="flex space-x-2 items-end">
         <DateForm name="startDate" :label="t('names.startDate')" v-model="startDate" bordered is-separate-row />
         <DateForm name="endDate" :label="t('names.endDate')" v-model="endDate" bordered is-separate-row />
-        <MainButton :label="t('label.search')" outline />
+        <MainButton :label="t('label.search')" outline @click="getOrders" />
       </div>
       <MainButton :label="t('label.downloadReport')" white outline />
     </div>
@@ -96,11 +96,11 @@ const columns: Ref<TableField[]> = ref([
 
 const rows: Ref<TableItemTransaction[]> = ref([])
 
-const detail = async (id: number): Promise<void> => {
+const detail = async (trxId: string): Promise<void> => {
   modal.openModal({
     component: ModalOrder,
     props: {
-      title: `${t('label.view')} ${t('title.orderHistoryInformationData')}`, id: id
+      title: `${t('label.view')} ${t('title.orderHistoryInformationData')}`, trxId: trxId
     }
   })
 }
@@ -121,7 +121,7 @@ const getOrders = async (): Promise<void> => {
     pagination.value.totalRows = response.total
     for (let item of response.data) {
       const res: TableItemTransaction = {
-        actions: item.id,
+        actions: item.transactionNumber,
         orderNumber: item.transactionNumber,
         orderDate: item.createdAt,
         price: parseInt(item.orderDetail.price),
@@ -146,7 +146,16 @@ const paginationRequest = async (page: number): Promise<void> => {
   await getOrders()
 }
 
+const setInitialDate = (): void => {
+  const today = new Date()
+  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1)
+
+  startDate.value = firstDay.toISOString().split('T')[0]
+  endDate.value = today.toISOString().split('T')[0]
+}
+
 onMounted(() => {
+  setInitialDate()
   getOrders()
 })
 </script>
