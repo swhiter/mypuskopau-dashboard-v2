@@ -5,7 +5,7 @@
       <div class="flex space-x-2 items-end">
         <DateForm name="startDate" :label="t('names.startDate')" v-model="startDate" bordered is-separate-row />
         <DateForm name="endDate" :label="t('names.endDate')" v-model="endDate" bordered is-separate-row />
-        <MainButton :label="t('label.search')" outline @click="getOrders" />
+        <MainButton :label="t('label.search')" outline @click="search" />
       </div>
       <MainButton :label="t('label.downloadReport')" white outline />
     </div>
@@ -103,6 +103,11 @@ const detail = async (trxId: string): Promise<void> => {
       title: `${t('label.view')} ${t('title.orderHistoryInformationData')}`, trxId: trxId
     }
   })
+}
+
+const search = async (): Promise<void> => {
+  pagination.value.page = 1
+  await getOrders()
 }
 
 const getOrders = async (): Promise<void> => {
