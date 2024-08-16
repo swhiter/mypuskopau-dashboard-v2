@@ -1,7 +1,7 @@
 <template>
   <div id="gallery">
     <a :href="image" :data-pswp-width="images?.naturalWidth" :data-pswp-height="images?.naturalHeight" target="_blank"
-      rel="noreferrer">
+      rel="noreferrer" @click="initLightbox">
       Lihat Foto
     </a>
   </div>
@@ -27,7 +27,7 @@ const decodeImage = async () => {
   images.value = img
 }
 
-onMounted(() => {
+const initLightbox = () => {
   if (!lightbox.value) {
     lightbox.value = new PhotoSwipeLightBox({
       gallery: '#gallery',
@@ -37,7 +37,19 @@ onMounted(() => {
     lightbox.value.init()
     decodeImage()
   }
-})
+}
+
+// onMounted(() => {
+//   if (!lightbox.value) {
+//     lightbox.value = new PhotoSwipeLightBox({
+//       gallery: '#gallery',
+//       children: 'a',
+//       pswpModule: () => import('photoswipe')
+//     })
+//     lightbox.value.init()
+//     decodeImage()
+//   }
+// })
 
 onUnmounted(() => {
   if (lightbox.value) {
