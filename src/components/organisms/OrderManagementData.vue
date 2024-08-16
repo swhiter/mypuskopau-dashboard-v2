@@ -150,7 +150,11 @@ const setInitialDate = (): void => {
   const today = new Date()
   const firstDay = new Date(today.getFullYear(), today.getMonth(), 1)
 
-  startDate.value = firstDay.toISOString().split('T')[0]
+  const year = firstDay.getFullYear()
+  const month = String(firstDay.getMonth() + 1).padStart(2, '0')
+  const day = String(firstDay.getDate()).padStart(2, '0')
+
+  startDate.value = `${year}-${month}-${day}` // firstDay.toISOString().split('T')[0]
   endDate.value = today.toISOString().split('T')[0]
 }
 
