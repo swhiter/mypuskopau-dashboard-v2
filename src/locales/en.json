@@ -135,5 +135,10 @@
   "message": {
     "logout": "Are you sure you want to logout?",
     "save": "Are you sure you want to save?"
+  },
+  "driverStatus": {
+    "online": "Online",
+    "onTheMove": "On the move",
+    "offline": "Offline"
   }
 }

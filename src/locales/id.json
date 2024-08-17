@@ -133,5 +133,10 @@
   "message": {
     "logout": "Yakin ingin keluar?",
     "save": "Apakah Anda yakin akan menyimpan perubahan ini?"
+  },
+  "driverStatus": {
+    "online": "Online",
+    "onTheMove": "Mengantar",
+    "offline": "Offline"
   }
 }

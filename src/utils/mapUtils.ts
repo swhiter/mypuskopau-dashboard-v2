@@ -1,6 +1,7 @@
 import type { Position } from '@/types/Position'
 import L, { Map, Marker, type LatLngExpression } from 'leaflet'
 import mapPlaceholder from '@/assets/images/placeholder.png'
+import { driverStatus } from './common'
 
 const icon = L.icon({
   iconUrl: mapPlaceholder,
@@ -23,7 +24,7 @@ export const getDriversPosition = (map: Map, positions: Position[]): Marker[] =>
   const markers: Marker[] = positions.map((position) => {
     return L.marker([position.lat, position.lng], { icon: icon })
       .addTo(map)
-      .bindPopup(position.title)
+      .bindPopup(`${position.title}<br>${driverStatus(position.status)}`)
       .openPopup()
   })
 

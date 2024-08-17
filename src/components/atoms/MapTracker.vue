@@ -36,11 +36,14 @@ const getDrivers = async (): Promise<void> => {
     pagination.value.totalRows = response.total
     positions.value = []
     for (let item of response.data) {
-      positions.value.push({
-        lat: item.lastLatitude,
-        lng: item.lastLongitude,
-        title: item.name
-      })
+      if (item.status != 3) {
+        positions.value.push({
+          lat: item.lastLatitude,
+          lng: item.lastLongitude,
+          title: item.name,
+          status: item.status
+        })
+      }
     }
   } catch (error) {
     handleErrorResponse(error)

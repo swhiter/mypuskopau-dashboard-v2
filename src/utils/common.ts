@@ -112,3 +112,21 @@ export const formatDate = (d: string): string => {
 export const formatNumber = (num: number): string => {
   return num.toLocaleString('id-ID')
 }
+
+export const driverStatus = (status: number): string => {
+  let driverStatus = ''
+  switch (status) {
+    case 1:
+      driverStatus = i18nSetup.global.t('driverStatus.online')
+      break
+    case 2:
+      driverStatus = i18nSetup.global.t('driverStatus.onTheMove')
+      break
+    case 3:
+      driverStatus = i18nSetup.global.t('driverStatus.offline')
+      break
+    default:
+      driverStatus = 'Invalid status'
+  }
+  return driverStatus
+}
