@@ -35,7 +35,6 @@ export const updateDriversPosition = (
   markers: Marker[],
   positions: Position[]
 ): Marker[] => {
-  console.log('update')
   positions.forEach((position, index) => {
     if (markers[index]) {
       markers[index].setLatLng([position.lat, position.lng]).getPopup()?.setContent(position.title)
