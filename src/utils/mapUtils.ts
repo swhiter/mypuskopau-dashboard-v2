@@ -1,5 +1,13 @@
 import type { Position } from '@/types/Position'
 import L, { Map, Marker, type LatLngExpression } from 'leaflet'
+import mapPlaceholder from '@/assets/images/placeholder.png'
+
+const icon = L.icon({
+  iconUrl: mapPlaceholder,
+  iconSize: [38, 42],
+  iconAnchor: [19, 42],
+  popupAnchor: [0, -40]
+})
 
 export const initializeMap = (center: LatLngExpression, zoom: number): Map => {
   const map: Map = L.map('map', { attributionControl: false }).setView(center, zoom)
@@ -13,7 +21,10 @@ export const initializeMap = (center: LatLngExpression, zoom: number): Map => {
 
 export const getDriversPosition = (map: Map, positions: Position[]): Marker[] => {
   const markers: Marker[] = positions.map((position) => {
-    return L.marker([position.lat, position.lng]).addTo(map).bindPopup(position.title).openPopup()
+    return L.marker([position.lat, position.lng], { icon: icon })
+      .addTo(map)
+      .bindPopup(position.title)
+      .openPopup()
   })
 
   return markers
@@ -24,11 +35,12 @@ export const updateDriversPosition = (
   markers: Marker[],
   positions: Position[]
 ): Marker[] => {
+  console.log('update')
   positions.forEach((position, index) => {
     if (markers[index]) {
       markers[index].setLatLng([position.lat, position.lng]).getPopup()?.setContent(position.title)
     } else {
-      const marker = L.marker([position.lat, position.lng])
+      const marker = L.marker([position.lat, position.lng], { icon: icon })
         .addTo(map)
         .bindPopup(position.title)
         .openPopup()

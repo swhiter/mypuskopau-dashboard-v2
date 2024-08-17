@@ -34,6 +34,7 @@ const getDrivers = async (): Promise<void> => {
     const response = await driverService.getDrivers(pagination.value)
     pagination.value.totalPages = response.pageCount
     pagination.value.totalRows = response.total
+    positions.value = []
     for (let item of response.data) {
       positions.value.push({
         lat: item.lastLatitude,
