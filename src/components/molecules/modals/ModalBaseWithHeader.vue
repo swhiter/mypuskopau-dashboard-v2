@@ -6,9 +6,14 @@
     <div class="modal-body">
       <slot />
       <div v-if="hasSaveButton" class="modal-button">
-        <MainButton :label="$t('label.cancel')" @click="handleCancel" uniform-width outline white />
-        <MainButton :label="$t('label.update')" uniform-width outline type="submit" :form="form"
-          :loading="buttonLoading" :disabled="buttonLoading" />
+        <div class="flex space-x-4 mt-4">
+          <slot name="button" />
+        </div>
+        <div class="flex space-x-4 mt-4">
+          <MainButton :label="$t('label.cancel')" @click="handleCancel" uniform-width outline white />
+          <MainButton :label="$t('label.update')" uniform-width outline type="submit" :form="form"
+            :loading="buttonLoading" :disabled="buttonLoading" />
+        </div>
       </div>
     </div>
     <ComponentLoading v-if="loading" />
@@ -70,6 +75,6 @@ watch(submitted, (newValue) => {
 }
 
 .modal-button {
-  @apply flex items-end justify-end space-x-4 mt-4
+  @apply flex items-end justify-between
 }
 </style>

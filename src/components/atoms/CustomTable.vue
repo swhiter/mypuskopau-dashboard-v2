@@ -72,15 +72,15 @@ const paginatedRows = computed(() => {
 
 <style scoped>
 .table-container {
-  @apply flex flex-col w-full max-w-full bg-white rounded-lg border border-buttonGray shadow-lg overflow-x-auto
+  @apply flex flex-col w-full bg-white rounded-lg border border-buttonGray shadow-lg overflow-x-auto
 }
 
 table {
-  @apply table-auto w-full max-w-full
+  @apply table-auto min-w-full overflow-x-scroll
 }
 
 thead {
-  @apply text-white font-medium text-base border-b-2
+  @apply text-white font-medium text-base border-b-2 truncate
 }
 
 thead tr {

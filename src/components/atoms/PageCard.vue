@@ -32,6 +32,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 <style scoped>
 .card-container {
-  @apply flex flex-col px-12 py-6 bg-white rounded-lg border border-buttonGray shadow-lg space-y-4 relative
+  @apply flex flex-col px-12 py-6 w-full bg-white rounded-lg border border-buttonGray shadow-lg space-y-4
 }
 </style>

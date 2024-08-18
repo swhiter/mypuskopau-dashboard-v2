@@ -30,7 +30,7 @@ const logout = () => {
 
 <style scoped>
 .nav-background {
-  @apply flex w-full items-center justify-between px-8 py-3 bg-primaryDarkBlue shadow-lg relative
+  @apply flex w-full items-center justify-between px-8 h-16 bg-primaryDarkBlue shadow-lg fixed z-20
 }
 
 .nav-logo-container {

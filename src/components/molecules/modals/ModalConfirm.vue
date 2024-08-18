@@ -1,7 +1,7 @@
 <template>
   <div class="modal-container">
     <img :src="logoutImg" alt="Logout" class="w-56">
-    <h5 class="text-lg font-medium">{{ message }}</h5>
+    <h5 class="text-lg font-medium text-center">{{ message }}</h5>
     <div class="flex w-full items-center justify-center space-x-4 mt-4">
       <MainButton :label="$t('label.no')" @click="handleCancel" uniform-width outline white />
       <MainButton :label="$t('label.yes')" @click="handleOk" uniform-width outline />

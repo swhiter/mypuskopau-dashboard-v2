@@ -1,11 +1,9 @@
 <template>
-  <div class="flex flex-col w-screen h-dvh max-h-dvh">
+  <div class="flex flex-col w-dvw h-dvh max-h-dvh overflow-x-hidden">
     <TopNavbar />
-    <div class="flex flex-1 max-w-full">
-      <SideNavbar />
-      <div class="w-full max-w-full">
-        <RouterView />
-      </div>
+    <SideNavbar />
+    <div class="w-[calc(100%-288px)] ml-72 mt-16">
+      <RouterView />
     </div>
   </div>
 </template>

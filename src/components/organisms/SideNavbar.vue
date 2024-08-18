@@ -70,11 +70,11 @@ onMounted(() => {
 
 <style scoped>
 .sidebar-container {
-  @apply flex flex-col w-fit h-full font-body
+  @apply flex flex-col w-fit h-full font-body fixed z-10 shadow-lg
 }
 
 .sidebar-background {
-  @apply flex flex-col h-full w-72 bg-primaryBlue
+  @apply flex flex-col w-72 h-[calc(100%-64px)] bg-primaryBlue mt-16
 }
 
 .sidebar-menus {
