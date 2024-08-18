@@ -22,6 +22,9 @@ class AuthenticationService {
   async logout(): Promise<GeneralResponse<any>> {
     return await httpClient.post<GeneralResponse<any>>('/auth/logout', { test: 'logout' })
   }
+  async changePassword(data: any, userId: string): Promise<GeneralResponse<unknown>> {
+    return await httpClient.put<GeneralResponse<unknown>>(`/auth/${userId}/updatepassword`, data)
+  }
 }
 
 const authenticationService = new AuthenticationService()

@@ -51,6 +51,7 @@ import { getCurrentUser, handleErrorResponse } from '@/utils/common';
 import profileService from '@/services/dashboard/profile.api';
 import { useToasterStore } from '@/stores/toaster';
 import { useAuthStore } from '@/stores/auth';
+import authenticationService from '@/services/authentications/authentications.api';
 
 const { t } = useI18n()
 const auth = useAuthStore()
@@ -102,12 +103,13 @@ const save = async (): Promise<void> => {
   form.append('nik', idCardNumber.value)
   form.append('userId', userId.value)
   form.append('photo', images.value ? images.value : photo.value)
-  if (password.value) {
-    form.append('password', password.value)
-  }
 
   try {
     await profileService.updateProfile(form, id.value)
+    if (password.value) {
+      const payload = { password: password.value }
+      await authenticationService.changePassword(payload, userId.value)
+    }
     toast.success({ text: t('alert.successSave') })
     auth.logout()
   } catch (error) {

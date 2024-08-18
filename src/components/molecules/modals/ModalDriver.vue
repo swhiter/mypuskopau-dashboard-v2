@@ -54,6 +54,7 @@ import { handleErrorResponse } from '@/utils/common';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useToasterStore } from '@/stores/toaster';
+import authenticationService from '@/services/authentications/authentications.api';
 
 const { t } = useI18n()
 const toast = useToasterStore()
@@ -129,12 +130,12 @@ const onSubmit = async (): Promise<void> => {
     }
   })
 
-  if (password.value) {
-    form.append('password', password.value)
-  }
-
   try {
     await driverService.updateDriver(form, userInfo.value.id!)
+    if (password.value) {
+      const payload = { password: password.value }
+      await authenticationService.changePassword(payload, userInfo.value.userId)
+    }
     toast.success({ text: t('alert.successSave') })
     buttonLoading.value = false
     submitted.value = true
