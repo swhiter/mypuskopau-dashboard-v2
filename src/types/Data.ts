@@ -9,6 +9,7 @@ export interface Driver {
   lastLongitude: number | string
   lastLatitude: number | string
   totalIncome: number | string
+  totalIncomeDay: number | string
   status: number
 }
 

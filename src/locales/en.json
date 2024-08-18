@@ -126,7 +126,10 @@
     "downloadReport": "Download Report",
     "search": "Search",
     "currentWeek": "Current Week",
-    "lastWeek": "Minggu Lalu"
+    "lastWeek": "Minggu Lalu",
+    "detail": "Detail",
+    "disburse": "Disburse",
+    "dailyEarnings": "Daily Earnings"
   },
   "alert": {
     "successSave": "Data saved",
@@ -134,7 +137,8 @@
   },
   "message": {
     "logout": "Are you sure you want to logout?",
-    "save": "Are you sure you want to save?"
+    "save": "Are you sure you want to save?",
+    "disburse": "Are you sure you want to disburse fund of driver named {name}?"
   },
   "driverStatus": {
     "online": "Online",

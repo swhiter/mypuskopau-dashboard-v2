@@ -3,7 +3,7 @@
     <h5 class="title">{{ t('title.driverInformationData') }}</h5>
     <CustomTable :columns="columns" :rows="rows">
       <template #cell(actions)="{ value }">
-        <CustomTableButton :value="value" @edit="edit" @detail="detail" />
+        <CustomTableButton :value="value" @edit="edit" @detail="detail" @disburse="disburse" />
       </template>
       <template #cell(photo)="{ value }">
         <CustomTableImageViewer :image="value" />
@@ -21,7 +21,7 @@ import { useI18n } from 'vue-i18n';
 import CustomTable from '../atoms/CustomTable.vue';
 import driverService from '@/services/drivers/drivers.api';
 import type { PaginationRequest, TableField } from '@/types/Main';
-import { handleErrorResponse } from '@/utils/common';
+import { formatNumber, handleErrorResponse } from '@/utils/common';
 import type { ExtendedDriver } from '@/types/Data';
 import CustomTableButton from '../atoms/CustomTableButton.vue';
 import CustomTableImageViewer from '../atoms/CustomTableImageViewer.vue';
@@ -29,9 +29,11 @@ import CustomTablePagination from '../atoms/CustomTablePagination.vue';
 import { formState } from '@/injects/keys';
 import { useModalStore } from '@/stores/modal';
 import ModalDriver from '../molecules/modals/ModalDriver.vue';
+import { useToasterStore } from '@/stores/toaster';
 
 const { t } = useI18n()
 const modal = useModalStore()
+const toast = useToasterStore()
 
 const pagination: Ref<PaginationRequest> = ref({
   page: 1,
@@ -68,7 +70,13 @@ const columns: Ref<TableField[]> = ref([
   },
   {
     name: 'totalIncome',
-    title: t('label.totalEarnings')
+    title: t('label.totalEarnings'),
+    field: (value) => formatNumber(value as number)
+  },
+  {
+    name: 'totalIncomeDay',
+    title: t('label.dailyEarnings'),
+    field: (value) => formatNumber(value as number)
   },
   {
     name: 'photo',
@@ -120,6 +128,20 @@ const detail = async (id: number): Promise<void> => {
       title: `${t('label.view')} ${t('title.driverInformationData')}`, id: id, readonly: true
     }
   })
+}
+
+const disburse = async (id: number): Promise<void> => {
+  try {
+    const driver = await driverService.getDriverById(id)
+    modal.openConfirmationModal(t('message.disburse', { name: driver.data.name }))
+    modal.onOk(async () => {
+      await driverService.resetDailyIncome(driver.data.userId)
+      toast.success({ text: t('alert.successSave') })
+      getDrivers()
+    })
+  } catch (error) {
+    handleErrorResponse(error)
+  }
 }
 
 const paginationRequest = async (page: number): Promise<void> => {

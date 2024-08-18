@@ -3,7 +3,7 @@
     <h5 class="title">{{ t('title.staffInformationData') }}</h5>
     <CustomTable :columns="columns" :rows="rows">
       <template #cell(actions)="{ value }">
-        <CustomTableButton :value="value" @edit="edit" @detail="detail" />
+        <CustomTableButton :value="value" @edit="edit" @detail="detail" hide-disburse />
       </template>
       <template #cell(photo)="{ value }">
         <CustomTableImageViewer :image="value" />

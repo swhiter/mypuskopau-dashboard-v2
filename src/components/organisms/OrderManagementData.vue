@@ -11,7 +11,7 @@
     </div>
     <CustomTable :columns="columns" :rows="rows">
       <template #cell(actions)="{ value }">
-        <CustomTableButton :value="value" @detail="detail" hide-edit />
+        <CustomTableButton :value="value" @detail="detail" hide-edit hide-disburse />
       </template>
       <template #cell(price)="{ value }">
         <span class="text-accentDarkGreen">{{ value }}</span>

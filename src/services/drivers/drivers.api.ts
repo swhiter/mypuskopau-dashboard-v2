@@ -29,6 +29,9 @@ class DriverService {
   async deleteDriver(id: number): Promise<GeneralResponse<Driver>> {
     return await httpClient.delete<GeneralResponse<Driver>>('/driver/' + id)
   }
+  async resetDailyIncome(userId: string): Promise<GeneralResponse<Driver>> {
+    return await httpClient.put<GeneralResponse<Driver>>(`/driver/${userId}/resettotalincomday`, {})
+  }
 }
 
 const driverService = new DriverService()

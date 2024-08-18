@@ -124,7 +124,10 @@
     "downloadReport": "Unduh Laporan",
     "search": "Cari",
     "currentWeek": "Minggu Ini",
-    "lastWeek": "Minggu Lalu"
+    "lastWeek": "Minggu Lalu",
+    "detail": "Detail",
+    "disburse": "Cairkan",
+    "dailyEarnings": "Pendapatan Harian"
   },
   "alert": {
     "successSave": "Berhasil menyimpan data",
@@ -132,7 +135,8 @@
   },
   "message": {
     "logout": "Yakin ingin keluar?",
-    "save": "Apakah Anda yakin akan menyimpan perubahan ini?"
+    "save": "Apakah Anda yakin akan menyimpan perubahan ini?",
+    "disburse": "Apakah Anda yakin akan mencairkan dana pengemudi dengan nama {name}?"
   },
   "driverStatus": {
     "online": "Online",
