@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import 'photoswipe/style.css';
 
 @tailwind base;
 @tailwind components;
@@ -7,4 +8,27 @@
 .logo {
   height: 6dvh;
   @apply absolute top-3 left-8;
+}
+
+/* Scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  @apply bg-accentGray;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-buttonBiGray rounded-lg;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primaryDarkBlue;
 }

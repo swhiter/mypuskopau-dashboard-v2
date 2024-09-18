@@ -1,37 +1,38 @@
 <template>
   <div class="form-group" :class="{ 'multi-row': isSeparateRow }">
-    <div class="label" :class="isSeparateRow ? 'w-fit' : `w-${labelSpacing}/12`">
+    <div class="label"
+      :class="[(isSeparateRow ? 'w-fit' : `w-${labelSpacing}/12`), { 'font-semibold': semiboldLabel }]">
       <label :for="name">{{ label }}</label>
     </div>
     <div class="input-container"
       :class="[(isSeparateRow ? 'w-full' : `w-${fieldSize}/12`), { 'border border-black': bordered }]">
       <span class="input-affix pre" v-if="prefix">{{ prefix }}</span>
-      <textarea :name="name" :id="name" v-model="(value as string)" class="input"
+      <textarea :name="name" :id="name" v-model="value" class="input"
         :class="{ 'invalid': meta.touched && !meta.valid }" :disabled="disabled" @change="handleChange"
         @blur="handleBlur" v-if="inputType == 'textarea'"></textarea>
       <input :type="inputType" :name="name" :id="name" v-model="value" :placeholder="placeholder" class="input"
         :class="{ 'invalid': meta.touched && !meta.valid }" :disabled="disabled" @change="handleChange"
         @blur="handleBlur" v-else>
       <span class="input-affix suf" v-if="suffix">{{ suffix }}</span>
-      <button class="password-toggler" v-if="hasPasswordToggler" @click="togglePassword()">
+      <button type="button" class="password-toggler" v-if="hasPasswordToggler" @click="togglePassword()">
         <FontAwesomeIcon class="fa-fw" :icon="faEye" v-if="isPasswordShown" />
         <FontAwesomeIcon class="fa-fw" :icon="faEyeSlash" v-else />
       </button>
     </div>
-    <span class="error-message">{{ errorMessage }}</span>
+    <span class="error-message">{{ reset ? null : errorMessage }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import { computed, ref, type Ref } from 'vue';
+import { computed, ref, toRefs, watch, type Ref } from 'vue';
 import { useField } from 'vee-validate';
 
 interface Props {
   name: string
   label: string
-  modelValue: string | number | boolean | null
+  modelValue: number | string | boolean | null
   type?: string
   placeholder?: string
   rules?: string | Record<string, any>
@@ -43,6 +44,8 @@ interface Props {
   labelSpacing?: number
   fieldSize?: number
   bordered?: boolean
+  semiboldLabel?: boolean
+  reset?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -55,12 +58,21 @@ const props = withDefaults(defineProps<Props>(), {
   suffix: null,
   labelSpacing: 4,
   fieldSize: 8,
-  bordered: false
+  bordered: false,
+  semiboldLabel: false,
+  reset: false
 })
 
-const { handleChange, value, handleBlur, errorMessage, meta } = useField(() => props.name, props.rules, { syncVModel: true })
+const { handleChange, value, handleBlur, errorMessage, meta, resetField } = useField(() => props.name, props.rules, { syncVModel: true })
 
 const isPasswordShown: Ref<boolean> = ref(false)
+const { reset } = toRefs(props)
+
+watch(reset, (newValue) => {
+  if (newValue) {
+    resetField({ touched: false, errors: undefined })
+  }
+})
 
 const inputType = computed<string>(() => {
   if (props.hasPasswordToggler) {
@@ -89,7 +101,7 @@ const togglePassword = (): void => {
 }
 
 .label {
-  @apply font-semibold text-sm 2xl:text-base flex items-center
+  @apply text-sm 2xl:text-base flex items-center
 }
 
 .input-container {

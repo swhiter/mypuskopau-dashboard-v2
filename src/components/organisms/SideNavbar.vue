@@ -1,34 +1,83 @@
 <template>
   <div class="sidebar-container">
     <aside class="sidebar-background">
-      <MenuItems v-for="(item, index) in menus" :key="index" :menu="item" />
+      <SidebarProfile :name="name" :username="username" :image="userImage" />
+      <div class="sidebar-menus">
+        <MenuItems v-for="(item, index) in menus" :key="index" :menu="item" />
+      </div>
     </aside>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref } from 'vue';
+import { onMounted, ref, type Ref } from 'vue';
 import MenuItems from '../atoms/MenuItems.vue';
 import type { MenuItem } from '@/types/MainComponents';
+import SidebarProfile from '../molecules/misc/SidebarProfile.vue';
+import { getCurrentUser } from '@/utils/common';
+import defaultImage from '@/assets/images/user.png';
+
+const name: Ref<string> = ref('')
+const username: Ref<string> = ref('')
+const userImage: Ref<string> = ref('')
 
 const menus: Ref<MenuItem[]> = ref([
   {
     title: 'Dashboard',
-    href: '/'
+    href: '/dashboard',
+    icon: 'dashboard',
+    isMdi: true
   },
   {
     title: 'Manajemen Pengemudi',
-    href: '/driver-management'
+    href: '/driver-management',
+    icon: '/icons/manajemen-pengemudi.svg',
+    isMdi: false
+  },
+  {
+    title: 'Manajemen Staf',
+    href: '/staff-management',
+    icon: '/icons/manajemen-staf.svg',
+    isMdi: false
+  },
+  {
+    title: 'Manajemen Pesanan',
+    href: '/order-management',
+    icon: 'list_alt',
+    isMdi: true
+  },
+  {
+    title: 'Manajemen Tarif',
+    href: '/tariff-management',
+    icon: '/icons/manajemen-tarif.svg',
+    isMdi: false
+  },
+  {
+    title: 'Pelacakan Pengemudi',
+    href: '/driver-tracking',
+    icon: '/icons/pelacakan-pengemudi.svg',
+    isMdi: false
   }
 ])
+
+onMounted(() => {
+  const user = getCurrentUser()
+  name.value = `${user.userDetail.firstName} ${user.userDetail.lastName}`
+  username.value = user.userDetail.userId
+  userImage.value = user.userDetail.photo ? user.userDetail.photo : defaultImage
+})
 </script>
 
 <style scoped>
 .sidebar-container {
-  @apply flex w-fit h-screen
+  @apply flex flex-col w-fit h-full font-body fixed z-10 shadow-lg
 }
 
 .sidebar-background {
-  @apply h-full w-72 bg-primaryBlue
+  @apply flex flex-col w-72 h-[calc(100%-64px)] bg-primaryBlue mt-16
+}
+
+.sidebar-menus {
+  @apply flex flex-col space-y-1
 }
 </style>

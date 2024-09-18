@@ -14,8 +14,8 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/absensi': {
-        target: 'http://localhost:3000',
+      '/api': {
+        target: 'http://93.127.195.70:3000',
         changeOrigin: true,
         ws: true
       }
