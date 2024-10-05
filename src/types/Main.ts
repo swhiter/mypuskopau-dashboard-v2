@@ -22,9 +22,9 @@ export interface GeneralResponse<T> {
   message: string
 }
 
-export interface TableField {
+export interface TableField<T = number | string | boolean> {
   name: string
   title: string
   sortable?: boolean
-  field?: (value: number | string | boolean) => number | string | boolean
+  field?: (value: T) => number | string | boolean
 }

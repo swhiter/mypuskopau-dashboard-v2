@@ -11,8 +11,8 @@
         </div>
         <div class="flex space-x-4 mt-4">
           <MainButton :label="$t('label.cancel')" @click="handleCancel" uniform-width outline white />
-          <MainButton :label="$t('label.update')" uniform-width outline type="submit" :form="form"
-            :loading="buttonLoading" :disabled="buttonLoading" />
+          <MainButton :label="isAdd ? $t('label.add') : $t('label.update')" uniform-width outline type="submit"
+            :form="form" :loading="buttonLoading" :disabled="buttonLoading" />
         </div>
       </div>
     </div>
@@ -35,13 +35,15 @@ interface Props {
   form?: string
   buttonLoading?: boolean
   submitted?: boolean
+  isAdd?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   loading: false,
   hasSaveButton: false,
   buttonLoading: false,
-  submitted: false
+  submitted: false,
+  isAdd: false
 })
 
 const { submitted } = toRefs(props)
