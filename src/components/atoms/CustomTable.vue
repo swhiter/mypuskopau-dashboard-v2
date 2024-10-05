@@ -57,7 +57,7 @@ import type { TableField } from '@/types/Main';
 import { computed } from 'vue';
 
 interface Props {
-  columns: TableField[]
+  columns: TableField<number | string | boolean | any>[]
   rows: any[]
   currentPage?: number
   perPage?: number
