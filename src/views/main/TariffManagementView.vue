@@ -1,8 +1,8 @@
 <template>
   <PageContainer :title="$t('title.tariffManagement')">
-    <PageCard has-save-button button-form="tariff-form" :loading="cardLoading" :button-loading="buttonLoading">
+    <!-- <PageCard has-save-button button-form="tariff-form" :loading="cardLoading" :button-loading="buttonLoading">
       <TariffManagement @card-loading="cardLoading = $event" @button-loading="buttonLoading = $event" />
-    </PageCard>
+    </PageCard> -->
     <PageCard :loading="cardDistanceLoading">
       <TariffByDistance />
     </PageCard>

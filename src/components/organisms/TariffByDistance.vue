@@ -75,6 +75,7 @@ const getTariffs = async () => {
         actions: item.id
       })
       rows.value.push(res)
+      rows.value.sort((a, b) => a.intervalMin - b.intervalMin)
     }
   } catch (error) {
     handleErrorResponse(error)
