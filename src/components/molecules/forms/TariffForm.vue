@@ -4,8 +4,8 @@
       is-separate-row bordered :rules="{ required: true }" prefix="Rp" type="number" />
     <InputForm name="distance" :label="`${$t('names.distance')} (km)`" v-model="form.distance" is-separate-row bordered
       :rules="{ required: true, 'not_in_tbd': true }" suffix="km" type="number" />
-    <InputForm name="argo" :label="`${$t('names.argo')} (Rp)`" v-model="form.price" is-separate-row bordered
-      :rules="{ required: true }" prefix="Rp" type="number" />
+    <!-- <InputForm name="argo" :label="`${$t('names.argo')} (Rp)`" v-model="form.price" is-separate-row bordered
+      :rules="{ required: true }" prefix="Rp" type="number" /> -->
   </PageInnerCard>
 </template>
 
