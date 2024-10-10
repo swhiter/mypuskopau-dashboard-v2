@@ -78,6 +78,7 @@ export interface TableItemTransaction {
   price: number
   driverName: string
   licensePlate: string
+  staffName: string
   actions: string
 }
 

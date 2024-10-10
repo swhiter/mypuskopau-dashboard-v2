@@ -132,7 +132,8 @@
     "detail": "Detail",
     "disburse": "Cairkan",
     "dailyEarnings": "Pendapatan Harian",
-    "pricePerKm": "Harga Per Km."
+    "pricePerKm": "Harga Per Km.",
+    "orderStaffName": "Nama Staff Pemesan"
   },
   "alert": {
     "successSave": "Berhasil menyimpan data",

@@ -93,6 +93,10 @@ const columns: Ref<TableField[]> = ref([
   {
     name: 'licensePlate',
     title: t('label.licensePlate')
+  },
+  {
+    name: 'staffName',
+    title: t('label.orderStaffName')
   }
 ])
 
@@ -138,7 +142,8 @@ const getOrders = async (): Promise<void> => {
         destinationAddress: item.orderDetail.destinationAddress,
         distance: parseInt(item.orderDetail.distance),
         driverName: item.driver ? item.driver.name : '',
-        licensePlate: item.driver ? item.driver.licensePlate : ''
+        licensePlate: item.driver ? item.driver.licensePlate : '',
+        staffName: item.staff ? item.staff.name : ''
       }
       rows.value.push(res)
     }
@@ -193,7 +198,8 @@ const downloadCSV = async (): Promise<void> => {
         destinationAddress: item.orderDetail.destinationAddress,
         distance: parseInt(item.orderDetail.distance),
         driverName: item.driver ? item.driver.name : '',
-        licensePlate: item.driver ? item.driver.licensePlate : ''
+        licensePlate: item.driver ? item.driver.licensePlate : '',
+        staffName: item.staff ? item.staff.name : ''
       }
       resRows.push(res)
     }
