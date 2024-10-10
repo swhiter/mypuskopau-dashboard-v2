@@ -1,6 +1,6 @@
 export interface Position {
-  lat: number
-  lng: number
+  lat: number | string
+  lng: number | string
   title: string
   status: number
 }

@@ -22,7 +22,7 @@ export const initializeMap = (center: LatLngExpression, zoom: number): Map => {
 
 export const getDriversPosition = (map: Map, positions: Position[]): Marker[] => {
   const markers: Marker[] = positions.map((position) => {
-    return L.marker([position.lat, position.lng], { icon: icon })
+    return L.marker([Number(position.lat), Number(position.lng)], { icon: icon })
       .addTo(map)
       .bindPopup(`${position.title}<br>${driverStatus(position.status)}`)
       .openPopup()
@@ -38,9 +38,12 @@ export const updateDriversPosition = (
 ): Marker[] => {
   positions.forEach((position, index) => {
     if (markers[index]) {
-      markers[index].setLatLng([position.lat, position.lng]).getPopup()?.setContent(position.title)
+      markers[index]
+        .setLatLng([Number(position.lat), Number(position.lng)])
+        .getPopup()
+        ?.setContent(position.title)
     } else {
-      const marker = L.marker([position.lat, position.lng], { icon: icon })
+      const marker = L.marker([Number(position.lat), Number(position.lng)], { icon: icon })
         .addTo(map)
         .bindPopup(position.title)
         .openPopup()
