@@ -80,7 +80,8 @@ const userInfo: Ref<Driver> = ref({
   lastLongitude: 0,
   lastLatitude: 0,
   totalIncome: 0,
-  status: 1
+  status: 1,
+  totalIncomeDay: 0
 })
 const images: Ref<File | null> = ref(null)
 const password: Ref<string> = ref('')
