@@ -134,7 +134,8 @@
     "detail": "Detail",
     "disburse": "Disburse",
     "dailyEarnings": "Daily Earnings",
-    "pricePerKm": "Price Per Km."
+    "pricePerKm": "Price Per Km.",
+    "orderStaffName": "Order Staff Name"
   },
   "alert": {
     "successSave": "Data saved",
