@@ -100,6 +100,6 @@ tbody tr {
 }
 
 tbody tr td {
-  @apply px-6 py-2
+  @apply px-6 py-2 text-nowrap
 }
 </style>
