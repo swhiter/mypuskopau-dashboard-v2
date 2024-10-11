@@ -76,6 +76,7 @@ export interface TableItemTransaction {
   destinationAddress: string
   distance: number
   price: number
+  paymentMethod: string
   driverName: string
   licensePlate: string
   staffName: string

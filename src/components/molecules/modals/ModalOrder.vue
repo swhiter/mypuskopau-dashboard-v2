@@ -29,6 +29,8 @@
         <InputForm name="staffId" :label="t('names.username')" v-model="transaction.staff.userId" bordered
           is-separate-row semibold-label disabled />
       </template>
+      <InputForm name="paymentMethod" :label="t('label.paymentMethod')" v-model="transaction.orderDetail.paymentMethod"
+        bordered is-separate-row semibold-label disabled />
     </div>
   </ModalBaseWithHeader>
 </template>
