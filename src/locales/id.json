@@ -133,7 +133,8 @@
     "disburse": "Cairkan",
     "dailyEarnings": "Pendapatan Harian",
     "pricePerKm": "Harga Per Km.",
-    "orderStaffName": "Nama Staff Pemesan"
+    "orderStaffName": "Nama Staff Pemesan",
+    "paymentMethod": "Metode Pembayaran"
   },
   "alert": {
     "successSave": "Berhasil menyimpan data",

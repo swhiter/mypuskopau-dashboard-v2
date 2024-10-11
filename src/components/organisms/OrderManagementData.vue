@@ -75,6 +75,10 @@ const columns: Ref<TableField[]> = ref([
     field: (value) => `${currency.value}${formatNumber(value as number)}`
   },
   {
+    name: 'paymentMethod',
+    title: t('label.paymentMethod')
+  },
+  {
     name: 'customerName',
     title: t('label.customerName')
   },
@@ -84,7 +88,7 @@ const columns: Ref<TableField[]> = ref([
   },
   {
     name: 'distance',
-    title: t('label.distance')
+    title: t('label.distance') + ' (km)'
   },
   {
     name: 'driverName',
@@ -136,6 +140,7 @@ const getOrders = async (): Promise<void> => {
         orderNumber: item.transactionNumber,
         orderDate: item.createdAt,
         price: parseInt(item.orderDetail.price),
+        paymentMethod: item.orderDetail.paymentMethod,
         customerEmail: item.customerEmail,
         customerName: item.customerName,
         customerPhone: item.customerPhone,
@@ -192,6 +197,7 @@ const downloadCSV = async (): Promise<void> => {
         orderNumber: item.transactionNumber,
         orderDate: item.createdAt,
         price: parseInt(item.orderDetail.price),
+        paymentMethod: item.orderDetail.paymentMethod,
         customerEmail: item.customerEmail,
         customerName: item.customerName,
         customerPhone: item.customerPhone,
