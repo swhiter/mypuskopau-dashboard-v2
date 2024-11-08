@@ -195,7 +195,7 @@ const downloadCSV = async (): Promise<void> => {
       const res: TableItemTransaction = {
         actions: item.transactionNumber,
         orderNumber: item.transactionNumber,
-        orderDate: item.createdAt,
+        orderDate: formatDate(item.createdAt),
         price: parseInt(item.orderDetail.price),
         paymentMethod: item.orderDetail.paymentMethod,
         customerEmail: item.customerEmail,
