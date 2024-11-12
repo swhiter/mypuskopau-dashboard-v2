@@ -31,6 +31,12 @@
       </template>
       <InputForm name="paymentMethod" :label="t('label.paymentMethod')" v-model="transaction.orderDetail.paymentMethod"
         bordered is-separate-row semibold-label disabled />
+      <InputForm name="carName" :label="t('label.carName')" v-model="transaction.orderDetail.carName" bordered
+        is-separate-row semibold-label disabled />
+      <InputForm name="driverIncome" :label="t('label.driverIncome')" v-model="transaction.orderDetail.driverIncome"
+        bordered is-separate-row semibold-label disabled />
+      <InputForm name="managementIncome" :label="t('label.managementIncome')"
+        v-model="transaction.orderDetail.managementIncome" bordered is-separate-row semibold-label disabled />
     </div>
   </ModalBaseWithHeader>
 </template>
@@ -75,6 +81,9 @@ const transaction: Ref<Transaction> = ref({
     paymentMethod: '',
     vaAccount: '',
     midtransId: '',
+    carName: '',
+    driverIncome: '',
+    managementIncome: '',
     createdAt: '',
     updatedAt: ''
   },
