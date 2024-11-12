@@ -55,7 +55,11 @@
     "minimumPrice": "Minimum Price",
     "price": "Price",
     "intervalMin": "Distance Start",
-    "intervalMax": "Distance End"
+    "intervalMax": "Distance End",
+    "carName": "Car Name",
+    "driverPercentage": "Driver Percentage",
+    "managementPercentage": "Management Percentage",
+    "description": "Description"
   },
   "placeholder": {
     "inputUsername": "Input User ID",
@@ -90,7 +94,9 @@
     "pendingOrder": "Pending Order",
     "successOrder": "Successful Order",
     "failedOrder": "Failed Order",
-    "tariffByDistanceData": "Minimum Tariff By Distance Data"
+    "tariffByDistanceData": "Minimum Tariff By Distance Data",
+    "carManagement": "Car Management",
+    "carData": "Cars Data"
   },
   "errors": {
     "badRequest": "Something wrong with your request.",
@@ -136,15 +142,22 @@
     "dailyEarnings": "Daily Earnings",
     "pricePerKm": "Price Per Km.",
     "orderStaffName": "Order Staff Name",
-    "paymentMethod": "Payment Method"
+    "paymentMethod": "Payment Method",
+    "carName": "Car Name",
+    "driverIncome": "Driver Income",
+    "managementIncome": "Management Income",
+    "driverPercentage": "Driver Percentage",
+    "managementPercentage": "Management Percentage"
   },
   "alert": {
     "successSave": "Data saved",
-    "successLogout": "Logout success"
+    "successLogout": "Logout success",
+    "successDelete": "Data deleted"
   },
   "message": {
     "logout": "Are you sure you want to logout?",
     "save": "Are you sure you want to save?",
+    "delete": "Are you sure you want to delete this data?",
     "disburse": "Are you sure you want to disburse fund of driver named {name}?",
     "overlap": "Value must not overlap with other data",
     "overlap_min_distance": "Value must not overlap with data in tariff by distance",

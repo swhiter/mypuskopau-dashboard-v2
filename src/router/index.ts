@@ -8,6 +8,7 @@ import StaffManagementView from '@/views/main/StaffManagementView.vue'
 import TariffManagementView from '@/views/main/TariffManagementView.vue'
 import OrderManagementView from '@/views/main/OrderManagementView.vue'
 import ProfileView from '@/views/main/ProfileView.vue'
+import CarManagementView from '@/views/main/CarManagementView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,14 @@ const router = createRouter({
           path: '/tariff-management',
           name: 'tariffManagement',
           component: TariffManagementView,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: '/car-management',
+          name: 'carManagement',
+          component: CarManagementView,
           meta: {
             requiresAuth: true
           }

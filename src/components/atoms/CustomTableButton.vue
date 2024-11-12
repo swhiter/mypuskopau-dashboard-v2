@@ -18,6 +18,12 @@
         {{ t('label.disburse') }}
       </div>
     </button>
+    <button class="group" type="button" @click="emits('delete', value)" v-if="showDelete">
+      <span class="material-symbols-outlined">delete</span>
+      <div class="button-popup">
+        {{ t('label.delete') }}
+      </div>
+    </button>
   </div>
 </template>
 
@@ -31,18 +37,21 @@ interface Props {
   hideEdit?: boolean
   hideDetail?: boolean
   hideDisburse?: boolean
+  showDelete?: boolean
 }
 
 const emits = defineEmits<{
   edit: [edit: any]
   detail: [detail: any]
   disburse: [disburse: any]
+  delete: [deleteData: any]
 }>()
 
 const props = withDefaults(defineProps<Props>(), {
   hideEdit: false,
   hideDetail: false,
-  hideDisburse: false
+  hideDisburse: false,
+  showDelete: false
 })
 
 const edit = () => {
