@@ -55,6 +55,9 @@ interface OrderDetail {
   midtransId: string
   paymentMethod: string
   vaAccount: string
+  carName: string
+  driverIncome: string
+  managementIncome: string
   createdAt: string
   updatedAt: string
 }
@@ -80,6 +83,9 @@ export interface TableItemTransaction {
   driverName: string
   licensePlate: string
   staffName: string
+  carName: string
+  driverIncome: number | string
+  managementIncome: number | string
   actions: string
 }
 
@@ -95,5 +101,18 @@ export interface ExtendedTariffByDistance extends TariffByDistance {
     intervalMin: number
     intervalMax: number
   }
+  actions: number
+}
+
+export interface Car {
+  id: number
+  carName: string
+  driverPercentage: number
+  managementPercentage: number
+  photo: string
+  description: string
+}
+
+export interface ExtendedCar extends Car {
   actions: number
 }
