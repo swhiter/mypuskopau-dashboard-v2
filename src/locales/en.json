@@ -52,7 +52,10 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "id": "ID",
-    "minimumPrice": "Minimum Price"
+    "minimumPrice": "Minimum Price",
+    "price": "Price",
+    "intervalMin": "Distance Start",
+    "intervalMax": "Distance End"
   },
   "placeholder": {
     "inputUsername": "Input User ID",
@@ -86,7 +89,8 @@
     "totalOrder": "Total Order",
     "pendingOrder": "Pending Order",
     "successOrder": "Successful Order",
-    "failedOrder": "Failed Order"
+    "failedOrder": "Failed Order",
+    "tariffByDistanceData": "Minimum Tariff By Distance Data"
   },
   "errors": {
     "badRequest": "Something wrong with your request.",
@@ -129,7 +133,10 @@
     "lastWeek": "Minggu Lalu",
     "detail": "Detail",
     "disburse": "Disburse",
-    "dailyEarnings": "Daily Earnings"
+    "dailyEarnings": "Daily Earnings",
+    "pricePerKm": "Price Per Km.",
+    "orderStaffName": "Order Staff Name",
+    "paymentMethod": "Payment Method"
   },
   "alert": {
     "successSave": "Data saved",
@@ -138,7 +145,11 @@
   "message": {
     "logout": "Are you sure you want to logout?",
     "save": "Are you sure you want to save?",
-    "disburse": "Are you sure you want to disburse fund of driver named {name}?"
+    "disburse": "Are you sure you want to disburse fund of driver named {name}?",
+    "overlap": "Value must not overlap with other data",
+    "overlap_min_distance": "Value must not overlap with data in tariff by distance",
+    "min_value": "The {field} field must be {min} or more",
+    "max_value": "The {field} field must be {max} or less"
   },
   "driverStatus": {
     "online": "Online",

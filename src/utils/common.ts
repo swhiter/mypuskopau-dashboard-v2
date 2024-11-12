@@ -105,7 +105,7 @@ export const getCurrentUser = (): ExtJwtPayload => {
 }
 
 export const formatDate = (d: string): string => {
-  const date = DateTime.fromISO(d).toFormat('dd/MM/yyyy HH:mm:ss').toString()
+  const date = DateTime.fromISO(d, { setZone: true }).toFormat('dd/MM/yyyy HH:mm:ss').toString()
   return date
 }
 

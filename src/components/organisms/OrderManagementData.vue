@@ -75,6 +75,10 @@ const columns: Ref<TableField[]> = ref([
     field: (value) => `${currency.value}${formatNumber(value as number)}`
   },
   {
+    name: 'paymentMethod',
+    title: t('label.paymentMethod')
+  },
+  {
     name: 'customerName',
     title: t('label.customerName')
   },
@@ -84,7 +88,7 @@ const columns: Ref<TableField[]> = ref([
   },
   {
     name: 'distance',
-    title: t('label.distance')
+    title: t('label.distance') + ' (km)'
   },
   {
     name: 'driverName',
@@ -93,6 +97,10 @@ const columns: Ref<TableField[]> = ref([
   {
     name: 'licensePlate',
     title: t('label.licensePlate')
+  },
+  {
+    name: 'staffName',
+    title: t('label.orderStaffName')
   }
 ])
 
@@ -132,13 +140,15 @@ const getOrders = async (): Promise<void> => {
         orderNumber: item.transactionNumber,
         orderDate: item.createdAt,
         price: parseInt(item.orderDetail.price),
+        paymentMethod: item.orderDetail.paymentMethod,
         customerEmail: item.customerEmail,
         customerName: item.customerName,
         customerPhone: item.customerPhone,
         destinationAddress: item.orderDetail.destinationAddress,
         distance: parseInt(item.orderDetail.distance),
         driverName: item.driver ? item.driver.name : '',
-        licensePlate: item.driver ? item.driver.licensePlate : ''
+        licensePlate: item.driver ? item.driver.licensePlate : '',
+        staffName: item.staff ? item.staff.name : ''
       }
       rows.value.push(res)
     }
@@ -185,15 +195,17 @@ const downloadCSV = async (): Promise<void> => {
       const res: TableItemTransaction = {
         actions: item.transactionNumber,
         orderNumber: item.transactionNumber,
-        orderDate: item.createdAt,
+        orderDate: formatDate(item.createdAt),
         price: parseInt(item.orderDetail.price),
+        paymentMethod: item.orderDetail.paymentMethod,
         customerEmail: item.customerEmail,
         customerName: item.customerName,
         customerPhone: item.customerPhone,
         destinationAddress: item.orderDetail.destinationAddress,
         distance: parseInt(item.orderDetail.distance),
         driverName: item.driver ? item.driver.name : '',
-        licensePlate: item.driver ? item.driver.licensePlate : ''
+        licensePlate: item.driver ? item.driver.licensePlate : '',
+        staffName: item.staff ? item.staff.name : ''
       }
       resRows.push(res)
     }

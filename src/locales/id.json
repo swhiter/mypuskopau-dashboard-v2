@@ -50,7 +50,10 @@
     "firstName": "Nama Depan",
     "lastName": "Nama Belakang",
     "id": "ID",
-    "minimumPrice": "Tarif Minimum"
+    "minimumPrice": "Tarif Minimum",
+    "price": "Harga",
+    "intervalMin": "Jarak Awal",
+    "intervalMax": "Jarak Akhir"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",
@@ -84,7 +87,8 @@
     "totalOrder": "Total Pesanan",
     "pendingOrder": "Transaksi Tertunda",
     "successOrder": "Transaksi Sukses",
-    "failedOrder": "Transaksi Gagal"
+    "failedOrder": "Transaksi Gagal",
+    "tariffByDistanceData": "Data Tarif Minimum Berdasarkan Jarak"
   },
   "errors": {
     "badRequest": "Ada kesalahan dalam request Anda.",
@@ -127,7 +131,10 @@
     "lastWeek": "Minggu Lalu",
     "detail": "Detail",
     "disburse": "Cairkan",
-    "dailyEarnings": "Pendapatan Harian"
+    "dailyEarnings": "Pendapatan Harian",
+    "pricePerKm": "Harga Per Km.",
+    "orderStaffName": "Nama Staff Pemesan",
+    "paymentMethod": "Metode Pembayaran"
   },
   "alert": {
     "successSave": "Berhasil menyimpan data",
@@ -136,7 +143,11 @@
   "message": {
     "logout": "Yakin ingin keluar?",
     "save": "Apakah Anda yakin akan menyimpan perubahan ini?",
-    "disburse": "Apakah Anda yakin akan mencairkan dana pengemudi dengan nama {name}?"
+    "disburse": "Apakah Anda yakin akan mencairkan dana pengemudi dengan nama {name}?",
+    "overlap": "Nilai tidak boleh beririsan dengan data lain",
+    "overlap_min_distance": "Nilai tidak boleh beririsan dengan data tarif minimum berdasarkan jarak",
+    "min_value": "Nilai {field} tidak boleh kurang dari {min}",
+    "max_value": "Nilai {field} tidak boleh lebih dari {max}"
   },
   "driverStatus": {
     "online": "Online",

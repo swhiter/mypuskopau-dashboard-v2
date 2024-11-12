@@ -21,6 +21,16 @@
         <InputForm name="licensePlate" :label="t('label.licensePlate')" v-model="transaction.driver.licensePlate"
           bordered is-separate-row semibold-label disabled />
       </template>
+      <template v-if="transaction.staff">
+        <InputForm name="staffName" :label="t('label.orderStaffName')" v-model="transaction.staff.name" bordered
+          is-separate-row semibold-label disabled />
+        <InputForm name="staffNik" :label="t('names.idCardNumber')" v-model="transaction.staff.nik" bordered
+          is-separate-row semibold-label disabled />
+        <InputForm name="staffId" :label="t('names.username')" v-model="transaction.staff.userId" bordered
+          is-separate-row semibold-label disabled />
+      </template>
+      <InputForm name="paymentMethod" :label="t('label.paymentMethod')" v-model="transaction.orderDetail.paymentMethod"
+        bordered is-separate-row semibold-label disabled />
     </div>
   </ModalBaseWithHeader>
 </template>
@@ -79,7 +89,8 @@ const transaction: Ref<Transaction> = ref({
     lastLongitude: '',
     lastLatitude: '',
     status: 3,
-    totalIncome: ''
+    totalIncome: '',
+    totalIncomeDay: ''
   },
   staff: {
     id: 1,

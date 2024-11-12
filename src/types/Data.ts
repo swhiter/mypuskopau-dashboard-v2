@@ -76,7 +76,24 @@ export interface TableItemTransaction {
   destinationAddress: string
   distance: number
   price: number
+  paymentMethod: string
   driverName: string
   licensePlate: string
+  staffName: string
   actions: string
+}
+
+export interface TariffByDistance {
+  id: number
+  intervalMin: number
+  intervalMax: number
+  price: number
+}
+
+export interface ExtendedTariffByDistance extends TariffByDistance {
+  distance: {
+    intervalMin: number
+    intervalMax: number
+  }
+  actions: number
 }
