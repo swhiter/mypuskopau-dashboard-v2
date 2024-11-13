@@ -99,6 +99,20 @@ const columns: Ref<TableField[]> = ref([
     title: t('label.licensePlate')
   },
   {
+    name: 'carName',
+    title: t('label.carName')
+  },
+  {
+    name: 'driverIncome',
+    title: t('label.driverIncome'),
+    field: (value) => value ? `${currency.value}${formatNumber(value as number)}` : ''
+  },
+  {
+    name: 'managementIncome',
+    title: t('label.managementIncome'),
+    field: (value) => value ? `${currency.value}${formatNumber(value as number)}` : ''
+  },
+  {
     name: 'staffName',
     title: t('label.orderStaffName')
   }
@@ -148,7 +162,10 @@ const getOrders = async (): Promise<void> => {
         distance: parseInt(item.orderDetail.distance),
         driverName: item.driver ? item.driver.name : '',
         licensePlate: item.driver ? item.driver.licensePlate : '',
-        staffName: item.staff ? item.staff.name : ''
+        staffName: item.staff ? item.staff.name : '',
+        carName: item.orderDetail.carName ?? '',
+        driverIncome: item.orderDetail.driverIncome ? parseInt(item.orderDetail.driverIncome) : '',
+        managementIncome: item.orderDetail.managementIncome ? parseInt(item.orderDetail.managementIncome) : ''
       }
       rows.value.push(res)
     }
@@ -205,7 +222,10 @@ const downloadCSV = async (): Promise<void> => {
         distance: parseInt(item.orderDetail.distance),
         driverName: item.driver ? item.driver.name : '',
         licensePlate: item.driver ? item.driver.licensePlate : '',
-        staffName: item.staff ? item.staff.name : ''
+        staffName: item.staff ? item.staff.name : '',
+        carName: item.orderDetail.carName ?? '',
+        driverIncome: item.orderDetail.driverIncome ? parseInt(item.orderDetail.driverIncome) : '',
+        managementIncome: item.orderDetail.managementIncome ? parseInt(item.orderDetail.managementIncome) : ''
       }
       resRows.push(res)
     }

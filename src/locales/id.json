@@ -53,7 +53,11 @@
     "minimumPrice": "Tarif Minimum",
     "price": "Harga",
     "intervalMin": "Jarak Awal",
-    "intervalMax": "Jarak Akhir"
+    "intervalMax": "Jarak Akhir",
+    "carName": "Nama Armada",
+    "driverPercentage": "Persentase Pengemudi",
+    "managementPercentage": "Persentase Manajemen",
+    "description": "Deskripsi"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",
@@ -88,7 +92,9 @@
     "pendingOrder": "Transaksi Tertunda",
     "successOrder": "Transaksi Sukses",
     "failedOrder": "Transaksi Gagal",
-    "tariffByDistanceData": "Data Tarif Minimum Berdasarkan Jarak"
+    "tariffByDistanceData": "Data Tarif Minimum Berdasarkan Jarak",
+    "carManagement": "Manajemen Armada",
+    "carData": "Data Armada"
   },
   "errors": {
     "badRequest": "Ada kesalahan dalam request Anda.",
@@ -134,15 +140,22 @@
     "dailyEarnings": "Pendapatan Harian",
     "pricePerKm": "Harga Per Km.",
     "orderStaffName": "Nama Staff Pemesan",
-    "paymentMethod": "Metode Pembayaran"
+    "paymentMethod": "Metode Pembayaran",
+    "carName": "Nama Armada",
+    "driverIncome": "Penghasilan Pengemudi",
+    "managementIncome": "Penghasilan Manajemen",
+    "driverPercentage": "Persentase Pengemudi",
+    "managementPercentage": "Persentase Manajemen"
   },
   "alert": {
     "successSave": "Berhasil menyimpan data",
-    "successLogout": "Berhasil keluar"
+    "successLogout": "Berhasil keluar",
+    "successDelete": "Berhasil menghapus data"
   },
   "message": {
     "logout": "Yakin ingin keluar?",
     "save": "Apakah Anda yakin akan menyimpan perubahan ini?",
+    "delete": "Apakah Anda yakin akan menghapus data ini? Tindakan ini tidak dapat diurungkan",
     "disburse": "Apakah Anda yakin akan mencairkan dana pengemudi dengan nama {name}?",
     "overlap": "Nilai tidak boleh beririsan dengan data lain",
     "overlap_min_distance": "Nilai tidak boleh beririsan dengan data tarif minimum berdasarkan jarak",
