@@ -116,3 +116,23 @@ export interface Car {
 export interface ExtendedCar extends Car {
   actions: number
 }
+
+export interface Passenger {
+  id: number
+  maxPassenger: string
+  price: number
+}
+
+export interface ExtendedPassenger extends Discount {
+  actions: number
+}
+
+export interface Discount {
+  id: number
+  discount: number
+  status: number | string
+}
+
+export interface ExtendedDiscount extends Discount {
+  actions: number
+}

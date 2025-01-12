@@ -59,6 +59,18 @@ const menus: Ref<MenuItem[]> = ref([
     isMdi: true
   },
   {
+    title: 'Manajemen Penumpang',
+    href: '/passenger-management',
+    icon: 'people',
+    isMdi: true
+  },
+  {
+    title: 'Manajemen Diskon',
+    href: '/discount-management',
+    icon: 'money',
+    isMdi: true
+  },
+  {
     title: 'Pelacakan Pengemudi',
     href: '/driver-tracking',
     icon: '/icons/pelacakan-pengemudi.svg',

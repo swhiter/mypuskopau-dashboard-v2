@@ -57,7 +57,11 @@
     "carName": "Nama Armada",
     "driverPercentage": "Persentase Pengemudi",
     "managementPercentage": "Persentase Manajemen",
-    "description": "Deskripsi"
+    "description": "Deskripsi",
+    "maxPassenger": "Maksimal Penumpang",
+    "charging": "Tambahan Biaya",
+    "discount": "Diskon",
+    "statusDiscount": "Status"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",
@@ -94,7 +98,9 @@
     "failedOrder": "Transaksi Gagal",
     "tariffByDistanceData": "Data Tarif Minimum Berdasarkan Jarak",
     "carManagement": "Manajemen Armada",
-    "carData": "Data Armada"
+    "carData": "Data Armada",
+    "passengerManagement": "Data Maksimal Penumpang",
+    "discountManagement": "Data Diskon"
   },
   "errors": {
     "badRequest": "Ada kesalahan dalam request Anda.",
@@ -145,7 +151,13 @@
     "driverIncome": "Penghasilan Pengemudi",
     "managementIncome": "Penghasilan Manajemen",
     "driverPercentage": "Persentase Pengemudi",
-    "managementPercentage": "Persentase Manajemen"
+    "managementPercentage": "Persentase Manajemen",
+    "maxPassenger": "Maksimal Penumpang",
+    "pricePassenger": "Tambahan biaya",
+    "active": "Aktif",
+    "inactive": "Tidak Aktif",
+    "discount": "Diskon",
+    "statusDiscount": "Status"
   },
   "alert": {
     "successSave": "Berhasil menyimpan data",

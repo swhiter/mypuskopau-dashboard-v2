@@ -9,6 +9,8 @@ import TariffManagementView from '@/views/main/TariffManagementView.vue'
 import OrderManagementView from '@/views/main/OrderManagementView.vue'
 import ProfileView from '@/views/main/ProfileView.vue'
 import CarManagementView from '@/views/main/CarManagementView.vue'
+import PassengerManagementView from '@/views/main/PassengerManagementView.vue'
+import DiscountManagementView from '@/views/main/DiscountManagementView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -73,6 +75,22 @@ const router = createRouter({
           path: '/driver-tracking',
           name: 'driverTracking',
           component: DriverTrackingView,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: '/passenger-management',
+          name: 'passengerManagement',
+          component: PassengerManagementView,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: '/discount-management',
+          name: 'discountManagement',
+          component: DiscountManagementView,
           meta: {
             requiresAuth: true
           }
