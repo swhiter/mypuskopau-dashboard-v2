@@ -61,7 +61,8 @@
     "maxPassenger": "Maksimal Penumpang",
     "charging": "Tambahan Biaya",
     "discount": "Diskon",
-    "statusDiscount": "Status"
+    "statusDiscount": "Status",
+    "searchDriver": "Cari Nama Driver"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",

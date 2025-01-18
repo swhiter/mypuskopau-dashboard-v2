@@ -7,9 +7,15 @@
         <DateForm name="endDate" :label="t('names.endDate')" v-model="endDate" bordered is-separate-row />
         <MainButton :label="t('label.search')" outline @click="search" />
       </div>
+      
+      <div class="flex space-x-2 items-end">
+        <InputForm name="searchDriver" :label="`${$t('names.searchDriver')}`" v-model="driverNameFilter"
+      is-separate-row bordered type="text" />
+        
       <MainButton :label="t('label.downloadReport')" white outline @click="downloadCSV" :loading="downloadLoading" />
     </div>
-    <CustomTable :columns="columns" :rows="rows">
+    </div>
+    <CustomTable :columns="columns" :rows="filteredRows">
       <template #cell(actions)="{ value }">
         <CustomTableButton :value="value" @detail="detail" hide-edit hide-disburse />
       </template>
@@ -25,8 +31,9 @@
 
 <script setup lang="ts">
 import type { PaginatedResponse, PaginationRequest, TableField } from '@/types/Main';
-import { onMounted, ref, type Ref } from 'vue';
+import { onMounted, ref, computed, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import InputForm from '@/components/atoms/InputForm.vue';
 import CustomTable from '../atoms/CustomTable.vue';
 import CustomTableButton from '../atoms/CustomTableButton.vue';
 import orderService from '@/services/order/order.api';
@@ -46,6 +53,7 @@ const downloadLoading: Ref<boolean> = ref(false)
 const startDate: Ref<string | null> = ref(null)
 const endDate: Ref<string | null> = ref(null)
 const currency: Ref<string> = ref('Rp')
+const driverNameFilter: Ref<string> = ref('');
 
 const pagination: Ref<PaginationRequest> = ref({
   page: 1,
@@ -119,6 +127,15 @@ const columns: Ref<TableField[]> = ref([
 ])
 
 const rows: Ref<TableItemTransaction[]> = ref([])
+
+const filteredRows = computed(() => {
+  if (!driverNameFilter.value) {
+    return rows.value; // Jika tidak ada filter, tampilkan semua data
+  }
+  return rows.value.filter(row =>
+    row.driverName.toLowerCase().includes(driverNameFilter.value.toLowerCase())
+  );
+});
 
 const detail = async (trxId: string): Promise<void> => {
   modal.openModal({
