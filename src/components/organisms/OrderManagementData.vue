@@ -57,7 +57,7 @@ const driverNameFilter: Ref<string> = ref('');
 
 const pagination: Ref<PaginationRequest> = ref({
   page: 1,
-  limit: 10,
+  limit: 100,
   totalPages: 0,
   totalRows: 0,
   search: ''
@@ -219,80 +219,91 @@ const downloadCSV = async (): Promise<void> => {
   }
   downloadLoading.value = true
   try {
-    const response: PaginatedResponse<Transaction> = await orderService.getOrders(payload)
-    let header = ''
-    let headerKey = ''
-    let csvRows = ''
-    const resRows = []
+    const response: PaginatedResponse<Transaction> = await orderService.getOrders(payload);
+    let header = '';
+    let headerKey = '';
+    let csvRows = '';
+    const resRows = [];
+    
     // Rows
     for (let item of response.data) {
-      const res: TableItemTransaction = {
-        actions: item.transactionNumber,
-        orderNumber: item.transactionNumber,
-        orderDate: formatDate(item.createdAt),
-        price: parseInt(item.orderDetail.price),
-        paymentMethod: item.orderDetail.paymentMethod,
-        customerEmail: item.customerEmail,
-        customerName: item.customerName,
-        customerPhone: item.customerPhone,
-        destinationAddress: item.orderDetail.destinationAddress,
-        distance: parseInt(item.orderDetail.distance),
-        driverName: item.driver ? item.driver.name : '',
-        licensePlate: item.driver ? item.driver.licensePlate : '',
-        staffName: item.staff ? item.staff.name : '',
-        carName: item.orderDetail.carName ?? '',
-        driverIncome: item.orderDetail.driverIncome ? parseInt(item.orderDetail.driverIncome) : '',
-        managementIncome: item.orderDetail.managementIncome ? parseInt(item.orderDetail.managementIncome) : ''
-      }
-      resRows.push(res)
+        const res: TableItemTransaction = {
+            actions: item.transactionNumber,
+            orderNumber: item.transactionNumber,
+            orderDate: formatDate(item.createdAt),
+            price: parseInt(item.orderDetail.price),
+            paymentMethod: item.orderDetail.paymentMethod,
+            customerEmail: item.customerEmail,
+            customerName: item.customerName,
+            customerPhone: item.customerPhone,
+            destinationAddress: item.orderDetail.destinationAddress,
+            distance: parseInt(item.orderDetail.distance),
+            driverName: item.driver ? item.driver.name : '',
+            licensePlate: item.driver ? item.driver.licensePlate : '',
+            staffName: item.staff ? item.staff.name : '',
+            carName: item.orderDetail.carName ?? '',
+            driverIncome: item.orderDetail.driverIncome ? parseInt(item.orderDetail.driverIncome) : '',
+            managementIncome: item.orderDetail.managementIncome ? parseInt(item.orderDetail.managementIncome) : ''
+        };
+        resRows.push(res);
     }
+
     // Header
     for (const [index, item] of columns.value.entries()) {
-      if (item.name != 'actions') {
-        if (index + 1 === columns.value.length) {
-          header += item.title
-          headerKey += item.name
-        } else {
-          header += item.title + ','
-          headerKey += item.name + ','
+        if (item.name != 'actions') {
+            if (index + 1 === columns.value.length) {
+                header += item.title;
+                headerKey += item.name;
+            } else {
+                header += item.title + ';'; // Gunakan pembatas `;`
+                headerKey += item.name + ';'; // Gunakan pembatas `;`
+            }
         }
-      }
     }
+
+    // Data Rows
     for (const [index, item] of resRows.entries()) {
-      const head = headerKey.split(',')
-      let row = ''
-      for (const [keyIndex, key] of head.entries()) {
-        if (key != 'actions') {
-          const val = typeof item[key as keyof TableItemTransaction] == 'string' && (item[key as keyof TableItemTransaction] as string).includes(',') ? `"${item[key as keyof TableItemTransaction]}"` : item[key as keyof TableItemTransaction]
-          if (keyIndex + 1 === head.length) {
-            row += val
-          } else {
-            row += val + ','
-          }
+        const head = headerKey.split(';');
+        let row = '';
+        for (const [keyIndex, key] of head.entries()) {
+            if (key != 'actions') {
+                const rawValue = item[key as keyof TableItemTransaction];
+                // Escape nilai yang mengandung pembatas `;` atau tanda kutip
+                const val = typeof rawValue === 'string' && (rawValue.includes(';') || rawValue.includes('"'))
+                    ? `"${rawValue.replace(/"/g, '""')}"`
+                    : rawValue;
+
+                if (keyIndex + 1 === head.length) {
+                    row += val;
+                } else {
+                    row += val + ';'; // Gunakan pembatas `;`
+                }
+            }
         }
-      }
-      if (index + 1 != resRows.length) {
-        row += '\n'
-      }
-      csvRows += row
+        if (index + 1 != resRows.length) {
+            row += '\n';
+        }
+        csvRows += row;
     }
-    const csvContent = `${header}\n${csvRows}`
+
+    const csvContent = `${header}\n${csvRows}`;
+    
     // Generate CSV
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    const start = startDate.value?.split('-').join('')
-    const end = endDate.value?.split('-').join('')
-    link.setAttribute('download', `order-${start}-${end}.csv`)
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  } catch (error) {
-    handleErrorResponse(error)
-  } finally {
-    downloadLoading.value = false
-  }
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    const start = startDate.value?.split('-').join('');
+    const end = endDate.value?.split('-').join('');
+    link.setAttribute('download', `order-${start}-${end}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+} catch (error) {
+    handleErrorResponse(error);
+} finally {
+    downloadLoading.value = false;
+}
 }
 
 onMounted(() => {
