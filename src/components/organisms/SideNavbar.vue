@@ -29,6 +29,18 @@ const menus: Ref<MenuItem[]> = ref([
     isMdi: true
   },
   {
+    title: 'Buat Struk Manual',
+    href: '/orders/create-manual',
+    icon: 'add_shopping_cart',
+    isMdi: true
+  },
+  {
+    title: 'Laporan Pendapatan',
+    href: '/reports/income',
+    icon: 'bar_chart',
+    isMdi: true
+  },
+  {
     title: 'Manajemen Pengemudi',
     href: '/driver-management',
     icon: '/icons/manajemen-pengemudi.svg',
@@ -49,6 +61,12 @@ const menus: Ref<MenuItem[]> = ref([
   {
     title: 'Manajemen Tarif',
     href: '/tariff-management',
+    icon: '/icons/manajemen-tarif.svg',
+    isMdi: false
+  },
+  {
+    title: 'Manajemen Tarif Argo',
+    href: '/Argo-tariff-management',
     icon: '/icons/manajemen-tarif.svg',
     isMdi: false
   },

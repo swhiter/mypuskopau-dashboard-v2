@@ -21,3 +21,9 @@ export interface TariffSetting {
   price: number
   minimumPrice: number
 }
+export interface ArgoTariffSetting {
+  distance: number        // <--- jarak minimum argo
+  price: number
+  minimumPrice: number
+  pricePerMenit: number
+}

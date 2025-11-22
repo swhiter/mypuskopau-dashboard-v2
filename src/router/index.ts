@@ -6,6 +6,7 @@ import DriverManagementView from '@/views/main/DriverManagementView.vue'
 import DriverTrackingView from '@/views/main/DriverTrackingView.vue'
 import StaffManagementView from '@/views/main/StaffManagementView.vue'
 import TariffManagementView from '@/views/main/TariffManagementView.vue'
+import ArgoTariffView from '@/views/main/ArgoTariffView.vue'
 import OrderManagementView from '@/views/main/OrderManagementView.vue'
 import ProfileView from '@/views/main/ProfileView.vue'
 import CarManagementView from '@/views/main/CarManagementView.vue'
@@ -64,6 +65,14 @@ const router = createRouter({
           }
         },
         {
+          path: '/argo-tariff-management',
+          name: 'ArgoTariffManagement',
+          component: ArgoTariffView,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
           path: '/car-management',
           name: 'carManagement',
           component: CarManagementView,
@@ -102,7 +111,23 @@ const router = createRouter({
           meta: {
             requiresAuth: true
           }
+        }, {
+          path: '/orders/create-manual',
+          name: 'AdminCreateOrder',
+          component: () => import('@/views/main/AdminCreateOrderView.vue'),
+          meta: {
+            requiresAuth: true,
+            // tambahkan meta role kalau perlu
+          }
+        }, {
+          path: '/reports/income',
+          name: 'IncomeReport',
+          component: () => import('@/views/reports/IncomeReportView.vue'),
+          meta: {
+            requiresAuth: true
+          }
         }
+
       ]
     },
     {

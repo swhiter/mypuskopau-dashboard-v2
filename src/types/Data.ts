@@ -94,6 +94,7 @@ export interface TariffByDistance {
   intervalMin: number
   intervalMax: number
   price: number
+  priceMulti: number
 }
 
 export interface ExtendedTariffByDistance extends TariffByDistance {
@@ -135,4 +136,48 @@ export interface Discount {
 
 export interface ExtendedDiscount extends Discount {
   actions: number
+}
+
+// Minimum Argo
+export interface ArgoTariff {
+  id: number
+  distance: number        // <--- jarak minimum argo
+  price: number
+  minimumPrice: number
+  pricePerMenit: number
+}
+
+// Rentang Argo (mirip TariffByDistance + priceMulti)
+export interface ArgoTariffByDistance {
+  id: number
+  intervalMin: number
+  intervalMax: number
+  price: number
+}
+
+export interface ExtendedArgoTariffByDistance extends ArgoTariffByDistance {
+  distance: { intervalMin: number; intervalMax: number }
+  actions: number
+}
+
+export interface CreateOrderPayload {
+  customerEmail: string
+  customerName: string
+  customerPhone: string
+  driverID: number | string
+  carType: 'puskopau' | 'investor' | string
+  orderDetail: {
+    destinationAddress: string
+    distance: number
+    latitudeDestination: string | number
+    latitudeStart: string | number
+    longitudeDestination: string | number
+    longitudeStart: string | number
+    paymentMethod: string
+    vaAccount: string
+    price: number
+    chargePassenger: number
+    discount: number
+  }
+  staffId: number | string
 }

@@ -12,6 +12,8 @@
       </div>
       <InputForm name="price" v-model="price" :label="t('names.price')" is-separate-row bordered prefix="Rp"
         :rules="{ 'required': true, 'numeric': true }" type="number" />
+      <InputForm v-if="props.tableType !== 'argo'" name="priceMulti" v-model="priceMulti" :label="t('names.priceMulti')"
+        is-separate-row bordered prefix="Rp" :rules="{ 'required': true, 'numeric': true }" type="number" />
     </Form>
   </ModalBaseWithHeader>
 </template>
@@ -35,18 +37,21 @@ interface Props {
   id?: number
   readonly?: boolean
   isAdd?: boolean
-  data: TariffByDistance[]
+  data: any[]
+  tableType?: 'airport' | 'nonAirport' | 'argo'
 }
 
 const props = withDefaults(defineProps<Props>(), {
   readonly: false,
-  isAdd: false
+  isAdd: false,
+  tableType: 'airport'
 })
 
 const selectedData: Ref<TariffByDistance | null | undefined> = ref(null)
 const intervalMin: Ref<number> = ref(0)
 const intervalMax: Ref<number> = ref(0)
 const price: Ref<number> = ref(0)
+const priceMulti: Ref<number> = ref(0)
 
 defineRule('bigger', (value: number) => {
   if (value < intervalMin.value) {
@@ -95,31 +100,56 @@ const submitted: Ref<boolean> = ref(false)
 const read = (): void => {
   if (props.id) {
     modalLoading.value = true
-    selectedData.value = props.data.find((item) => {
-      return item.id === props.id
-    })
+    selectedData.value = props.data.find((item) => item.id === props.id)
     if (selectedData.value) {
       intervalMin.value = selectedData.value.intervalMin
       intervalMax.value = selectedData.value.intervalMax
       price.value = selectedData.value.price
+
+      // HANYA JIKA BUKAN ARGO
+      if (props.tableType !== 'argo') {
+        priceMulti.value = selectedData.value.priceMulti ?? 0
+      }
     }
     modalLoading.value = false
   }
 }
 
 const submit = async (): Promise<void> => {
-  const payload = {
+  const basePayload = {
     intervalMin: parseFloat(intervalMin.value.toString()),
     intervalMax: parseFloat(intervalMax.value.toString()),
     price: parseFloat(price.value.toString())
   }
+
+  // untuk bandara & non bandara: ada priceMulti
+  const payloadWithMulti = {
+    ...basePayload,
+    priceMulti: parseFloat(priceMulti.value.toString())
+  }
+
   buttonLoading.value = true
   try {
     if (props.id) {
-      await tariffService.updateTariffByRange(payload, props.id)
+      // UPDATE
+      if (props.tableType === 'airport') {
+        await tariffService.updateTariffByRange(payloadWithMulti, props.id)
+      } else if (props.tableType === 'nonAirport') {
+        await tariffService.updateTariffByRangeNon(payloadWithMulti, props.id)
+      } else if (props.tableType === 'argo') {
+        await tariffService.updateArgoTariffByRange(basePayload, props.id)
+      }
     } else {
-      await tariffService.createTariffByRange(payload)
+      // INSERT
+      if (props.tableType === 'airport') {
+        await tariffService.createTariffByRange(payloadWithMulti)
+      } else if (props.tableType === 'nonAirport') {
+        await tariffService.createTariffByRangeNon(payloadWithMulti)
+      } else if (props.tableType === 'argo') {
+        await tariffService.createArgoTariffByRange(basePayload)
+      }
     }
+
     toast.success({ text: t('alert.successSave') })
     submitted.value = true
   } catch (error) {

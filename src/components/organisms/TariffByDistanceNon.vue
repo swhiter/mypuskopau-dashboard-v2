@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-4">
-    <h5 class="title">{{ t('title.tariffByDistanceAirport') }}</h5>
+    <h5 class="title">{{ t('title.tariffByDistanceNonAirport') }}</h5>
     <div class="flex w-full items-center justify-end">
       <MainButton :label="t('label.add')" @click="add" />
     </div>
@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import CustomTable from '../atoms/CustomTable.vue';
-import { inject, onMounted, ref, type Ref } from 'vue';
+import { onMounted, ref, type Ref } from 'vue';
 import type { PaginationRequest, TableField } from '@/types/Main';
 import MainButton from '../atoms/MainButton.vue';
 import { useModalStore } from '@/stores/modal';
@@ -30,7 +30,6 @@ import type { ExtendedTariffByDistance, TariffByDistance } from '@/types/Data';
 import { handleErrorResponse } from '@/utils/common';
 import tariffService from '@/services/drivers/tariff.api';
 import CustomTableButton from '../atoms/CustomTableButton.vue';
-import { tariffState } from '@/injects/keys';
 
 const { t } = useI18n()
 const modal = useModalStore()
@@ -66,15 +65,11 @@ const columns: Ref<TableField<Partial<TariffByDistance>>[]> = ref([
 const rows: Ref<ExtendedTariffByDistance[]> = ref([])
 const data: Ref<TariffByDistance[]> = ref([])
 
-// ini tetap, jadi minimum distance masih divalidasi terhadap rentang bandara
-const parentTariffByDistance = inject(tariffState)
-
 const getTariffs = async () => {
   rows.value = []
   try {
-    const response = await tariffService.getTariffByRange(pagination.value) // BANDARA
+    const response = await tariffService.getTariffByRangeNon(pagination.value) // NON BANDARA
     data.value = response.data
-    parentTariffByDistance!.updateData(response.data)
     for (const item of response.data) {
       const res: ExtendedTariffByDistance = Object.assign(item, {
         distance: { intervalMin: item.intervalMin, intervalMax: item.intervalMax },
@@ -95,7 +90,7 @@ const add = () => {
       title: t('label.add'),
       isAdd: true,
       data: data.value,
-      tableType: 'airport'       // <--- penting
+      tableType: 'nonAirport'
     }
   })
   modal.onOk(() => {
@@ -110,7 +105,7 @@ const edit = (id: number) => {
       title: t('label.update'),
       id,
       data: data.value,
-      tableType: 'airport'       // <--- penting
+      tableType: 'nonAirport'
     }
   })
   modal.onOk(() => {
