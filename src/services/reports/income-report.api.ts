@@ -103,6 +103,7 @@ export interface PendapatanDriverRow {
   carName: string
   paymentMethod: string
   PotCuciAPK: number
+  chargePassenger: number
 }
 
 export interface IncomeFilterRequest extends PaginationRequest {

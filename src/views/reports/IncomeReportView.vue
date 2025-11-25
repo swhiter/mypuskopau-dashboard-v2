@@ -185,20 +185,29 @@
                     <template #cell(tarif)="{ value }">
                         {{ formatCurrencyNumber(value) }}
                     </template>
+
+                    <template #cell(chargePassenger)="{ value }">
+                        {{ formatCurrencyNumber(value) }}
+                    </template>
+
+                    <template #cell(surcharge)="{ value }">
+                        {{ formatCurrencyNumber(value) }}
+                    </template>
+
                     <template #cell(pendapatanDriver)="{ value }">
                         {{ formatCurrencyNumber(value) }}
                     </template>
+
                     <template #cell(pendapatanManagement)="{ value }">
                         {{ formatCurrencyNumber(value) }}
                     </template>
+
                     <template #cell(potonganMidtrans)="{ value }">
                         {{ formatCurrencyNumber(value) }}
                     </template>
-                    <template #cell(potCuciAPK)="{ value }">
-                        {{ formatCurrencyNumber(value) }}
-                    </template>
+
                 </CustomTable>
-                
+
             </PageCard>
         </div>
     </PageContainer>
@@ -461,6 +470,7 @@ type FlatDriverRow = {
     carName: string
     paymentMethod: string
     tarif: number
+    chargePassenger: number
     pendapatanDriver: number
     pendapatanManagement: number   // <-- dari komisi60
     potonganMidtrans: number
@@ -473,21 +483,29 @@ type FlatDriverRow = {
 // driverRows: data flat + filter nama driver & car
 const driverRows = computed<FlatDriverRow[]>(() => {
     return driverRawData.value
-        .map<FlatDriverRow>((item) => ({
-            orderId: item.orderId,
-            tanggal: formatDateTime(item.tanggal),
-            driverName: item.driverName || '',
-            carName: item.carName || '',
-            paymentMethod: item.paymentMethod || '',
-            tarif: item.tarif ?? 0,
-            pendapatanDriver: item.pendapatanDriver ?? 0,
-            pendapatanManagement: item.komisi60 ?? 0,  // <-- DI SINI, AMBIL DARI komisi60
-            potonganMidtrans: item.potonganMidtrans ?? 0,
-            surcharge: item.surcharge ?? 0,
-            komisi40: item.komisi40 ?? 0,
-            komisi60: item.komisi60 ?? 0,
-            potCuciAPK: item.PotCuciAPK ?? 0
-        }))
+        .map<FlatDriverRow>((item) => {
+            const chargePassenger = item.chargePassenger ?? 0
+            const surcharge = item.surcharge ?? 0
+            const pendapatanDriverBase = item.pendapatanDriver ?? 0
+
+            return {
+                orderId: item.orderId,
+                tanggal: formatDateTime(item.tanggal),
+                driverName: item.driverName || '',
+                carName: item.carName || '',
+                paymentMethod: item.paymentMethod || '',
+                tarif: item.tarif ?? 0,
+                chargePassenger,                        // <--- SIMPAN
+                surcharge,                              // <--- SIMPAN
+                pendapatanDriver:
+                    pendapatanDriverBase + chargePassenger + surcharge, // <--- TOTAL DRIVER
+                pendapatanManagement: item.komisi60 ?? 0,
+                potonganMidtrans: item.potonganMidtrans ?? 0,
+                komisi40: item.komisi40 ?? 0,
+                komisi60: item.komisi60 ?? 0,
+                potCuciAPK: item.PotCuciAPK ?? 0
+            }
+        })
         .filter((row) => {
             const driverName = row.driverName.toLowerCase()
             const carName = row.carName.toLowerCase()
@@ -503,16 +521,17 @@ const driverRows = computed<FlatDriverRow[]>(() => {
 
 // kolom tabel pendapatan driver
 const driverColumns: Ref<TableField<FlatDriverRow>[]> = ref([
-    // { name: 'orderId', title: 'Order ID' },
+    { name: 'orderId', title: 'Order ID' },
     { name: 'tanggal', title: t('names.date') },
     { name: 'driverName', title: t('names.driverName') },
     { name: 'carName', title: t('names.carName') },
-    // { name: 'paymentMethod', title: t('names.paymentMethod') },
+    { name: 'paymentMethod', title: t('names.paymentMethod') },
     { name: 'tarif', title: t('names.tarif') },
+    { name: 'chargePassenger', title: t('names.chargePassenger') },   // <--- BARU
+    { name: 'surcharge', title: t('names.surcharge') },               // <--- BARU
     { name: 'pendapatanDriver', title: t('names.pendapatanDriver') },
-    { name: 'pendapatanManagement', title: t('names.pendapatanManagement') }, // <-- baru
-    { name: 'potonganMidtrans', title: t('names.potonganMidtrans') },
-    // { name: 'potCuciAPK', title: 'Pot Cuci APK' }
+    { name: 'pendapatanManagement', title: t('names.pendapatanManagement') },
+    { name: 'potonganMidtrans', title: t('names.potonganMidtrans') }
 ])
 
 // --------- FETCH FUNCTION ---------
@@ -652,52 +671,52 @@ const downloadRekapanExcel = () => {
     XLSX.writeFile(wb, fileName)
 }
 const downloadPendapatanDriverExcel = () => {
-  // sheet 1: detail order (sudah kita buat sebelumnya)
-  const detailRows = driverRows.value.map((item) => ({
-    Tanggal: item.tanggal,
-    Driver: item.driverName,
-    Mobil: item.carName,
-    Metode_Pembayaran: item.paymentMethod,
-    Tarif: item.tarif,
-    Pendapatan_Driver: item.pendapatanDriver,
-    Pendapatan_Management: item.pendapatanManagement,
-    Potongan_Midtrans: item.potonganMidtrans,
-    // Pot_Cuci_APK: item.potCuciAPK
-  }))
+    // sheet 1: detail order (sudah kita buat sebelumnya)
+    const detailRows = driverRows.value.map((item) => ({
+        Tanggal: item.tanggal,
+        Driver: item.driverName,
+        Mobil: item.carName,
+        Metode_Pembayaran: item.paymentMethod,
+        Tarif: item.tarif,
+        Pendapatan_Driver: item.pendapatanDriver,
+        Pendapatan_Management: item.pendapatanManagement,
+        Potongan_Midtrans: item.potonganMidtrans,
+        // Pot_Cuci_APK: item.potCuciAPK
+    }))
 
-  detailRows.push({
-    Tanggal: 'TOTAL',
-    Driver: '',
-    Mobil: '',
-    Metode_Pembayaran: '',
-    Tarif: driverTotals.value.totalTarif,
-    Pendapatan_Driver: driverTotals.value.totalPendapatanDriver,
-    Pendapatan_Management: driverTotals.value.totalPendapatanManagement,
-    Potongan_Midtrans: driverTotals.value.totalPotonganMidtrans,
-    // Pot_Cuci_APK: ''
-  })
+    detailRows.push({
+        Tanggal: 'TOTAL',
+        Driver: '',
+        Mobil: '',
+        Metode_Pembayaran: '',
+        Tarif: driverTotals.value.totalTarif,
+        Pendapatan_Driver: driverTotals.value.totalPendapatanDriver,
+        Pendapatan_Management: driverTotals.value.totalPendapatanManagement,
+        Potongan_Midtrans: driverTotals.value.totalPotonganMidtrans,
+        // Pot_Cuci_APK: ''
+    })
 
-  const wsDetail = XLSX.utils.json_to_sheet(detailRows)
+    const wsDetail = XLSX.utils.json_to_sheet(detailRows)
 
-  // sheet 2: ringkasan per pengemudi (optional)
-  const groupedRows = driverGroupedSummary.value.map((row) => ({
-    Driver: row.driverName,
-    Mobil: row.carNames.join(', '),
-    Jumlah_Order: row.totalOrder,
-    Total_Tarif: row.totalTarif,
-    Total_Pendapatan_Driver: row.totalPendapatanDriver,
-    Total_Pendapatan_Management: row.totalPendapatanManagement,
-    Total_Potongan_Midtrans: row.totalPotonganMidtrans
-  }))
+    // sheet 2: ringkasan per pengemudi (optional)
+    const groupedRows = driverGroupedSummary.value.map((row) => ({
+        Driver: row.driverName,
+        Mobil: row.carNames.join(', '),
+        Jumlah_Order: row.totalOrder,
+        Total_Tarif: row.totalTarif,
+        Total_Pendapatan_Driver: row.totalPendapatanDriver,
+        Total_Pendapatan_Management: row.totalPendapatanManagement,
+        Total_Potongan_Midtrans: row.totalPotonganMidtrans
+    }))
 
-  const wsGrouped = XLSX.utils.json_to_sheet(groupedRows)
+    const wsGrouped = XLSX.utils.json_to_sheet(groupedRows)
 
-  const wb = XLSX.utils.book_new()
-  XLSX.utils.book_append_sheet(wb, wsDetail, 'Pendapatan Driver')
-  XLSX.utils.book_append_sheet(wb, wsGrouped, 'Ringkasan Pengemudi')
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, wsDetail, 'Pendapatan Driver')
+    XLSX.utils.book_append_sheet(wb, wsGrouped, 'Ringkasan Pengemudi')
 
-  const fileName = `pendapatan_driver_${driverFilter.value.startDate}_${driverFilter.value.endDate}.xlsx`
-  XLSX.writeFile(wb, fileName)
+    const fileName = `pendapatan_driver_${driverFilter.value.startDate}_${driverFilter.value.endDate}.xlsx`
+    XLSX.writeFile(wb, fileName)
 }
 
 onMounted(() => {
