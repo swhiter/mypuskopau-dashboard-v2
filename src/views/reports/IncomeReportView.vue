@@ -145,9 +145,13 @@
                                     <th class="px-2 py-1 text-left">Mobil</th>
                                     <th class="px-2 py-1 text-right">Jumlah Order</th>
                                     <th class="px-2 py-1 text-right">Total Tarif</th>
-                                    <th class="px-2 py-1 text-right">Total Pendapatan Driver</th>
+                                    <th class="px-2 py-1 text-right">Total Charge Passenger</th> <!-- BARU -->
+                                    <th class="px-2 py-1 text-right">Total Surcharge</th> <!-- BARU -->
+                                    <th class="px-2 py-1 text-right">Total Komisi Driver</th> <!-- BARU (komisi40) -->
                                     <th class="px-2 py-1 text-right">Total Pendapatan Management</th>
-                                    <th class="px-2 py-1 text-right">Total Potongan Midtrans</th>
+                                    <th class="px-2 py-1 text-right">Total Biaya Midtrans</th>
+                                    <th class="px-2 py-1 text-right">Total Pendapatan Driver</th>
+                                    <!-- DIPINDAH KE PALING KANAN -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -156,7 +160,6 @@
                                         {{ row.driverName || '-' }}
                                     </td>
                                     <td class="px-2 py-1">
-                                        <!-- gabung nama mobil dengan koma -->
                                         {{ row.carNames.join(', ') || '-' }}
                                     </td>
                                     <td class="px-2 py-1 text-right">
@@ -166,13 +169,22 @@
                                         {{ formatCurrencyNumber(row.totalTarif) }}
                                     </td>
                                     <td class="px-2 py-1 text-right">
-                                        {{ formatCurrencyNumber(row.totalPendapatanDriver) }}
+                                        {{ formatCurrencyNumber(row.totalChargePassenger) }}
+                                    </td>
+                                    <td class="px-2 py-1 text-right">
+                                        {{ formatCurrencyNumber(row.totalSurcharge) }}
+                                    </td>
+                                    <td class="px-2 py-1 text-right">
+                                        {{ formatCurrencyNumber(row.totalKomisiDriver) }}
                                     </td>
                                     <td class="px-2 py-1 text-right">
                                         {{ formatCurrencyNumber(row.totalPendapatanManagement) }}
                                     </td>
                                     <td class="px-2 py-1 text-right">
                                         {{ formatCurrencyNumber(row.totalPotonganMidtrans) }}
+                                    </td>
+                                    <td class="px-2 py-1 text-right">
+                                        {{ formatCurrencyNumber(row.totalPendapatanDriver) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -206,6 +218,9 @@
                         {{ formatCurrencyNumber(value) }}
                     </template>
 
+                    <template #cell(totalPendapatanDriver)="{ value }">
+                        {{ formatCurrencyNumber(value) }}
+                    </template>
                 </CustomTable>
 
             </PageCard>
@@ -234,23 +249,30 @@ const showDriverGroupedSummary = ref(false)
 
 type DriverGroupedRow = {
     driverName: string
-    carNames: string[]            // list unik mobil yang dipakai driver
+    carNames: string[]
     totalTarif: number
+    totalChargePassenger: number     // <--- BARU
+    totalSurcharge: number           // <--- BARU
+    totalKomisiDriver: number        // <--- BARU (komisi40)
     totalPendapatanDriver: number
     totalPendapatanManagement: number
     totalPotonganMidtrans: number
+    totalPotCuciAPK: number
     totalOrder: number
 }
-
 const driverGroupedSummary = computed<DriverGroupedRow[]>(() => {
     const map = new Map<
         string,
         {
             carNames: Set<string>
             totalTarif: number
+            totalChargePassenger: number
+            totalSurcharge: number
+            totalKomisiDriver: number
             totalPendapatanDriver: number
             totalPendapatanManagement: number
             totalPotonganMidtrans: number
+            totalPotCuciAPK: number
             totalOrder: number
         }
     >()
@@ -262,9 +284,13 @@ const driverGroupedSummary = computed<DriverGroupedRow[]>(() => {
             {
                 carNames: new Set<string>(),
                 totalTarif: 0,
+                totalChargePassenger: 0,
+                totalSurcharge: 0,
+                totalKomisiDriver: 0,
                 totalPendapatanDriver: 0,
                 totalPendapatanManagement: 0,
                 totalPotonganMidtrans: 0,
+                totalPotCuciAPK: 0,
                 totalOrder: 0
             }
 
@@ -273,9 +299,13 @@ const driverGroupedSummary = computed<DriverGroupedRow[]>(() => {
         }
 
         entry.totalTarif += row.tarif || 0
-        entry.totalPendapatanDriver += row.pendapatanDriver || 0
+        entry.totalChargePassenger += row.chargePassenger || 0          // 🔹
+        entry.totalSurcharge += row.surcharge || 0                      // 🔹
+        entry.totalKomisiDriver += row.komisi40 || 0                    // 🔹 komisi40
+        entry.totalPendapatanDriver += row.totalPendapatanDriver || 0   // 🔹 rumus sama seperti dashboard
         entry.totalPendapatanManagement += row.pendapatanManagement || 0
         entry.totalPotonganMidtrans += row.potonganMidtrans || 0
+        entry.totalPotCuciAPK += row.potCuciAPK || 0
         entry.totalOrder += 1
 
         map.set(key, entry)
@@ -285,37 +315,42 @@ const driverGroupedSummary = computed<DriverGroupedRow[]>(() => {
         driverName,
         carNames: Array.from(v.carNames),
         totalTarif: v.totalTarif,
+        totalChargePassenger: v.totalChargePassenger,
+        totalSurcharge: v.totalSurcharge,
+        totalKomisiDriver: v.totalKomisiDriver,
         totalPendapatanDriver: v.totalPendapatanDriver,
         totalPendapatanManagement: v.totalPendapatanManagement,
         totalPotonganMidtrans: v.totalPotonganMidtrans,
+        totalPotCuciAPK: v.totalPotCuciAPK,
         totalOrder: v.totalOrder
     }))
 })
-// Tabs
+
 const { t } = useI18n()
 const tabs = [
     { key: 'rekapan', label: t('title.revenueRekapan') },
     { key: 'driver', label: t('title.revenueDriver') }
 ]
 const activeTab = ref<'rekapan' | 'driver'>('rekapan')
+
 const driverTotals = computed(() => {
     let totalTarif = 0
     let totalPendapatanDriver = 0
     let totalPendapatanManagement = 0
-    let totalPotonganMidtrans = 0   // <--- BARU
+    let totalPotonganMidtrans = 0
 
     for (const row of driverRows.value) {
         totalTarif += row.tarif || 0
-        totalPendapatanDriver += row.pendapatanDriver || 0
+        totalPendapatanDriver += row.totalPendapatanDriver || 0   // ✅ pakai TOTAL
         totalPendapatanManagement += row.pendapatanManagement || 0
-        totalPotonganMidtrans += row.potonganMidtrans || 0   // <--- BARU
+        totalPotonganMidtrans += row.potonganMidtrans || 0
     }
 
     return {
         totalTarif,
         totalPendapatanDriver,
         totalPendapatanManagement,
-        totalPotonganMidtrans       // <--- BARU
+        totalPotonganMidtrans
     }
 })
 // Helper date: default 1 hari terakhir (hari ini s/d hari ini)
@@ -471,13 +506,14 @@ type FlatDriverRow = {
     paymentMethod: string
     tarif: number
     chargePassenger: number
-    pendapatanDriver: number
-    pendapatanManagement: number   // <-- dari komisi60
+    pendapatanDriver: number          // dari komisi40
+    pendapatanManagement: number      // dari komisi60
     potonganMidtrans: number
     surcharge: number
     komisi40: number
-    komisi60: number               // tetap disimpan kalau mau debug
+    komisi60: number
     potCuciAPK: number
+    totalPendapatanDriver: number     // <--- TAMBAHAN
 }
 
 // driverRows: data flat + filter nama driver & car
@@ -486,7 +522,12 @@ const driverRows = computed<FlatDriverRow[]>(() => {
         .map<FlatDriverRow>((item) => {
             const chargePassenger = item.chargePassenger ?? 0
             const surcharge = item.surcharge ?? 0
-            const pendapatanDriverBase = item.pendapatanDriver ?? 0
+            const potonganMidtrans = item.potonganMidtrans ?? 0
+            const komisi40 = item.komisi40 ?? 0
+            const komisi60 = item.komisi60 ?? 0
+
+            const totalPendapatanDriver =
+                komisi40 + surcharge + chargePassenger - potonganMidtrans
 
             return {
                 orderId: item.orderId,
@@ -495,15 +536,15 @@ const driverRows = computed<FlatDriverRow[]>(() => {
                 carName: item.carName || '',
                 paymentMethod: item.paymentMethod || '',
                 tarif: item.tarif ?? 0,
-                chargePassenger,                        // <--- SIMPAN
-                surcharge,                              // <--- SIMPAN
-                pendapatanDriver:
-                    pendapatanDriverBase + chargePassenger + surcharge, // <--- TOTAL DRIVER
-                pendapatanManagement: item.komisi60 ?? 0,
-                potonganMidtrans: item.potonganMidtrans ?? 0,
-                komisi40: item.komisi40 ?? 0,
-                komisi60: item.komisi60 ?? 0,
-                potCuciAPK: item.PotCuciAPK ?? 0
+                chargePassenger,
+                surcharge,
+                pendapatanDriver: komisi40,              // ⬅ pendapatan dasar dari komisi40
+                pendapatanManagement: komisi60,          // ⬅ management dari komisi60
+                potonganMidtrans,
+                komisi40,
+                komisi60,
+                potCuciAPK: item.PotCuciAPK ?? 0,
+                totalPendapatanDriver                    // ⬅ TOTAL utk dashboard, group, export
             }
         })
         .filter((row) => {
@@ -527,12 +568,15 @@ const driverColumns: Ref<TableField<FlatDriverRow>[]> = ref([
     { name: 'carName', title: t('names.carName') },
     { name: 'paymentMethod', title: t('names.paymentMethod') },
     { name: 'tarif', title: t('names.tarif') },
-    { name: 'chargePassenger', title: t('names.chargePassenger') },   // <--- BARU
-    { name: 'surcharge', title: t('names.surcharge') },               // <--- BARU
+    { name: 'chargePassenger', title: t('names.chargePassenger') },
+    { name: 'surcharge', title: t('names.surcharge') },
     { name: 'pendapatanDriver', title: t('names.pendapatanDriver') },
     { name: 'pendapatanManagement', title: t('names.pendapatanManagement') },
-    { name: 'potonganMidtrans', title: t('names.potonganMidtrans') }
+    { name: 'potonganMidtrans', title: t('names.potonganMidtrans') },
+    // { name: 'potCuciAPK', title: 'Pot Cuci APK' },  // <-- HAPUS
+    { name: 'totalPendapatanDriver', title: t('names.totalPendapatanDriverRow') }
 ])
+
 
 // --------- FETCH FUNCTION ---------
 const fetchRekapan = async () => {
@@ -678,10 +722,13 @@ const downloadPendapatanDriverExcel = () => {
         Mobil: item.carName,
         Metode_Pembayaran: item.paymentMethod,
         Tarif: item.tarif,
-        Pendapatan_Driver: item.pendapatanDriver,
-        Pendapatan_Management: item.pendapatanManagement,
+        Charge_Passenger: item.chargePassenger,             // <--- BARU / PASTIKAN ADA
+        Surcharge: item.surcharge,                          // <--- BARU / PASTIKAN ADA
+        Pendapatan_Driver_Dasar: item.pendapatanDriver,     // komisi40
+        Pendapatan_Management: item.pendapatanManagement,   // komisi60
         Potongan_Midtrans: item.potonganMidtrans,
-        // Pot_Cuci_APK: item.potCuciAPK
+        // Pot_Cuci_APK: item.potCuciAPK,                      // tetap ikut di detail
+        Total_Pendapatan_Driver: item.totalPendapatanDriver // komisi40 + surcharge + chargePassenger - potonganMidtrans
     }))
 
     detailRows.push({
@@ -690,10 +737,13 @@ const downloadPendapatanDriverExcel = () => {
         Mobil: '',
         Metode_Pembayaran: '',
         Tarif: driverTotals.value.totalTarif,
-        Pendapatan_Driver: driverTotals.value.totalPendapatanDriver,
+        Charge_Passenger: '', // kalau mau total Charge Passenger juga, nanti kita bisa bikin totalChargePassenger
+        Surcharge: '',
+        Pendapatan_Driver_Dasar: '',
         Pendapatan_Management: driverTotals.value.totalPendapatanManagement,
         Potongan_Midtrans: driverTotals.value.totalPotonganMidtrans,
-        // Pot_Cuci_APK: ''
+        // Pot_Cuci_APK: '',
+        Total_Pendapatan_Driver: driverTotals.value.totalPendapatanDriver
     })
 
     const wsDetail = XLSX.utils.json_to_sheet(detailRows)
@@ -704,11 +754,14 @@ const downloadPendapatanDriverExcel = () => {
         Mobil: row.carNames.join(', '),
         Jumlah_Order: row.totalOrder,
         Total_Tarif: row.totalTarif,
-        Total_Pendapatan_Driver: row.totalPendapatanDriver,
+        Total_Charge_Passenger: row.totalChargePassenger,      // BARU
+        Total_Surcharge: row.totalSurcharge,                  // BARU
+        Total_Komisi_Driver: row.totalKomisiDriver,           // BARU
         Total_Pendapatan_Management: row.totalPendapatanManagement,
-        Total_Potongan_Midtrans: row.totalPotonganMidtrans
+        Total_Potongan_Midtrans: row.totalPotonganMidtrans,
+        Total_Pot_Cuci_APK: 25000,
+        Total_Pendapatan_Driver: row.totalPendapatanDriver -25000,
     }))
-
     const wsGrouped = XLSX.utils.json_to_sheet(groupedRows)
 
     const wb = XLSX.utils.book_new()
