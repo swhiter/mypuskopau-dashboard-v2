@@ -2,6 +2,10 @@ export interface UserInfo {
   name: string
   nik: string
   photo: File | string
+  no_hp?: string  
+  statusLocation?: number
+  isSuspend?: number
+  isLangganan?: number
 }
 
 export interface VehicleInfo {

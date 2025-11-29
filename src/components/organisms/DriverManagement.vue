@@ -38,7 +38,11 @@ watch(isUsernameGenerated, (newValue) => {
 let userInfoForm: Ref<UserInfo> = ref({
   name: '',
   nik: '',
-  photo: ''
+  photo: '',
+  no_hp: '',
+  statusLocation: 1,
+  isSuspend: 0,
+  isLangganan: 0
 })
 
 let vehicleInfoForm: VehicleInfo = reactive({
@@ -95,6 +99,9 @@ const reset = (): void => {
   userAccessForm.id = 0
   userAccessForm.userId = ''
   userAccessForm.password = ''
+  userInfoForm.value.statusLocation = 1
+  userInfoForm.value.isSuspend = 0
+  userInfoForm.value.isLangganan = 0
   formReset.value = true
 }
 

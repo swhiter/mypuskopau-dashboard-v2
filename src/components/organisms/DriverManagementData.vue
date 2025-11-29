@@ -44,30 +44,30 @@ const pagination: Ref<PaginationRequest> = ref({
 })
 
 const columns: Ref<TableField[]> = ref([
+  { name: 'actions', title: t('label.actions') },
+  { name: 'name', title: t('label.driverName') },
+  { name: 'nik', title: t('label.idCardNumber') },
+  { name: 'vehicleCode', title: t('label.vehicleCode') },
+  { name: 'licensePlate', title: t('label.licensePlate') },
+  { name: 'userId', title: t('label.driverId') },
+  { name: 'no_hp', title: t('label.phoneNumber') },
+
   {
-    name: 'actions',
-    title: t('label.actions')
+    name: 'statusLocation',
+    title: 'Lokasi Driver',
+    field: (val) => (val == 1 ? 'Dalam Bandara' : 'Luar Bandara')
   },
   {
-    name: 'name',
-    title: t('label.driverName')
+    name: 'isSuspend',
+    title: 'Status Suspend',
+    field: (val) => (val == 1 ? 'Suspended' : 'Normal')
   },
   {
-    name: 'nik',
-    title: t('label.idCardNumber')
+    name: 'isLangganan',
+    title: 'Jenis Driver',
+    field: (val) => (val == 1 ? 'Langganan' : 'Normal')
   },
-  {
-    name: 'vehicleCode',
-    title: t('label.vehicleCode')
-  },
-  {
-    name: 'licensePlate',
-    title: t('label.licensePlate')
-  },
-  {
-    name: 'userId',
-    title: t('label.driverId')
-  },
+
   {
     name: 'totalIncome',
     title: t('label.totalEarnings'),
@@ -81,7 +81,7 @@ const columns: Ref<TableField[]> = ref([
   {
     name: 'photo',
     title: t('label.profilePhoto')
-  },
+  }
 ])
 
 const rows: Ref<ExtendedDriver[]> = ref([])

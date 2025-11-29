@@ -6,21 +6,41 @@
         <div class="grid grid-cols-2 gap-x-4 w-full">
           <InputForm name="fullname" v-model="userInfo.name" :label="t('names.fullname')" bordered is-separate-row
             semibold-label :rules="{ 'required': true }" :disabled="readonly" />
+
           <InputForm name="idCardNumber" v-model="userInfo.nik" :label="t('names.idCardNumber')" bordered
             is-separate-row semibold-label :rules="{ 'required': true, 'numeric': true, 'length': 16 }"
             :disabled="readonly" />
-          <InputForm name="code" v-model="userInfo.vehicleCode" :label="t('names.code')" bordered is-separate-row
-            semibold-label :rules="{ 'required': true }" :disabled="readonly" />
-          <InputForm name="licensePlate" v-model="userInfo.licensePlate" :label="t('names.licensePlate')" bordered
-            is-separate-row semibold-label :rules="{ 'required': true }" :disabled="readonly" />
-          <div class="grid grid-cols-2 gap-2">
-            <InputForm name="username" v-model="userInfo.userId" :label="t('label.driverId')" bordered is-separate-row
-              semibold-label :rules="{ 'required': true }" disabled />
-            <InputForm name="password" v-model="password" :label="t('names.password')" bordered is-separate-row
-              semibold-label :rules="{ 'min': 8, 'max': 12 }" type="password" has-password-toggler />
+
+          <!-- 👇 Nomor HP -->
+          <InputForm name="phoneNumber" v-model="userInfo.no_hp" :label="t('names.phoneNumber')" bordered
+            is-separate-row semibold-label :disabled="readonly" />
+
+          <!-- 3 status -->
+          <div class="col-span-2 grid grid-cols-1 md:grid-cols-3 gap-2">
+            <div class="flex flex-col text-xs">
+              <span class="mb-1 font-semibold">Status Lokasi</span>
+              <select v-model="userInfo.statusLocation" class="border rounded px-2 py-1" :disabled="readonly">
+                <option :value="1">Dalam Bandara</option>
+                <option :value="0">Luar Bandara</option>
+              </select>
+            </div>
+
+            <div class="flex flex-col text-xs">
+              <span class="mb-1 font-semibold">Status Suspend</span>
+              <select v-model="userInfo.isSuspend" class="border rounded px-2 py-1" :disabled="readonly">
+                <option :value="0">Tidak Suspend</option>
+                <option :value="1">Suspend</option>
+              </select>
+            </div>
+
+            <div class="flex flex-col text-xs">
+              <span class="mb-1 font-semibold">Jenis Driver</span>
+              <select v-model="userInfo.isLangganan" class="border rounded px-2 py-1" :disabled="readonly">
+                <option :value="0">Driver Normal</option>
+                <option :value="1">Driver Langganan</option>
+              </select>
+            </div>
           </div>
-          <InputForm name="totalIncome" v-model="userInfo.totalIncome" :label="t('names.totalIncome')" bordered
-            is-separate-row semibold-label :rules="{ 'required': true }" disabled />
         </div>
       </div>
       <div class="flex flex-col w-1/5 space-y-2">
@@ -81,7 +101,11 @@ const userInfo: Ref<Driver> = ref({
   lastLatitude: 0,
   totalIncome: 0,
   status: 1,
-  totalIncomeDay: 0
+  totalIncomeDay: 0,
+  no_hp: '',
+  statusLocation: 1,
+  isSuspend: 0,
+  isLangganan: 0
 })
 const images: Ref<File | null> = ref(null)
 const password: Ref<string> = ref('')

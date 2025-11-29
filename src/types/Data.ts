@@ -11,6 +11,10 @@ export interface Driver {
   totalIncome: number | string
   totalIncomeDay: number | string
   status: number
+  no_hp?: string
+  statusLocation?: number
+  isSuspend?: number
+  isLangganan?: number
 }
 
 export interface Staff {
