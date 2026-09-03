@@ -108,7 +108,8 @@
     "totalPendapatanManagement": "Total Pendapatan Manajemen",
     "totalPotonganMidtrans": "Total Biaya Midtrans",
     "surcharge": "Surcharge",
-    "totalPendapatanDriverRow": "Total Pendapatan Driver"
+    "totalPendapatanDriverRow": "Total Pendapatan Driver",
+    "phoneNumber": "Nomor Telepon"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",
