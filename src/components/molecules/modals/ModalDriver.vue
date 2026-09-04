@@ -59,6 +59,50 @@
         </div>
       </div>
     </Form>
+
+    <!-- Performa Driver -->
+    <div v-if="userInfo.statistics" class="performance-section">
+      <h5 class="performance-title">Performa Driver</h5>
+
+      <div class="performance-grid">
+        <div class="stat-card">
+          <span class="stat-label">Ritase Bulan Ini</span>
+          <span class="stat-value">{{ formatNumber(userInfo.statistics.totalRitase) }}</span>
+          <span class="stat-sub">{{ formatNumber(userInfo.statistics.lifetimeRitase) }} sepanjang waktu</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Pendapatan Bulan Ini</span>
+          <span class="stat-value">Rp {{ formatNumber(userInfo.statistics.totalIncome) }}</span>
+          <span class="stat-sub">Rp {{ formatNumber(Number(userInfo.totalIncome)) }} sepanjang waktu</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Jarak Tempuh Bulan Ini</span>
+          <span class="stat-value">{{ formatNumber(userInfo.statistics.totalDistance) }} Km</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Rating Rata-rata</span>
+          <span class="stat-value">{{ userInfo.statistics.avgRating.toFixed(1) }} / 5</span>
+          <span class="stat-sub">{{ formatNumber(userInfo.statistics.totalReview) }} ulasan</span>
+        </div>
+      </div>
+
+      <div class="target-card">
+        <div class="target-header">
+          <span class="stat-label">Pencapaian Target Bulanan</span>
+          <span class="target-pill" :class="achievementColorClass">
+            {{ Math.min(100, userInfo.statistics.achievementPercentage).toFixed(0) }}%
+          </span>
+        </div>
+        <div class="target-track">
+          <div class="target-fill" :class="achievementColorClass"
+            :style="{ width: Math.min(100, userInfo.statistics.achievementPercentage) + '%' }" />
+        </div>
+        <span class="stat-sub">
+          Rp {{ formatNumber(userInfo.statistics.totalIncome) }} dari target
+          Rp {{ formatNumber(userInfo.statistics.target) }}
+        </span>
+      </div>
+    </div>
   </ModalBaseWithHeader>
 </template>
 
@@ -66,11 +110,11 @@
 import { Form } from 'vee-validate';
 import ModalBaseWithHeader from './ModalBaseWithHeader.vue';
 import InputForm from '@/components/atoms/InputForm.vue';
-import { onMounted, ref, type Ref } from 'vue';
+import { computed, onMounted, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { Driver } from '@/types/Data';
 import driverService from '@/services/drivers/drivers.api';
-import { handleErrorResponse } from '@/utils/common';
+import { formatNumber, handleErrorResponse } from '@/utils/common';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useToasterStore } from '@/stores/toaster';
@@ -130,6 +174,13 @@ const onFileAdd = (e: Event): void => {
 const readImage = (image: File): string => {
   return URL.createObjectURL(image)
 }
+
+const achievementColorClass = computed(() => {
+  const pct = userInfo.value.statistics?.achievementPercentage ?? 0
+  if (pct >= 100) return 'is-success'
+  if (pct >= 50) return 'is-warning'
+  return 'is-danger'
+})
 
 const getDriverById = async (): Promise<void> => {
   modalLoading.value = true
@@ -194,5 +245,77 @@ onMounted(() => {
 
 .btn-image-update {
   @apply absolute bottom-0 right-0 rounded-full bg-primaryDarkBlue hover:bg-hoverDarkBlue text-white px-2 aspect-square
+}
+
+.performance-section {
+  @apply mt-4 pt-4 border-t border-gray-200
+}
+
+.performance-title {
+  @apply font-semibold text-base mb-3
+}
+
+.performance-grid {
+  @apply grid grid-cols-2 md:grid-cols-4 gap-3
+}
+
+.stat-card {
+  @apply flex flex-col bg-gray-50 rounded-lg p-3
+}
+
+.stat-label {
+  @apply text-xs text-gray-500 font-semibold
+}
+
+.stat-value {
+  @apply text-lg font-bold text-gray-800 mt-1
+}
+
+.stat-sub {
+  @apply text-xs text-gray-400 mt-1
+}
+
+.target-card {
+  @apply bg-gray-50 rounded-lg p-3 mt-3
+}
+
+.target-header {
+  @apply flex items-center justify-between mb-2
+}
+
+.target-pill {
+  @apply text-xs font-bold text-white rounded-full px-2 py-0.5
+}
+
+.target-pill.is-success {
+  @apply bg-green-600
+}
+
+.target-pill.is-warning {
+  @apply bg-amber-500
+}
+
+.target-pill.is-danger {
+  @apply bg-red-500
+}
+
+.target-track {
+  @apply w-full h-2.5 rounded-full bg-gray-200 overflow-hidden
+}
+
+.target-fill {
+  @apply h-full rounded-full
+}
+
+.target-fill.is-success {
+  @apply bg-green-600
+}
+
+.target-fill.is-warning {
+  @apply bg-amber-500
+}
+
+.target-fill.is-danger {
+  @apply bg-red-500
 }
 </style>

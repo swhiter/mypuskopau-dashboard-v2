@@ -1,3 +1,22 @@
+export interface TargetDriver {
+  id?: number
+  target: number
+  month: number
+  year: number
+}
+
+export interface DriverStatistics {
+  totalRitase: number
+  totalIncome: number
+  totalDistance: number
+  target: number
+  achievement: number
+  achievementPercentage: number
+  lifetimeRitase: number
+  avgRating: number
+  totalReview: number
+}
+
 export interface Driver {
   id?: number
   userId: string
@@ -15,6 +34,7 @@ export interface Driver {
   statusLocation?: number
   isSuspend?: number
   isLangganan?: number
+  statistics?: DriverStatistics
 }
 
 export interface Staff {

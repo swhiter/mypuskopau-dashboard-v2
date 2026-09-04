@@ -1,5 +1,8 @@
 <template>
   <PageContainer :title="$t('title.driverManagement')">
+    <PageCard>
+      <TargetDriverManagement />
+    </PageCard>
     <PageCard has-save-button button-form="driver-form" :button-disabled="!saveEnabled" :loading="isFormLoading">
       <DriverManagement @save-enabled="saveEnabled = $event" />
     </PageCard>
@@ -14,6 +17,7 @@ import DriverManagement from '@/components/organisms/DriverManagement.vue';
 import PageCard from '@/components/atoms/PageCard.vue';
 import PageContainer from '@/components/atoms/PageContainer.vue';
 import DriverManagementData from '@/components/organisms/DriverManagementData.vue';
+import TargetDriverManagement from '@/components/organisms/TargetDriverManagement.vue';
 import { provide, ref, type Ref } from 'vue';
 import { formState } from '@/injects/keys';
 
