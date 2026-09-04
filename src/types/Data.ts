@@ -1,3 +1,19 @@
+export interface UnfinishedTrip {
+  transactionNumber: string
+  driverId: number
+  driverName: string
+  vehicleCode: string
+  licensePlate: string
+  driverPhone: string
+  latitude: number
+  longitude: number
+  price: number
+  distance: number
+  duration: number
+  startedAt: string
+  lastRecordedAt: string
+}
+
 export interface TargetDriver {
   id?: number
   target: number

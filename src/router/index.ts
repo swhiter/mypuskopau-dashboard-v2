@@ -12,6 +12,7 @@ import ProfileView from '@/views/main/ProfileView.vue'
 import CarManagementView from '@/views/main/CarManagementView.vue'
 import PassengerManagementView from '@/views/main/PassengerManagementView.vue'
 import DiscountManagementView from '@/views/main/DiscountManagementView.vue'
+import UnfinishedTripsView from '@/views/main/UnfinishedTripsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -84,6 +85,14 @@ const router = createRouter({
           path: '/driver-tracking',
           name: 'driverTracking',
           component: DriverTrackingView,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: '/unfinished-trips',
+          name: 'unfinishedTrips',
+          component: UnfinishedTripsView,
           meta: {
             requiresAuth: true
           }

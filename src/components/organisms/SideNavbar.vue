@@ -93,6 +93,12 @@ const menus: Ref<MenuItem[]> = ref([
     href: '/driver-tracking',
     icon: '/icons/pelacakan-pengemudi.svg',
     isMdi: false
+  },
+  {
+    title: 'Trip Bermasalah',
+    href: '/unfinished-trips',
+    icon: 'report_problem',
+    isMdi: true
   }
 ])
 
