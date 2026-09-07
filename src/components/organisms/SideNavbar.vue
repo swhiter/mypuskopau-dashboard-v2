@@ -99,6 +99,12 @@ const menus: Ref<MenuItem[]> = ref([
     href: '/unfinished-trips',
     icon: 'report_problem',
     isMdi: true
+  },
+  {
+    title: 'Ulasan Argo',
+    href: '/argo-reviews',
+    icon: 'reviews',
+    isMdi: true
   }
 ])
 

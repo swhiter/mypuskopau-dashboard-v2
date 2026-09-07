@@ -13,6 +13,7 @@ import CarManagementView from '@/views/main/CarManagementView.vue'
 import PassengerManagementView from '@/views/main/PassengerManagementView.vue'
 import DiscountManagementView from '@/views/main/DiscountManagementView.vue'
 import UnfinishedTripsView from '@/views/main/UnfinishedTripsView.vue'
+import ArgoReviewsView from '@/views/main/ArgoReviewsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -98,6 +99,14 @@ const router = createRouter({
           }
         },
         {
+          path: '/argo-reviews',
+          name: 'argoReviews',
+          component: ArgoReviewsView,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
           path: '/passenger-management',
           name: 'passengerManagement',
           component: PassengerManagementView,
@@ -143,6 +152,12 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView
+    },
+    {
+      // Halaman publik, dibuka lewat scan QR di aplikasi driver — tanpa login
+      path: '/rating-argo/:transactionNumber',
+      name: 'ratingArgo',
+      component: () => import('@/views/RatingArgoView.vue')
     }
   ]
 })

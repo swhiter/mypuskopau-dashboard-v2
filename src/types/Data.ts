@@ -1,3 +1,25 @@
+export interface TripRatingInfo {
+  transactionNumber: string
+  driverName: string
+  vehicleCode: string
+  licensePlate: string
+  photo: string | null
+  alreadyRated: boolean
+}
+
+export interface ArgoReview {
+  id: number
+  transactionNumber: string
+  driverId: number | null
+  driverName: string
+  vehicleCode: string
+  licensePlate: string
+  pelangganId: number | null
+  rating: number
+  review: string | null
+  createdAt: string
+}
+
 export interface UnfinishedTrip {
   transactionNumber: string
   driverId: number
