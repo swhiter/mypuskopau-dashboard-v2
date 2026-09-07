@@ -134,10 +134,6 @@ onMounted(() => {
   @apply text-sm text-gray-500
 }
 
-.text-center {
-  @apply text-center
-}
-
 .icon-error {
   @apply text-5xl text-red-500
 }
