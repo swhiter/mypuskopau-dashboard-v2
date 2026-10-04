@@ -46,11 +46,13 @@ export interface TargetDriver {
 export interface DriverStatistics {
   totalRitase: number
   totalIncome: number
+  totalOmzet?: number
   totalDistance: number
   target: number
   achievement: number
   achievementPercentage: number
   lifetimeRitase: number
+  lifetimeIncome?: number
   avgRating: number
   totalReview: number
 }

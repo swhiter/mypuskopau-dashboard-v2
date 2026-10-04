@@ -98,7 +98,7 @@
             :style="{ width: Math.min(100, userInfo.statistics.achievementPercentage) + '%' }" />
         </div>
         <span class="stat-sub">
-          Rp {{ formatNumber(userInfo.statistics.totalIncome) }} dari target
+          Rp {{ formatNumber(userInfo.statistics.totalOmzet ?? userInfo.statistics.totalIncome) }} dari target
           Rp {{ formatNumber(userInfo.statistics.target) }}
         </span>
       </div>
