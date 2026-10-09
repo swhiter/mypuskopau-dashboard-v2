@@ -245,3 +245,14 @@ export interface CreateOrderPayload {
   }
   staffId: number | string
 }
+
+export interface ActiveCarAssignment {
+  id: number
+  profitSharingId: number
+  carName: string
+  driverId: number
+  driverName: string
+  licensePlate: string
+  assignedAt: string
+  sessionExpiredAt: string | null
+}

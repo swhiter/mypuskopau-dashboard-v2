@@ -1,6 +1,9 @@
 <template>
   <PageContainer :title="t('title.carManagement')">
     <PageCard>
+      <ActiveCarAssignments />
+    </PageCard>
+    <PageCard>
       <CarManagementData />
     </PageCard>
   </PageContainer>
@@ -10,6 +13,7 @@
 import PageCard from '@/components/atoms/PageCard.vue';
 import PageContainer from '@/components/atoms/PageContainer.vue';
 import CarManagementData from '@/components/organisms/CarManagementData.vue';
+import ActiveCarAssignments from '@/components/organisms/ActiveCarAssignments.vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n()
