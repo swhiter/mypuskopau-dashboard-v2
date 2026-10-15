@@ -53,7 +53,7 @@
         is-separate-row bordered :rules="{ required: true, min_value: 0 }" />
 
       <InputForm name="price" v-model="form.price" :label="t('names.price')" type="number" prefix="Rp"
-        is-separate-row bordered :rules="{ required: true, min_value: 1 }" />
+        is-separate-row bordered :rules="{ required: true, integer: true, min_value: 1 }" />
       <div class="select-group">
         <label>{{ t('names.receiptPhoto') }}</label>
         <input type="file" accept="image/png,image/jpeg" @change="onFileAdd" class="text-sm" />
