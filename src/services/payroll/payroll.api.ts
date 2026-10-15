@@ -66,12 +66,13 @@ class PayrollService {
     return await httpClient.get<GeneralResponse<PayrollPeriod[]>>('/payroll/periods')
   }
 
-  async closePeriod(): Promise<
+  // periodId = periode yang totalnya dilihat admin; periode lain tidak ikut ditutup
+  async closePeriod(periodId: number): Promise<
     GeneralResponse<{ closedPeriodId: number | null; openPeriodId: number }>
   > {
     return await httpClient.post<GeneralResponse<{ closedPeriodId: number | null; openPeriodId: number }>>(
       '/payroll/periods/close',
-      {}
+      { periodId }
     )
   }
 }

@@ -72,6 +72,8 @@ const refresh = async (): Promise<void> => {
 
 const confirmClose = (): void => {
   if (!summary.value) return
+  // periode yang totalnya ditampilkan di konfirmasi inilah yang ditutup
+  const periodId = summary.value.period.id
   modal.openConfirmationModal(
     t('message.closeBook', {
       count: summary.value.payrollCount,
@@ -83,7 +85,7 @@ const confirmClose = (): void => {
   modal.onOk(async () => {
     closing.value = true
     try {
-      await payrollService.closePeriod()
+      await payrollService.closePeriod(periodId)
       toast.success({ text: t('alert.bookClosed') })
       emits('changed')
     } catch (error) {
