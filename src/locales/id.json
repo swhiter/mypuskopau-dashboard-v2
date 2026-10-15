@@ -34,6 +34,16 @@
   "generate": "Generate",
   "browse": "Telusuri",
   "names": {
+    "fromAccount": "Dari Akun",
+    "toAccount": "Ke Akun",
+    "account": "Akun",
+    "amount": "Nominal",
+    "voidReason": "Alasan Pembatalan",
+    "time": "Waktu",
+    "movementKind": "Jenis",
+    "fromTo": "Dari → Ke",
+    "recordedBy": "Dicatat Oleh",
+    "totalCash": "Total Kas",
     "totalBaseSalary": "Total Gaji Dasar",
     "totalDeduction": "Total Potongan",
     "totalBonus": "Total Bonus",
@@ -151,6 +161,12 @@
     "carName": "Masukkan nama armada"
   },
   "title": {
+    "cashDashboard": "Dashboard Kas",
+    "cashMovements": "Arus Kas",
+    "cashTransfer": "Pindah Antar Akun",
+    "cashExpense": "Catat Pengeluaran",
+    "cashOpening": "Isi Saldo Awal",
+    "cashVoid": "Batalkan Catatan Kas",
     "payroll": "Penggajian Driver",
     "payrollCurrentPeriod": "Periode Buku Berjalan",
     "payrollPending": "Menunggu Penggajian",
@@ -215,6 +231,18 @@
     "noResponse": "Tidak ada respon diterima dari server. Harap cek koneksi internet Anda."
   },
   "label": {
+    "allAccounts": "Semua akun",
+    "allKinds": "Semua jenis",
+    "auto": "otomatis",
+    "autoCount": "{count} transaksi",
+    "voidedBecause": "Dibatalkan: {reason} ({by})",
+    "voidEntry": "Batalkan",
+    "cashSince": "Kas dihitung sejak {date}",
+    "fillOpening": "Isi saldo awal {account}",
+    "todayIn": "Masuk hari ini: {amount}",
+    "todayOut": "Keluar hari ini: {amount}",
+    "midtransBeforeAllocation": "Sebelum alokasi kas kecil: {amount}",
+    "viewCashMovements": "Lihat arus kas",
     "periodOpenedAt": "Periode dibuka sejak {date}",
     "closeBook": "Tutup Buku",
     "payrollCount": "{count} penggajian",
@@ -282,12 +310,19 @@
     "showDriverGroupedSummary": "Tampilkan Rekapan per Pengemudi"
   },
   "alert": {
+    "cashVoided": "Catatan kas dibatalkan",
     "bookClosed": "Buku berhasil ditutup",
     "successSave": "Berhasil menyimpan data",
     "successLogout": "Berhasil keluar",
     "successDelete": "Berhasil menghapus data"
   },
   "message": {
+    "cashExceedsBalance": "Nominal melebihi saldo {account} ({balance}); saldo akan minus.",
+    "cashOpeningInfo": "Saldo awal dicatat pada tanggal mulai kas {date}.",
+    "cashSameAccount": "Akun asal dan tujuan tidak boleh sama",
+    "cashNegativeConfirm": "Perhatian: saldo akun asal akan menjadi minus.",
+    "cashOpeningMissing": "Saldo awal belum diisi untuk:",
+    "cashUnknownMethod": "{count} transaksi ({total}) memakai metode bayar yang tidak dikenali dan tidak masuk akun mana pun.",
     "closeBook": "Tutup buku periode ini? {count} penggajian (gaji bersih {net}, potongan {deduction}, bonus {bonus}) akan dikunci dan periode baru dibuka.",
     "noteRequired": "Catatan wajib diisi bila nominal potongan/bonus lebih dari 0",
     "confirmPayroll": "Simpan penggajian {name} dengan gaji bersih {net}?",

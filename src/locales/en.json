@@ -36,6 +36,16 @@
   "generate": "Generate",
   "browse": "Browse",
   "names": {
+    "fromAccount": "From Account",
+    "toAccount": "To Account",
+    "account": "Account",
+    "amount": "Amount",
+    "voidReason": "Void Reason",
+    "time": "Time",
+    "movementKind": "Kind",
+    "fromTo": "From → To",
+    "recordedBy": "Recorded By",
+    "totalCash": "Total Cash",
     "totalBaseSalary": "Total Base Salary",
     "totalDeduction": "Total Deduction",
     "totalBonus": "Total Bonus",
@@ -109,6 +119,12 @@
     "uploadImage": "Drop your image here, or"
   },
   "title": {
+    "cashDashboard": "Cash Dashboard",
+    "cashMovements": "Cash Flow",
+    "cashTransfer": "Transfer Between Accounts",
+    "cashExpense": "Record Expense",
+    "cashOpening": "Set Opening Balance",
+    "cashVoid": "Void Cash Entry",
     "payroll": "Driver Payroll",
     "payrollCurrentPeriod": "Current Book Period",
     "payrollPending": "Awaiting Payroll",
@@ -157,6 +173,18 @@
     "noResponse": "No response received from the server. Please check your network connection."
   },
   "label": {
+    "allAccounts": "All accounts",
+    "allKinds": "All kinds",
+    "auto": "automatic",
+    "autoCount": "{count} transactions",
+    "voidedBecause": "Voided: {reason} ({by})",
+    "voidEntry": "Void",
+    "cashSince": "Cash tracked since {date}",
+    "fillOpening": "Set opening balance for {account}",
+    "todayIn": "In today: {amount}",
+    "todayOut": "Out today: {amount}",
+    "midtransBeforeAllocation": "Before petty cash allocation: {amount}",
+    "viewCashMovements": "View cash flow",
     "periodOpenedAt": "Period opened since {date}",
     "closeBook": "Close Book",
     "payrollCount": "{count} payrolls",
@@ -213,12 +241,19 @@
     "managementPercentage": "Management Percentage"
   },
   "alert": {
+    "cashVoided": "Cash entry voided",
     "bookClosed": "Book closed",
     "successSave": "Data saved",
     "successLogout": "Logout success",
     "successDelete": "Data deleted"
   },
   "message": {
+    "cashExceedsBalance": "Amount exceeds {account} balance ({balance}); balance will go negative.",
+    "cashOpeningInfo": "Opening balance is recorded on the cash start date {date}.",
+    "cashSameAccount": "Source and destination accounts must differ",
+    "cashNegativeConfirm": "Warning: the source account balance will become negative.",
+    "cashOpeningMissing": "Opening balance not set for:",
+    "cashUnknownMethod": "{count} transactions ({total}) use an unrecognized payment method and are not in any account.",
     "closeBook": "Close this book period? {count} payrolls (net {net}, deduction {deduction}, bonus {bonus}) will be locked and a new period opened.",
     "noteRequired": "A note is required when deduction/bonus is greater than 0",
     "confirmPayroll": "Save payroll for {name} with net salary {net}?",

@@ -248,6 +248,51 @@ export interface VendorOrderForm {
   price: number
 }
 
+// Kas bendahara
+export type CashAccount = 'MIDTRANS' | 'CASH' | 'KAS_BESAR' | 'KAS_KECIL'
+export type CashKind =
+  | 'ORDER_QRIS'
+  | 'ORDER_CASH'
+  | 'MIDTRANS_FEE'
+  | 'PETTY_ALLOCATION'
+  | 'PAYROLL'
+  | 'OPENING'
+  | 'TRANSFER'
+  | 'EXPENSE'
+
+export interface CashAccountSummary {
+  account: CashAccount
+  balance: number
+  todayIn: number
+  todayOut: number
+  hasOpening: boolean
+}
+
+export interface CashSummary {
+  startDate: string
+  accounts: CashAccountSummary[]
+  totalBalance: number
+  midtransBeforeAllocation: number
+  unknownMethod: { orderCount: number; total: number }
+}
+
+export interface CashMovementRow {
+  at: string
+  day: string
+  kind: CashKind
+  from_account: CashAccount | null
+  to_account: CashAccount | null
+  amount: number
+  count: number
+  source: 'AUTO' | 'MANUAL'
+  id: number | null
+  description: string | null
+  status: 'ACTIVE' | 'VOID'
+  void_reason: string | null
+  created_by: string | null
+  voided_by: string | null
+}
+
 // Penggajian driver
 export interface PayrollSummary {
   period: { id: number; openedAt: string }
