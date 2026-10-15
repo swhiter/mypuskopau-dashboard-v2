@@ -17,4 +17,5 @@ interface UserDetail {
 
 export interface ExtJwtPayload extends JwtPayload {
   userDetail: UserDetail
+  role?: string
 }

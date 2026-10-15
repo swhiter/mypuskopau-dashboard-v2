@@ -27,6 +27,8 @@ import MainButton from '@/components/atoms/MainButton.vue';
 import router from '@/router';
 import authenticationService from '@/services/authentications/authentications.api';
 import { useAuthStore } from '@/stores/auth';
+import { getCurrentUser } from '@/utils/common';
+import { homeRouteFor } from '@/utils/roles';
 import type UserCredential from '@/types/Credential';
 import type { GeneralResponse } from '@/types/Main';
 import { Form } from 'vee-validate';
@@ -48,7 +50,7 @@ const login = async () => {
     }
     const credentials: GeneralResponse<UserCredential> = await authenticationService.login(payload)
     authStore.setCredentials(credentials.data!.token)
-    router.push('/dashboard')
+    router.push(homeRouteFor(getCurrentUser().role))
   } catch (error) {
     console.error(error)
   } finally {

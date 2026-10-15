@@ -154,6 +154,13 @@ const router = createRouter({
             requiresAuth: true
           }
         }, {
+          path: '/payroll',
+          name: 'payroll',
+          component: () => import('@/views/main/PayrollView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        }, {
           path: '/reports/income',
           name: 'IncomeReport',
           component: () => import('@/views/reports/IncomeReportView.vue'),

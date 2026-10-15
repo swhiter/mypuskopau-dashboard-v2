@@ -3,14 +3,15 @@
     <aside class="sidebar-background">
       <SidebarProfile :name="name" :username="username" :image="userImage" />
       <div class="sidebar-menus">
-        <MenuItems v-for="(item, index) in menus" :key="index" :menu="item" />
+        <MenuItems v-for="(item, index) in visibleMenus" :key="index" :menu="item" />
       </div>
     </aside>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, type Ref } from 'vue';
+import { computed, onMounted, ref, type Ref } from 'vue';
+import { routeAllowed } from '@/utils/roles';
 import MenuItems from '../atoms/MenuItems.vue';
 import type { MenuItem } from '@/types/MainComponents';
 import SidebarProfile from '../molecules/misc/SidebarProfile.vue';
@@ -38,6 +39,12 @@ const menus: Ref<MenuItem[]> = ref([
     title: 'Input Struk Vendor',
     href: '/vendor-orders',
     icon: 'receipt_long',
+    isMdi: true
+  },
+  {
+    title: 'Penggajian Driver',
+    href: '/payroll',
+    icon: 'payments',
     isMdi: true
   },
   {
@@ -120,8 +127,13 @@ const menus: Ref<MenuItem[]> = ref([
   }
 ])
 
+// Bendahara hanya melihat menu yang diizinkan untuk role-nya
+const role: Ref<string | undefined> = ref(undefined)
+const visibleMenus = computed(() => menus.value.filter((item) => routeAllowed(role.value, item.href)))
+
 onMounted(() => {
   const user = getCurrentUser()
+  role.value = user.role
   name.value = `${user.userDetail.firstName} ${user.userDetail.lastName}`
   username.value = user.userDetail.userId
   userImage.value = user.userDetail.photo ? user.userDetail.photo : defaultImage
