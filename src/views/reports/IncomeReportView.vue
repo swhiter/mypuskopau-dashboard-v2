@@ -327,11 +327,13 @@ const driverGroupedSummary = computed<DriverGroupedRow[]>(() => {
 })
 
 const { t } = useI18n()
-const tabs = [
-    { key: 'rekapan', label: t('title.revenueRekapan') },
+// Tab Rekapan Pendapatan disembunyikan (detailnya sudah ada di Pendapatan Pengemudi).
+// Kode rekapan dipertahankan; tambahkan kembali { key: 'rekapan', label: t('title.revenueRekapan') }
+// dan panggil fetchRekapan() di onMounted bila dibutuhkan lagi.
+const tabs: { key: 'rekapan' | 'driver'; label: string }[] = [
     { key: 'driver', label: t('title.revenueDriver') }
 ]
-const activeTab = ref<'rekapan' | 'driver'>('rekapan')
+const activeTab = ref<'rekapan' | 'driver'>('driver')
 
 const driverTotals = computed(() => {
     let totalTarif = 0
@@ -773,7 +775,6 @@ const downloadPendapatanDriverExcel = () => {
 }
 
 onMounted(() => {
-    fetchRekapan()
     fetchPendapatanDriver()
 })
 </script>
