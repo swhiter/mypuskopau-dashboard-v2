@@ -19,6 +19,19 @@ class TariffService {
     return await httpClient.get<GeneralResponse<Tariff>>('/tariff/' + id)
   }
 
+  // Backend hanya mengembalikan tarif milik satuan yang sedang dikonfigurasi
+  async getTariffs(): Promise<PaginatedResponse<Tariff>> {
+    return await httpClient.get<PaginatedResponse<Tariff>>('/tariff', {
+      params: { page: 1, limit: 100 }
+    })
+  }
+
+  async createTariff(
+    data: Omit<Tariff, 'id'> & { pricePerMenit: number }
+  ): Promise<GeneralResponse<Tariff>> {
+    return await httpClient.post<GeneralResponse<Tariff>>('/tariff', data)
+  }
+
   async updateTariff(data: Tariff): Promise<GeneralResponse<Tariff>> {
     return await httpClient.put<GeneralResponse<Tariff>>('/tariff/' + data.id, data)
   }
@@ -82,6 +95,17 @@ class TariffService {
   // =======================
   async getArgoTariff(id: number): Promise<GeneralResponse<ArgoTariff>> {
     return await httpClient.get<GeneralResponse<ArgoTariff>>('/tariff-argo/' + id)
+  }
+
+  // Backend hanya mengembalikan tarif argo milik satuan yang sedang dikonfigurasi
+  async getArgoTariffs(): Promise<PaginatedResponse<ArgoTariff>> {
+    return await httpClient.get<PaginatedResponse<ArgoTariff>>('/tariff-argo', {
+      params: { page: 1, limit: 100 }
+    })
+  }
+
+  async createArgoTariff(data: Omit<ArgoTariff, 'id'>): Promise<GeneralResponse<ArgoTariff>> {
+    return await httpClient.post<GeneralResponse<ArgoTariff>>('/tariff-argo', data)
   }
 
   async updateArgoTariff(data: ArgoTariff): Promise<GeneralResponse<ArgoTariff>> {

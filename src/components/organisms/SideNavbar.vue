@@ -77,6 +77,12 @@ const menus: Ref<MenuItem[]> = ref([
     isMdi: false
   },
   {
+    title: 'Satuan Tarif Argo',
+    href: '/tariff-unit-setting',
+    icon: 'straighten',
+    isMdi: true
+  },
+  {
     title: 'Manajemen Armada',
     href: '/car-management',
     icon: 'local_taxi',

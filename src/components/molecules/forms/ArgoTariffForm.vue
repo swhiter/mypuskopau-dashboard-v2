@@ -2,12 +2,12 @@
   <PageInnerCard :title="$t('title.argoTariffSetting')">
     <InputForm
       name="distance"
-      :label="`${$t('names.distance')} (km)`"
+      :label="`${$t('names.distance')} (${tariffUnit.configSuffix})`"
       v-model="form.distance"
       is-separate-row
       bordered
       :rules="{ required: true }"
-      suffix="km"
+      :suffix="tariffUnit.configSuffix"
       type="number"
     />
 
@@ -40,12 +40,14 @@ import InputForm from '@/components/atoms/InputForm.vue'
 import PageInnerCard from '@/components/atoms/PageInnerCard.vue'
 import type { ArgoTariffSetting } from '@/types/Forms'
 import { toRefs, watch } from 'vue'
+import { useTariffUnitStore } from '@/stores/tariffUnit'
 
 interface Props {
   form: ArgoTariffSetting
 }
 
 const props = defineProps<Props>()
+const tariffUnit = useTariffUnitStore()
 const emits = defineEmits<{
   update: [form: ArgoTariffSetting]
 }>()

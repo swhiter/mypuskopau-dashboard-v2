@@ -21,12 +21,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import PageCard from '@/components/atoms/PageCard.vue'
 import PageContainer from '@/components/atoms/PageContainer.vue'
 import ArgoTariffManagement from '@/components/organisms/ArgoTariffManagement.vue'
 import ArgoTariffByDistance from '@/components/organisms/ArgoTariffByDistance.vue'
+import { useTariffUnitStore } from '@/stores/tariffUnit'
+import { handleErrorResponse } from '@/utils/common'
 
 const cardLoading = ref(false)
 const buttonLoading = ref(false)
+
+// Label satuan (km/m) mengikuti satuan yang sedang dikonfigurasi
+const tariffUnit = useTariffUnitStore()
+onMounted(() => {
+  tariffUnit.fetchUnits().catch(handleErrorResponse)
+})
 </script>

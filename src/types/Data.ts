@@ -248,6 +248,15 @@ export interface VendorOrderForm {
   price: number
 }
 
+// Satuan jarak tarif (m_satuan_tarif)
+export interface SatuanTarif {
+  id: number
+  satuan: string
+  description: string
+  isActivePrice: boolean
+  isActiveConfig: boolean
+}
+
 // Minimum Argo
 export interface ArgoTariff {
   id: number

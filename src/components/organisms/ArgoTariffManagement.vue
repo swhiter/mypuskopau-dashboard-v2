@@ -44,15 +44,24 @@ const onSubmit = (): void => {
 }
 
 const save = async (): Promise<void> => {
-  if (!tariff.value) return
   buttonLoading.value = true
 
-  tariff.value.distance = tariffSetting.value.distance
-  tariff.value.minimumPrice = tariffSetting.value.minimumPrice
-  tariff.value.pricePerMenit = tariffSetting.value.pricePerMenit
-
   try {
-    await tariffService.updateArgoTariff(tariff.value)
+    if (tariff.value) {
+      tariff.value.distance = tariffSetting.value.distance
+      tariff.value.minimumPrice = tariffSetting.value.minimumPrice
+      tariff.value.pricePerMenit = tariffSetting.value.pricePerMenit
+      await tariffService.updateArgoTariff(tariff.value)
+    } else {
+      // Satuan yang dikonfigurasi belum punya tarif minimum argo -> buat baru
+      const response = await tariffService.createArgoTariff({
+        distance: Number(tariffSetting.value.distance),
+        price: Number(tariffSetting.value.price),
+        minimumPrice: Number(tariffSetting.value.minimumPrice),
+        pricePerMenit: Number(tariffSetting.value.pricePerMenit)
+      })
+      tariff.value = response.data
+    }
     toaster.success({ text: t('alert.successSave') })
   } catch (error) {
     handleErrorResponse(error)
@@ -64,11 +73,14 @@ const save = async (): Promise<void> => {
 const getTariff = async (): Promise<void> => {
   cardLoading.value = true
   try {
-    const response = await tariffService.getArgoTariff(1)
-    tariff.value = response.data
-    tariffSetting.value.distance = response.data.distance
-    tariffSetting.value.minimumPrice = response.data.minimumPrice
-    tariffSetting.value.pricePerMenit = response.data.pricePerMenit
+    // Tarif minimum argo milik satuan yang sedang dikonfigurasi (bisa belum ada)
+    const response = await tariffService.getArgoTariffs()
+    tariff.value = response.data[0] ?? null
+    if (tariff.value) {
+      tariffSetting.value.distance = tariff.value.distance
+      tariffSetting.value.minimumPrice = tariff.value.minimumPrice
+      tariffSetting.value.pricePerMenit = tariff.value.pricePerMenit
+    }
   } catch (error) {
     handleErrorResponse(error)
   } finally {

@@ -17,7 +17,8 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { onMounted, ref, type Ref } from 'vue'
+import { computed, onMounted, ref, type Ref } from 'vue'
+import { useTariffUnitStore } from '@/stores/tariffUnit'
 import CustomTable from '../atoms/CustomTable.vue'
 import CustomTableButton from '../atoms/CustomTableButton.vue'
 import MainButton from '../atoms/MainButton.vue'
@@ -32,6 +33,7 @@ import type {
 } from '@/types/Data'
 
 const { t } = useI18n()
+const tariffUnit = useTariffUnitStore()
 const modal = useModalStore()
 
 const pagination: Ref<PaginationRequest> = ref({
@@ -42,14 +44,17 @@ const pagination: Ref<PaginationRequest> = ref({
   search: ''
 })
 
-const columns: Ref<TableField<Partial<ArgoTariffByDistance>>[]> = ref([
+const columns = computed<TableField<Partial<ArgoTariffByDistance>>[]>(() => [
   { name: 'actions', title: t('label.actions') },
   {
     name: 'distance',
     title: t('label.distance'),
-    field: (val) => `${val.intervalMin}km - ${val.intervalMax}km`
+    field: (val) => `${val.intervalMin}${tariffUnit.configSuffix} - ${val.intervalMax}${tariffUnit.configSuffix}`
   },
-  { name: 'price', title: t('label.pricePerKm') }
+  {
+    name: 'price',
+    title: tariffUnit.configSuffix === 'm' ? t('label.pricePerMeter') : t('label.pricePerKm')
+  }
 ])
 
 const rows: Ref<ExtendedArgoTariffByDistance[]> = ref([])

@@ -44,27 +44,41 @@ const onSubmit = async (): Promise<void> => {
 
 const save = async (): Promise<void> => {
   buttonLoading.value = true
-  tariff.value!.distance = tariffSetting.value.distance
-  tariff.value!.price = tariffSetting.value.price
-  tariff.value!.minimumPrice = tariffSetting.value.minimumPrice
   try {
-    await tariffService.updateTariff(tariff.value as Tariff)
+    if (tariff.value) {
+      tariff.value.distance = tariffSetting.value.distance
+      tariff.value.price = tariffSetting.value.price
+      tariff.value.minimumPrice = tariffSetting.value.minimumPrice
+      await tariffService.updateTariff(tariff.value)
+    } else {
+      // Satuan yang dikonfigurasi belum punya tarif minimum -> buat baru
+      const response = await tariffService.createTariff({
+        distance: Number(tariffSetting.value.distance),
+        price: Number(tariffSetting.value.price),
+        minimumPrice: Number(tariffSetting.value.minimumPrice),
+        pricePerMenit: 0
+      })
+      tariff.value = response.data
+    }
     buttonLoading.value = false
     toaster.success({ text: 'Sukses' })
   } catch (error) {
     buttonLoading.value = false
-    console.error(error)
+    handleErrorResponse(error)
   }
 }
 
 const getTariff = async (): Promise<void> => {
   cardLoading.value = true
   try {
-    const response = await tariffService.getTariffById(1)
-    tariff.value = response.data
-    tariffSetting.value.distance = tariff.value.distance
-    tariffSetting.value.price = tariff.value.price
-    tariffSetting.value.minimumPrice = (typeof tariff.value.minimumPrice == 'string') ? parseInt(tariff.value.minimumPrice) : tariff.value.minimumPrice
+    // Tarif minimum milik satuan yang sedang dikonfigurasi (bisa belum ada)
+    const response = await tariffService.getTariffs()
+    tariff.value = response.data[0] ?? null
+    if (tariff.value) {
+      tariffSetting.value.distance = tariff.value.distance
+      tariffSetting.value.price = tariff.value.price
+      tariffSetting.value.minimumPrice = (typeof tariff.value.minimumPrice == 'string') ? parseInt(tariff.value.minimumPrice) : tariff.value.minimumPrice
+    }
     cardLoading.value = false
   } catch (error) {
     cardLoading.value = false

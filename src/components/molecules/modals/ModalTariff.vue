@@ -4,14 +4,14 @@
     <Form id="tariff-distance-form" class="grid grid-cols-1 md:grid-cols-2 gap-2" @submit="submit">
       <div class="flex w-full space-x-2">
         <InputForm name="intervalMin" v-model="intervalMin" :label="t('names.intervalMin')" is-separate-row bordered
-          suffix="km" :rules="{ 'required': true, 'numeric': true, 'no_overlap': true, 'smaller': true }"
+          :suffix="distanceSuffix" :rules="{ 'required': true, 'numeric': true, 'no_overlap': true, 'smaller': true }"
           type="number" />
         <InputForm name="intervalMax" v-model="intervalMax" :label="t('names.intervalMax')" is-separate-row bordered
-          suffix="km" :rules="{ 'required': true, 'numeric': true, 'no_overlap': true, 'bigger': true }"
+          :suffix="distanceSuffix" :rules="{ 'required': true, 'numeric': true, 'no_overlap': true, 'bigger': true }"
           type="number" />
       </div>
       <InputForm name="price" v-model="price" :label="t('names.price')" is-separate-row bordered prefix="Rp"
-        :rules="{ 'required': true, 'numeric': true }" type="number" />
+        :rules="priceRules" type="number" />
       <InputForm v-if="props.tableType !== 'argo'" name="priceMulti" v-model="priceMulti" :label="t('names.priceMulti')"
         is-separate-row bordered prefix="Rp" :rules="{ 'required': true, 'numeric': true }" type="number" />
     </Form>
@@ -22,7 +22,8 @@
 import { defineRule, Form } from 'vee-validate';
 import { useI18n } from 'vue-i18n';
 import ModalBaseWithHeader from './ModalBaseWithHeader.vue';
-import { onMounted, ref, type Ref } from 'vue';
+import { computed, onMounted, ref, type Ref } from 'vue';
+import { useTariffUnitStore } from '@/stores/tariffUnit';
 import type { TariffByDistance } from '@/types/Data';
 import InputForm from '@/components/atoms/InputForm.vue';
 import tariffService from '@/services/drivers/tariff.api';
@@ -30,6 +31,7 @@ import { handleErrorResponse } from '@/utils/common';
 import { useToasterStore } from '@/stores/toaster';
 
 const { t } = useI18n()
+const tariffUnit = useTariffUnitStore()
 const toast = useToasterStore()
 
 interface Props {
@@ -46,6 +48,18 @@ const props = withDefaults(defineProps<Props>(), {
   isAdd: false,
   tableType: 'airport'
 })
+
+// Satuan meter hanya berlaku untuk tarif argo; tarif bandara/non bandara selalu km
+const distanceSuffix = computed(() =>
+  props.tableType === 'argo' ? tariffUnit.configSuffix : 'km'
+)
+
+// Harga per meter bisa desimal (mis. 5.80), selain itu tetap bilangan bulat
+const priceRules = computed(() =>
+  distanceSuffix.value === 'm'
+    ? { required: true, min_value: 0 }
+    : { required: true, numeric: true }
+)
 
 const selectedData: Ref<TariffByDistance | null | undefined> = ref(null)
 const intervalMin: Ref<number> = ref(0)

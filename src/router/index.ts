@@ -14,6 +14,7 @@ import PassengerManagementView from '@/views/main/PassengerManagementView.vue'
 import DiscountManagementView from '@/views/main/DiscountManagementView.vue'
 import UnfinishedTripsView from '@/views/main/UnfinishedTripsView.vue'
 import ArgoReviewsView from '@/views/main/ArgoReviewsView.vue'
+import TariffUnitSettingView from '@/views/main/TariffUnitSettingView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -70,6 +71,14 @@ const router = createRouter({
           path: '/argo-tariff-management',
           name: 'ArgoTariffManagement',
           component: ArgoTariffView,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: '/tariff-unit-setting',
+          name: 'tariffUnitSetting',
+          component: TariffUnitSettingView,
           meta: {
             requiresAuth: true
           }
