@@ -248,6 +248,81 @@ export interface VendorOrderForm {
   price: number
 }
 
+// Penggajian driver
+export interface PayrollSummary {
+  period: { id: number; openedAt: string }
+  payrollCount: number
+  totalBase: number
+  totalDeduction: number
+  totalBonus: number
+  totalNet: number
+  pendingDriverCount: number
+  pendingTotal: number
+}
+
+export interface PendingDriver {
+  driverId: number
+  driverName: string
+  vehicleCode: string
+  orderCount: number
+  baseAmount: number
+  firstOrderAt: string
+  lastOrderAt: string
+}
+
+export interface UnpaidOrder {
+  orderId: number
+  driverId: number
+  transactionNumber: string
+  createdAt: string
+  paymentMethod: string
+  price: number
+  amount: number
+}
+
+export interface PendingDetail {
+  driver: { id: number; name: string; vehicleCode: string }
+  orders: UnpaidOrder[]
+  baseAmount: number
+}
+
+export interface PayrollRow {
+  id: number
+  periodId: number
+  periodStatus: 'OPEN' | 'CLOSED'
+  driverId: number
+  driverName: string
+  vehicleCode: string
+  orderCount: number
+  baseAmount: number
+  deductionAmount: number
+  deductionNote: string | null
+  bonusAmount: number
+  bonusNote: string | null
+  netAmount: number
+  processedBy: string
+  processedAt: string
+  updatedBy: string | null
+  updatedAt: string
+}
+
+export interface PayrollDetail extends PayrollRow {
+  orders: { orderId: number; transactionNumber: string; createdAt: string; paymentMethod: string; amount: number }[]
+}
+
+export interface PayrollPeriod {
+  id: number
+  status: 'OPEN' | 'CLOSED'
+  openedAt: string
+  closedAt: string | null
+  closedBy: string | null
+  payrollCount: number
+  totalBase: number
+  totalDeduction: number
+  totalBonus: number
+  totalNet: number
+}
+
 // Satuan jarak tarif (m_satuan_tarif)
 export interface SatuanTarif {
   id: number

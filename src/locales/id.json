@@ -34,6 +34,22 @@
   "generate": "Generate",
   "browse": "Telusuri",
   "names": {
+    "totalBaseSalary": "Total Gaji Dasar",
+    "totalDeduction": "Total Potongan",
+    "totalBonus": "Total Bonus",
+    "totalNetSalary": "Total Gaji Bersih",
+    "driverSalary": "Gaji Driver",
+    "deduction": "Potongan",
+    "deductionNote": "Catatan Potongan",
+    "bonus": "Bonus",
+    "bonusNote": "Catatan Bonus",
+    "baseSalary": "Gaji Dasar",
+    "netSalary": "Gaji Bersih",
+    "orderCount": "Jumlah Order",
+    "orderRange": "Rentang Order",
+    "processedAt": "Waktu Proses",
+    "processedBy": "Diproses Oleh",
+    "updatedBy": "Diubah Oleh",
     "vendorReference": "Nomor Struk",
     "tripDate": "Tanggal Perjalanan",
     "tripDistance": "Jarak",
@@ -135,6 +151,13 @@
     "carName": "Masukkan nama armada"
   },
   "title": {
+    "payroll": "Penggajian Driver",
+    "payrollCurrentPeriod": "Periode Buku Berjalan",
+    "payrollPending": "Menunggu Penggajian",
+    "payrollHistory": "Riwayat Penggajian",
+    "processPayroll": "Proses Gaji Driver",
+    "editPayroll": "Ubah Potongan & Bonus",
+    "payrollDetail": "Detail Penggajian",
     "vendorOrder": "Input Struk Vendor",
     "vendorOrderHistory": "Riwayat Struk Vendor",
     "vendorData": "Daftar Vendor",
@@ -192,6 +215,14 @@
     "noResponse": "Tidak ada respon diterima dari server. Harap cek koneksi internet Anda."
   },
   "label": {
+    "periodOpenedAt": "Periode dibuka sejak {date}",
+    "closeBook": "Tutup Buku",
+    "payrollCount": "{count} penggajian",
+    "pendingPayroll": "Belum diproses: {amount} dari {count} driver",
+    "searchDriver": "Cari nama / kode kendaraan",
+    "processPayroll": "Proses",
+    "noPendingPayroll": "Tidak ada driver yang menunggu penggajian",
+    "periodRunning": "Berjalan sejak {date}",
     "choose": "Pilih",
     "searchVendorOrder": "Cari no. struk / transaksi / pelanggan",
     "allVendors": "Semua vendor",
@@ -251,11 +282,15 @@
     "showDriverGroupedSummary": "Tampilkan Rekapan per Pengemudi"
   },
   "alert": {
+    "bookClosed": "Buku berhasil ditutup",
     "successSave": "Berhasil menyimpan data",
     "successLogout": "Berhasil keluar",
     "successDelete": "Berhasil menghapus data"
   },
   "message": {
+    "closeBook": "Tutup buku periode ini? {count} penggajian (gaji bersih {net}, potongan {deduction}, bonus {bonus}) akan dikunci dan periode baru dibuka.",
+    "noteRequired": "Catatan wajib diisi bila nominal potongan/bonus lebih dari 0",
+    "confirmPayroll": "Simpan penggajian {name} dengan gaji bersih {net}?",
     "tripDateFuture": "Tanggal perjalanan tidak boleh di masa depan",
     "deleteVendorOrder": "Hapus struk {reference} (no. transaksi {transaction})? Tindakan ini tidak dapat diurungkan",
     "logout": "Yakin ingin keluar?",
