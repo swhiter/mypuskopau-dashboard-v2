@@ -3,7 +3,10 @@
     <aside class="sidebar-background">
       <SidebarProfile :name="name" :username="username" :image="userImage" />
       <div class="sidebar-menus">
-        <MenuItems v-for="(item, index) in visibleMenus" :key="index" :menu="item" />
+        <template v-for="entry in visibleMenus" :key="entry.title">
+          <MenuGroup v-if="isMenuGroup(entry)" :group="entry" />
+          <MenuItems v-else :menu="entry" />
+        </template>
       </div>
     </aside>
   </div>
@@ -11,9 +14,9 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, type Ref } from 'vue';
-import { routeAllowed } from '@/utils/roles';
+import { filterMenusForRole, isMenuGroup, type MenuEntry } from '@/utils/menu';
 import MenuItems from '../atoms/MenuItems.vue';
-import type { MenuItem } from '@/types/MainComponents';
+import MenuGroup from '../atoms/MenuGroup.vue';
 import SidebarProfile from '../molecules/misc/SidebarProfile.vue';
 import { getCurrentUser } from '@/utils/common';
 import defaultImage from '@/assets/images/user.png';
@@ -22,7 +25,7 @@ const name: Ref<string> = ref('')
 const username: Ref<string> = ref('')
 const userImage: Ref<string> = ref('')
 
-const menus: Ref<MenuItem[]> = ref([
+const menus: MenuEntry[] = [
   {
     title: 'Dashboard',
     href: '/dashboard',
@@ -30,106 +33,61 @@ const menus: Ref<MenuItem[]> = ref([
     isMdi: true
   },
   {
-    title: 'Buat Struk Manual',
-    href: '/orders/create-manual',
-    icon: 'add_shopping_cart',
-    isMdi: true
+    title: 'Transaksi',
+    icon: 'receipt',
+    isMdi: true,
+    children: [
+      { title: 'Manajemen Pesanan', href: '/order-management', icon: 'list_alt', isMdi: true },
+      { title: 'Buat Struk Manual', href: '/orders/create-manual', icon: 'add_shopping_cart', isMdi: true },
+      { title: 'Input Struk Vendor', href: '/vendor-orders', icon: 'receipt_long', isMdi: true },
+      { title: 'Trip Bermasalah', href: '/unfinished-trips', icon: 'report_problem', isMdi: true }
+    ]
   },
   {
-    title: 'Input Struk Vendor',
-    href: '/vendor-orders',
-    icon: 'receipt_long',
-    isMdi: true
+    title: 'Pengemudi',
+    icon: 'badge',
+    isMdi: true,
+    children: [
+      { title: 'Manajemen Pengemudi', href: '/driver-management', icon: '/icons/manajemen-pengemudi.svg', isMdi: false },
+      { title: 'Pelacakan Pengemudi', href: '/driver-tracking', icon: '/icons/pelacakan-pengemudi.svg', isMdi: false },
+      { title: 'Ulasan Argo', href: '/argo-reviews', icon: 'reviews', isMdi: true }
+    ]
   },
   {
-    title: 'Penggajian Driver',
-    href: '/payroll',
-    icon: 'payments',
-    isMdi: true
+    title: 'Keuangan',
+    icon: 'account_balance_wallet',
+    isMdi: true,
+    children: [
+      { title: 'Penggajian Driver', href: '/payroll', icon: 'payments', isMdi: true },
+      { title: 'Laporan Pendapatan', href: '/reports/income', icon: 'bar_chart', isMdi: true }
+    ]
   },
   {
-    title: 'Laporan Pendapatan',
-    href: '/reports/income',
-    icon: 'bar_chart',
-    isMdi: true
+    title: 'Tarif & Diskon',
+    icon: 'sell',
+    isMdi: true,
+    children: [
+      { title: 'Manajemen Tarif', href: '/tariff-management', icon: '/icons/manajemen-tarif.svg', isMdi: false },
+      { title: 'Manajemen Tarif Argo', href: '/argo-tariff-management', icon: '/icons/manajemen-tarif.svg', isMdi: false },
+      { title: 'Satuan Tarif Argo', href: '/tariff-unit-setting', icon: 'straighten', isMdi: true },
+      { title: 'Manajemen Diskon', href: '/discount-management', icon: 'money', isMdi: true }
+    ]
   },
   {
-    title: 'Manajemen Pengemudi',
-    href: '/driver-management',
-    icon: '/icons/manajemen-pengemudi.svg',
-    isMdi: false
-  },
-  {
-    title: 'Manajemen Staf',
-    href: '/staff-management',
-    icon: '/icons/manajemen-staf.svg',
-    isMdi: false
-  },
-  {
-    title: 'Manajemen Pesanan',
-    href: '/order-management',
-    icon: 'list_alt',
-    isMdi: true
-  },
-  {
-    title: 'Manajemen Tarif',
-    href: '/tariff-management',
-    icon: '/icons/manajemen-tarif.svg',
-    isMdi: false
-  },
-  {
-    title: 'Manajemen Tarif Argo',
-    href: '/Argo-tariff-management',
-    icon: '/icons/manajemen-tarif.svg',
-    isMdi: false
-  },
-  {
-    title: 'Satuan Tarif Argo',
-    href: '/tariff-unit-setting',
-    icon: 'straighten',
-    isMdi: true
-  },
-  {
-    title: 'Manajemen Armada',
-    href: '/car-management',
-    icon: 'local_taxi',
-    isMdi: true
-  },
-  {
-    title: 'Manajemen Penumpang',
-    href: '/passenger-management',
-    icon: 'people',
-    isMdi: true
-  },
-  {
-    title: 'Manajemen Diskon',
-    href: '/discount-management',
-    icon: 'money',
-    isMdi: true
-  },
-  {
-    title: 'Pelacakan Pengemudi',
-    href: '/driver-tracking',
-    icon: '/icons/pelacakan-pengemudi.svg',
-    isMdi: false
-  },
-  {
-    title: 'Trip Bermasalah',
-    href: '/unfinished-trips',
-    icon: 'report_problem',
-    isMdi: true
-  },
-  {
-    title: 'Ulasan Argo',
-    href: '/argo-reviews',
-    icon: 'reviews',
-    isMdi: true
+    title: 'Master Data',
+    icon: 'database',
+    isMdi: true,
+    children: [
+      { title: 'Manajemen Armada', href: '/car-management', icon: 'local_taxi', isMdi: true },
+      { title: 'Manajemen Staf', href: '/staff-management', icon: '/icons/manajemen-staf.svg', isMdi: false },
+      { title: 'Manajemen Penumpang', href: '/passenger-management', icon: 'people', isMdi: true }
+    ]
   }
-])
+]
 
 // Bendahara hanya melihat menu yang diizinkan untuk role-nya
 const role: Ref<string | undefined> = ref(undefined)
-const visibleMenus = computed(() => menus.value.filter((item) => routeAllowed(role.value, item.href)))
+const visibleMenus = computed(() => filterMenusForRole(menus, role.value))
 
 onMounted(() => {
   const user = getCurrentUser()
@@ -150,6 +108,6 @@ onMounted(() => {
 }
 
 .sidebar-menus {
-  @apply flex flex-col space-y-1
+  @apply flex flex-col space-y-1 overflow-y-auto pb-4
 }
 </style>
