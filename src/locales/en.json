@@ -36,6 +36,9 @@
   "generate": "Generate",
   "browse": "Browse",
   "names": {
+    "vendorName": "Vendor Name",
+    "active": "Active",
+    "inactive": "Inactive",
     "title": "label",
     "username": "Staff ID",
     "password": "Password",
@@ -72,6 +75,7 @@
     "uploadImage": "Drop your image here, or"
   },
   "title": {
+    "vendorData": "Vendor List",
     "dashboard": "Dashboard",
     "driverManagement": "Driver Management",
     "staffManagement": "Staff Management",

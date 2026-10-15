@@ -202,6 +202,15 @@ export interface ExtendedDiscount extends Discount {
   actions: number
 }
 
+// Vendor untuk input struk vendor (m_vendor)
+export interface Vendor {
+  id: number
+  name: string
+  isActive: boolean
+}
+
+export type ExtendedVendor = Vendor & { actions: number }
+
 // Minimum Argo
 export interface ArgoTariff {
   id: number

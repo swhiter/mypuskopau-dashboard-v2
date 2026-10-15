@@ -34,6 +34,7 @@
   "generate": "Generate",
   "browse": "Telusuri",
   "names": {
+    "vendorName": "Nama Vendor",
     "title": "label",
     "username": "ID Staf",
     "password": "Kata Sandi",
@@ -125,6 +126,7 @@
     "carName": "Masukkan nama armada"
   },
   "title": {
+    "vendorData": "Daftar Vendor",
     "dashboard": "Dashboard",
     "driverManagement": "Manajemen Pengemudi",
     "staffManagement": "Manajemen Staf",
