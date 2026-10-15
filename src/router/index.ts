@@ -161,6 +161,20 @@ const router = createRouter({
             requiresAuth: true
           }
         }, {
+          path: '/cash',
+          name: 'cashDashboard',
+          component: () => import('@/views/main/CashDashboardView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        }, {
+          path: '/cash/movements',
+          name: 'cashMovements',
+          component: () => import('@/views/main/CashMovementsView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        }, {
           path: '/reports/income',
           name: 'IncomeReport',
           component: () => import('@/views/reports/IncomeReportView.vue'),

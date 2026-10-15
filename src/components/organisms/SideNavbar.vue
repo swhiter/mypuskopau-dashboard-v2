@@ -33,6 +33,15 @@ const menus: MenuEntry[] = [
     isMdi: true
   },
   {
+    title: 'Kas',
+    icon: 'account_balance',
+    isMdi: true,
+    children: [
+      { title: 'Dashboard Kas', href: '/cash', icon: 'account_balance_wallet', isMdi: true },
+      { title: 'Arus Kas', href: '/cash/movements', icon: 'swap_horiz', isMdi: true }
+    ]
+  },
+  {
     title: 'Transaksi',
     icon: 'receipt',
     isMdi: true,

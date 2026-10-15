@@ -2,23 +2,28 @@ import { describe, expect, it } from 'vitest'
 import { canManagePayroll, homeRouteFor, routeAllowed } from '../roles'
 
 describe('routeAllowed', () => {
-  it('limits bendahara to payroll', () => {
-    expect(routeAllowed('bendahara', '/driver-management')).toBe(false)
-    expect(routeAllowed('bendahara', '/dashboard')).toBe(false)
+  it('limits bendahara to cash and payroll', () => {
+    expect(routeAllowed('bendahara', '/cash')).toBe(true)
+    expect(routeAllowed('bendahara', '/cash/movements')).toBe(true)
     expect(routeAllowed('bendahara', '/payroll')).toBe(true)
     expect(routeAllowed('bendahara', '/login')).toBe(true)
+    expect(routeAllowed('bendahara', '/driver-management')).toBe(false)
+    expect(routeAllowed('bendahara', '/dashboard')).toBe(false)
   })
 
-  it('does not restrict other roles', () => {
-    expect(routeAllowed('superadmin', '/driver-management')).toBe(true)
+  it('routeAllowed cash rules: other roles cannot open cash pages', () => {
+    expect(routeAllowed('superadmin', '/cash')).toBe(false)
+    expect(routeAllowed('superadmin', '/cash/movements')).toBe(false)
+    expect(routeAllowed('superadmin', '/cashier')).toBe(true)
     expect(routeAllowed('superadmin', '/payroll')).toBe(true)
+    expect(routeAllowed('superadmin', '/driver-management')).toBe(true)
     expect(routeAllowed(undefined, '/dashboard')).toBe(true)
   })
 })
 
 describe('homeRouteFor', () => {
-  it('sends bendahara to payroll', () => {
-    expect(homeRouteFor('bendahara')).toBe('/payroll')
+  it('sends bendahara to cash dashboard', () => {
+    expect(homeRouteFor('bendahara')).toBe('/cash')
     expect(homeRouteFor('superadmin')).toBe('/dashboard')
     expect(homeRouteFor(undefined)).toBe('/dashboard')
   })
