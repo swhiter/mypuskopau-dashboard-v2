@@ -35,6 +35,12 @@ const menus: Ref<MenuItem[]> = ref([
     isMdi: true
   },
   {
+    title: 'Input Struk Vendor',
+    href: '/vendor-orders',
+    icon: 'receipt_long',
+    isMdi: true
+  },
+  {
     title: 'Laporan Pendapatan',
     href: '/reports/income',
     icon: 'bar_chart',

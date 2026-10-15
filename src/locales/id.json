@@ -34,6 +34,11 @@
   "generate": "Generate",
   "browse": "Telusuri",
   "names": {
+    "vendorReference": "Nomor Struk",
+    "tripDate": "Tanggal Perjalanan",
+    "tripDistance": "Jarak",
+    "route": "Rute",
+    "receiptPhoto": "Foto Struk",
     "vendorName": "Nama Vendor",
     "title": "label",
     "username": "ID Staf",
@@ -126,6 +131,8 @@
     "carName": "Masukkan nama armada"
   },
   "title": {
+    "vendorOrder": "Input Struk Vendor",
+    "vendorOrderHistory": "Riwayat Struk Vendor",
     "vendorData": "Daftar Vendor",
     "dashboard": "Dashboard",
     "driverManagement": "Manajemen Pengemudi",
@@ -178,6 +185,10 @@
     "noResponse": "Tidak ada respon diterima dari server. Harap cek koneksi internet Anda."
   },
   "label": {
+    "choose": "Pilih",
+    "searchVendorOrder": "Cari no. struk / transaksi / pelanggan",
+    "allVendors": "Semua vendor",
+    "inputVendorOrder": "Input Struk",
     "actions": "Aksi",
     "driverName": "Nama Pengemudi",
     "idCardNumber": "NIK",
@@ -237,6 +248,8 @@
     "successDelete": "Berhasil menghapus data"
   },
   "message": {
+    "tripDateFuture": "Tanggal perjalanan tidak boleh di masa depan",
+    "deleteVendorOrder": "Hapus struk {reference} (no. transaksi {transaction})? Tindakan ini tidak dapat diurungkan",
     "logout": "Yakin ingin keluar?",
     "save": "Apakah Anda yakin akan menyimpan perubahan ini?",
     "delete": "Apakah Anda yakin akan menghapus data ini? Tindakan ini tidak dapat diurungkan",

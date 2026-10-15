@@ -138,6 +138,13 @@ const router = createRouter({
             // tambahkan meta role kalau perlu
           }
         }, {
+          path: '/vendor-orders',
+          name: 'vendorOrders',
+          component: () => import('@/views/main/VendorOrderView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        }, {
           path: '/reports/income',
           name: 'IncomeReport',
           component: () => import('@/views/reports/IncomeReportView.vue'),

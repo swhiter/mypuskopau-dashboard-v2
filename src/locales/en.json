@@ -36,6 +36,17 @@
   "generate": "Generate",
   "browse": "Browse",
   "names": {
+    "vendorReference": "Receipt Number",
+    "tripDate": "Trip Date",
+    "tripDistance": "Distance",
+    "route": "Route",
+    "receiptPhoto": "Receipt Photo",
+    "transactionNumber": "Transaction Number",
+    "driverName": "Driver Name",
+    "customerName": "Customer Name",
+    "customerPhone": "Customer Phone",
+    "pickupAddress": "Pickup Address",
+    "destinationAddress": "Destination Address",
     "vendorName": "Vendor Name",
     "active": "Active",
     "inactive": "Inactive",
@@ -75,6 +86,8 @@
     "uploadImage": "Drop your image here, or"
   },
   "title": {
+    "vendorOrder": "Vendor Receipt Input",
+    "vendorOrderHistory": "Vendor Receipt History",
     "vendorData": "Vendor List",
     "dashboard": "Dashboard",
     "driverManagement": "Driver Management",
@@ -111,6 +124,10 @@
     "noResponse": "No response received from the server. Please check your network connection."
   },
   "label": {
+    "choose": "Choose",
+    "searchVendorOrder": "Search receipt / transaction / customer",
+    "allVendors": "All vendors",
+    "inputVendorOrder": "Input Receipt",
     "actions": "Actions",
     "driverName": "Driver Name",
     "idCardNumber": "ID Card Number",
@@ -159,6 +176,8 @@
     "successDelete": "Data deleted"
   },
   "message": {
+    "tripDateFuture": "Trip date cannot be in the future",
+    "deleteVendorOrder": "Delete receipt {reference} (transaction {transaction})? This cannot be undone",
     "logout": "Are you sure you want to logout?",
     "save": "Are you sure you want to save?",
     "delete": "Are you sure you want to delete this data?",

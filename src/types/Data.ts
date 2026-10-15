@@ -211,6 +211,43 @@ export interface Vendor {
 
 export type ExtendedVendor = Vendor & { actions: number }
 
+// Struk vendor (t_order + t_order_detail dengan payment_method cash_vendor)
+export interface VendorOrder {
+  id: number
+  transactionNumber: string
+  tripDate: string
+  vendorId: number
+  vendorName: string
+  vendorReference: string
+  driverId: number
+  driverName: string
+  carType: number
+  carName: string
+  customerName: string
+  customerPhone: string
+  pickupAddress: string
+  destinationAddress: string
+  distance: number
+  price: number
+  hasPhoto: boolean
+}
+
+export type ExtendedVendorOrder = VendorOrder & { actions: number }
+
+export interface VendorOrderForm {
+  vendorId: string
+  vendorReference: string
+  tripDate: string
+  driverId: string
+  carType: string
+  customerName: string
+  customerPhone: string
+  pickupAddress: string
+  destinationAddress: string
+  distance: number
+  price: number
+}
+
 // Minimum Argo
 export interface ArgoTariff {
   id: number
