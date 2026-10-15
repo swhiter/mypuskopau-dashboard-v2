@@ -173,6 +173,8 @@
     "noResponse": "No response received from the server. Please check your network connection."
   },
   "label": {
+    "close": "Close",
+    "confirmVoid": "Void Entry",
     "allAccounts": "All accounts",
     "allKinds": "All kinds",
     "auto": "automatic",
@@ -248,6 +250,7 @@
     "successDelete": "Data deleted"
   },
   "message": {
+    "cashPettyHint": "The petty cash share (20% of management income) is already moved automatically from {account} to Petty Cash. When withdrawing, record only the part going to the Main Cash (the system balance); do not record the petty cash share manually.",
     "cashExceedsBalance": "Amount exceeds {account} balance ({balance}); balance will go negative.",
     "cashOpeningInfo": "Opening balance is recorded on the cash start date {date}.",
     "cashSameAccount": "Source and destination accounts must differ",

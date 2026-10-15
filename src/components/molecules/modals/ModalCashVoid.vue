@@ -1,6 +1,7 @@
 <template>
   <ModalBaseWithHeader :title="t('title.cashVoid')" has-save-button :button-loading="buttonLoading"
-    form="cash-void-form" :submitted="submitted">
+    form="cash-void-form" :submitted="submitted" :cancel-label="t('label.close')"
+    :submit-label="t('label.confirmVoid')">
     <Form id="cash-void-form" class="flex flex-col space-y-3" @submit="save">
       <p class="text-sm">{{ summaryText }}</p>
       <InputForm name="reason" v-model="reason" :label="t('names.voidReason')" is-separate-row bordered

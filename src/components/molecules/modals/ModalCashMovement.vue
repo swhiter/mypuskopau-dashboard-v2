@@ -20,6 +20,9 @@
         bordered :rules="{ required: true, integer: true, min_value: mode === 'OPENING' ? 0 : 1 }" />
       <InputForm name="description" v-model="description" :label="t('names.description')" is-separate-row bordered
         :rules="{ required: true }" />
+      <p v-if="mode !== 'OPENING' && (fromAccount === 'MIDTRANS' || fromAccount === 'CASH')" class="hint">
+        {{ t('message.cashPettyHint', { account: ACCOUNT_LABELS[fromAccount] }) }}
+      </p>
       <p v-if="exceedsBalance" class="warning">
         {{ t('message.cashExceedsBalance', { account: ACCOUNT_LABELS[fromAccount], balance: formatRupiah(balanceOf(fromAccount)) }) }}
       </p>
@@ -147,5 +150,9 @@ onMounted(async () => {
 
 .warning {
   @apply text-sm text-red-600
+}
+
+.hint {
+  @apply text-xs text-accentGray bg-gray-50 border border-buttonGray rounded-lg px-3 py-2
 }
 </style>

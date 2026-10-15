@@ -231,6 +231,8 @@
     "noResponse": "Tidak ada respon diterima dari server. Harap cek koneksi internet Anda."
   },
   "label": {
+    "close": "Tutup",
+    "confirmVoid": "Batalkan Catatan",
     "allAccounts": "Semua akun",
     "allKinds": "Semua jenis",
     "auto": "otomatis",
@@ -317,6 +319,7 @@
     "successDelete": "Berhasil menghapus data"
   },
   "message": {
+    "cashPettyHint": "Jatah kas kecil (20% pendapatan manajemen) sudah dipindahkan otomatis dari {account} ke Kas Kecil. Saat menarik uang, catat hanya bagian yang masuk Kas Besar (sebesar saldo di sistem); jangan mencatat pemindahan jatah kas kecil secara manual.",
     "cashExceedsBalance": "Nominal melebihi saldo {account} ({balance}); saldo akan minus.",
     "cashOpeningInfo": "Saldo awal dicatat pada tanggal mulai kas {date}.",
     "cashSameAccount": "Akun asal dan tujuan tidak boleh sama",

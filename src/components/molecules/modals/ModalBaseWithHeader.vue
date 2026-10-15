@@ -10,8 +10,8 @@
           <slot name="button" />
         </div>
         <div class="flex space-x-4 mt-4">
-          <MainButton :label="$t('label.cancel')" @click="handleCancel" uniform-width outline white />
-          <MainButton :label="isAdd ? $t('label.add') : $t('label.update')" uniform-width outline type="submit"
+          <MainButton :label="cancelLabel || $t('label.cancel')" @click="handleCancel" uniform-width outline white />
+          <MainButton :label="submitLabel || (isAdd ? $t('label.add') : $t('label.update'))" uniform-width outline type="submit"
             :form="form" :loading="buttonLoading" :disabled="buttonLoading" />
         </div>
       </div>
@@ -36,6 +36,9 @@ interface Props {
   buttonLoading?: boolean
   submitted?: boolean
   isAdd?: boolean
+  // label tombol opsional (default: Batalkan / Tambah|Perbarui)
+  cancelLabel?: string
+  submitLabel?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
