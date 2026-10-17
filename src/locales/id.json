@@ -34,6 +34,9 @@
   "generate": "Generate",
   "browse": "Telusuri",
   "names": {
+    "carNumber": "Nomor Mobil",
+    "staffName": "Staf",
+    "totalPaid": "Total Dibayar",
     "carCategory": "Jenis Armada",
     "fromAccount": "Dari Akun",
     "toAccount": "Ke Akun",
@@ -162,6 +165,9 @@
     "carName": "Masukkan nama armada"
   },
   "title": {
+    "tripData": "Data Perjalanan",
+    "driverAndCar": "Driver & Mobil",
+    "paymentSummary": "Ringkasan Pembayaran",
     "ritaseReport": "Laporan Ritase",
     "cashDashboard": "Dashboard Kas",
     "cashMovements": "Arus Kas",
@@ -233,6 +239,11 @@
     "noResponse": "Tidak ada respon diterima dari server. Harap cek koneksi internet Anda."
   },
   "label": {
+    "optional": "opsional",
+    "optionalCoordinates": "Koordinat (opsional)",
+    "paymentCash": "Pembayaran: Cash",
+    "saveOrder": "Simpan Order",
+    "openReceipt": "Buka Struk (PDF)",
     "thisMonth": "Bulan ini",
     "total": "TOTAL",
     "allCarCategories": "Semua jenis armada",
@@ -324,6 +335,10 @@
     "successDelete": "Berhasil menghapus data"
   },
   "message": {
+    "minimumFareApplied": "Harga di bawah tarif minimum; yang dicatat {amount}.",
+    "manualOrderInfo": "Order dicatat sebagai order cash yang sudah selesai & lunas, dan masuk ke laporan, penggajian, serta Saldo Cash.",
+    "manualOrderCreated": "Order cash berhasil dibuat",
+    "confirmManualOrder": "Simpan order cash untuk {name} dengan total {total}?",
     "cashPettyHint": "Jatah kas kecil (20% pendapatan manajemen) sudah dipindahkan otomatis dari {account} ke Kas Kecil. Saat menarik uang, catat hanya bagian yang masuk Kas Besar (sebesar saldo di sistem); jangan mencatat pemindahan jatah kas kecil secara manual.",
     "cashExceedsBalance": "Nominal melebihi saldo {account} ({balance}); saldo akan minus.",
     "cashOpeningInfo": "Saldo awal dicatat pada tanggal mulai kas {date}.",

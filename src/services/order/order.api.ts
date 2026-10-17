@@ -5,23 +5,25 @@ export interface CreateOrderPayload {
   customerEmail: string
   customerName: string
   customerPhone: string
-  driverID: number | string
+  // m_driver.user_id (backend mencari driver berdasarkan userId)
+  driverId: string
+  // id nomor mobil di Manajemen Armada (m_profit_sharing)
   carType: number
   orderDetail: {
     pickupAddress: string
     destinationAddress: string
     distance: number
     latitudeDestination: string
-    latitudeStart: string | number
+    latitudeStart: number
     longitudeDestination: string
-    longitudeStart: string | number
+    longitudeStart: number
     paymentMethod: string
     vaAccount: string
     price: number
     chargePassenger: number
     discount: number
   }
-  staffId: number | string
+  staffId?: number
 }
 export interface CreateOrderResponseData {
   data: any

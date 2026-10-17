@@ -36,6 +36,9 @@
   "generate": "Generate",
   "browse": "Browse",
   "names": {
+    "carNumber": "Car Number",
+    "staffName": "Staff",
+    "totalPaid": "Total Paid",
     "carCategory": "Car Category",
     "fromAccount": "From Account",
     "toAccount": "To Account",
@@ -120,6 +123,10 @@
     "uploadImage": "Drop your image here, or"
   },
   "title": {
+    "tripData": "Trip Data",
+    "driverAndCar": "Driver & Car",
+    "paymentSummary": "Payment Summary",
+    "customerData": "Customer Data",
     "ritaseReport": "Trip Report",
     "cashDashboard": "Cash Dashboard",
     "cashMovements": "Cash Flow",
@@ -175,6 +182,11 @@
     "noResponse": "No response received from the server. Please check your network connection."
   },
   "label": {
+    "optional": "optional",
+    "optionalCoordinates": "Coordinates (optional)",
+    "paymentCash": "Payment: Cash",
+    "saveOrder": "Save Order",
+    "openReceipt": "Open Receipt (PDF)",
     "thisMonth": "This month",
     "downloadExcel": "Download Excel",
     "total": "TOTAL",
@@ -257,6 +269,10 @@
     "successDelete": "Data deleted"
   },
   "message": {
+    "minimumFareApplied": "Price is below the minimum fare; {amount} will be recorded.",
+    "manualOrderInfo": "The order is recorded as a finished & paid cash order and appears in reports, payroll and the Cash balance.",
+    "manualOrderCreated": "Cash order created",
+    "confirmManualOrder": "Save cash order for {name} with total {total}?",
     "cashPettyHint": "The petty cash share (20% of management income) is already moved automatically from {account} to Petty Cash. When withdrawing, record only the part going to the Main Cash (the system balance); do not record the petty cash share manually.",
     "cashExceedsBalance": "Amount exceeds {account} balance ({balance}); balance will go negative.",
     "cashOpeningInfo": "Opening balance is recorded on the cash start date {date}.",
