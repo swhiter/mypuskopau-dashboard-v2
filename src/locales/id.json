@@ -232,6 +232,7 @@
     "noResponse": "Tidak ada respon diterima dari server. Harap cek koneksi internet Anda."
   },
   "label": {
+    "allCarCategories": "Semua jenis armada",
     "close": "Tutup",
     "confirmVoid": "Batalkan Catatan",
     "allAccounts": "Semua akun",

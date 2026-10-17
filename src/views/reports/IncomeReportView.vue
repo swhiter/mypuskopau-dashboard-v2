@@ -62,7 +62,7 @@
         <div v-else class="space-y-4">
             <PageCard>
                 <!-- Filter Pendapatan Driver -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
                     <div>
                         <label class="text-sm font-medium text-gray-700">{{ $t('names.startDate') }}</label>
                         <input type="date" v-model="driverFilter.startDate"
@@ -83,6 +83,13 @@
                         <label class="text-sm font-medium text-gray-700">{{ $t('names.carName') }}</label>
                         <input type="text" v-model="driverFilter.carName"
                             class="border rounded w-full px-3 py-2 text-sm" :placeholder="$t('placeholder.carName')" />
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">{{ $t('names.carCategory') }}</label>
+                        <select v-model="driverFilter.carCategory" class="border rounded w-full px-3 py-2 text-sm bg-white">
+                            <option value="">{{ $t('label.allCarCategories') }}</option>
+                            <option v-for="carType in CAR_TYPES" :key="carType" :value="carType">{{ carType }}</option>
+                        </select>
                     </div>
                 </div>
 
@@ -486,8 +493,13 @@ const driverFilter = ref({
     startDate: defaultStart,
     endDate: formatDate(today),
     driverName: '',
-    carName: ''
+    carName: '',
+    // jenis armada (difilter di server): '' = semua
+    carCategory: ''
 })
+
+// Jenis armada sesuai Manajemen Armada
+const CAR_TYPES = ['Mobil Puskopau', 'Mobil Investor']
 
 const driverPagination: Ref<PaginationRequest> = ref({
     page: 1,
@@ -609,7 +621,8 @@ const fetchPendapatanDriver = async () => {
             limit: driverPagination.value.limit,
             search: '',
             startDate: driverFilter.value.startDate,
-            endDate: driverFilter.value.endDate
+            endDate: driverFilter.value.endDate,
+            ...(driverFilter.value.carCategory ? { carCategory: driverFilter.value.carCategory } : {})
         }
         const res = await incomeReportService.getPendapatanDriver(params)
         driverRawData.value = res.data
@@ -646,7 +659,8 @@ const resetDriverFilter = () => {
         startDate: defaultStart,
         endDate: formatDate(today),
         driverName: '',
-        carName: ''
+        carName: '',
+        carCategory: ''
     }
     driverPagination.value.page = 1
     fetchPendapatanDriver()

@@ -109,6 +109,7 @@ export interface PendapatanDriverRow {
 export interface IncomeFilterRequest extends PaginationRequest {
   startDate: string   // YYYY-MM-DD
   endDate: string     // YYYY-MM-DD
+  carCategory?: string // Mobil Puskopau / Mobil Investor (hanya pendapatan driver)
 }
 
 // --- SERVICE CLASS ---
