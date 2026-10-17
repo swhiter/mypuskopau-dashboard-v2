@@ -269,6 +269,7 @@
     "successDelete": "Data deleted"
   },
   "message": {
+    "minimumFareInfo": "Minimum fare {amount}.",
     "minimumFareApplied": "Price is below the minimum fare; {amount} will be recorded.",
     "manualOrderInfo": "The order is recorded as a finished & paid cash order and appears in reports, payroll and the Cash balance.",
     "manualOrderCreated": "Cash order created",

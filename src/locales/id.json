@@ -335,6 +335,7 @@
     "successDelete": "Berhasil menghapus data"
   },
   "message": {
+    "minimumFareInfo": "Tarif minimum {amount}.",
     "minimumFareApplied": "Harga di bawah tarif minimum; yang dicatat {amount}.",
     "manualOrderInfo": "Order dicatat sebagai order cash yang sudah selesai & lunas, dan masuk ke laporan, penggajian, serta Saldo Cash.",
     "manualOrderCreated": "Order cash berhasil dibuat",

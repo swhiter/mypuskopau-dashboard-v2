@@ -80,7 +80,7 @@
               <Field as="select" id="driverUserId" name="driverUserId" v-model="form.driverUserId" class="select"
                 :rules="{ required: true }">
                 <option value="" disabled>{{ $t('label.choose') }}</option>
-                <option v-for="driver in filteredDrivers" :key="driver.userId" :value="driver.userId">
+                <option v-for="driver in filteredDrivers" :key="driver.id" :value="driver.userId">
                   {{ driver.name }} · {{ driver.userId }}
                 </option>
               </Field>
@@ -115,8 +115,10 @@
           <h2>{{ $t('title.paymentSummary') }}</h2>
         </header>
         <span class="badge">{{ $t('label.paymentCash') }}</span>
+        <!-- harga di bawah tarif minimum ditolak di sini agar backend tidak mengubah harga diam-diam -->
         <InputForm name="price" :label="$t('names.price')" v-model="form.price" is-separate-row bordered prefix="Rp"
-          :rules="{ required: true, integer: true, min_value: 1 }" type="number" />
+          :rules="{ required: true, integer: true, min_value: MINIMUM_PRICE }" type="number" />
+        <p class="hint">{{ $t('message.minimumFareInfo', { amount: formatRupiah(MINIMUM_PRICE) }) }}</p>
         <InputForm name="chargePassenger" :label="`${$t('names.chargePassenger')} (${$t('label.optional')})`"
           v-model="form.chargePassenger" is-separate-row bordered prefix="Rp" :rules="{ integer: true, min_value: 0 }"
           type="number" />
@@ -129,9 +131,6 @@
           <div><dt>{{ $t('names.discount') }}</dt><dd>− {{ formatRupiah(totals.discount) }}</dd></div>
           <div class="grand"><dt>{{ $t('names.totalPaid') }}</dt><dd>{{ formatRupiah(totals.total) }}</dd></div>
         </dl>
-        <p v-if="totals.minimumApplied" class="hint warning">
-          {{ $t('message.minimumFareApplied', { amount: formatRupiah(MINIMUM_PRICE) }) }}
-        </p>
         <p class="hint">{{ $t('message.manualOrderInfo') }}</p>
 
         <MainButton type="submit" form="manual-order-form" :label="$t('label.saveOrder')" wide :loading="saving"

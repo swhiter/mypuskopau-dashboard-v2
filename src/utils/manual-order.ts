@@ -1,7 +1,7 @@
 import type { CreateOrderPayload } from '@/services/order/order.api'
 
-// Buat Struk Manual: order cash yang dibuat admin. Backend (createOrder)
-// menerapkan tarif minimum yang sama untuk order dengan driver.
+// Buat Struk Manual: order cash yang dibuat admin. Harga di bawah tarif
+// minimum ditolak di form supaya createOrder tidak mengubah harga.
 export const MINIMUM_PRICE = 75000
 
 export interface ManualOrderForm {
