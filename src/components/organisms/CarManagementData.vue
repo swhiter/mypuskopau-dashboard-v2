@@ -53,18 +53,8 @@ const columns: Ref<TableField<Partial<Car>>[]> = ref([
     title: t('label.carName')
   },
   {
-    name: 'driverPercentage',
-    title: t('label.driverPercentage'),
-    field: (val) => `${val}%`
-  },
-  {
-    name: 'managementPercentage',
-    title: t('label.managementPercentage'),
-    field: (val) => `${val}%`
-  },
-  {
     name: 'description',
-    title: t('names.description')
+    title: t('names.carCategory')
   }
 ])
 

@@ -36,6 +36,7 @@
   "generate": "Generate",
   "browse": "Browse",
   "names": {
+    "carCategory": "Car Category",
     "fromAccount": "From Account",
     "toAccount": "To Account",
     "account": "Account",
