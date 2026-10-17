@@ -181,6 +181,13 @@ const router = createRouter({
           meta: {
             requiresAuth: true
           }
+        }, {
+          path: '/reports/ritase',
+          name: 'RitaseReport',
+          component: () => import('@/views/reports/RitaseReportView.vue'),
+          meta: {
+            requiresAuth: true
+          }
         }
 
       ]

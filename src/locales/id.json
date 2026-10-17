@@ -162,6 +162,7 @@
     "carName": "Masukkan nama armada"
   },
   "title": {
+    "ritaseReport": "Laporan Ritase",
     "cashDashboard": "Dashboard Kas",
     "cashMovements": "Arus Kas",
     "cashTransfer": "Pindah Antar Akun",
@@ -232,6 +233,8 @@
     "noResponse": "Tidak ada respon diterima dari server. Harap cek koneksi internet Anda."
   },
   "label": {
+    "thisMonth": "Bulan ini",
+    "total": "TOTAL",
     "allCarCategories": "Semua jenis armada",
     "close": "Tutup",
     "confirmVoid": "Batalkan Catatan",

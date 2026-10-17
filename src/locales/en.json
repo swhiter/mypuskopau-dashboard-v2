@@ -120,6 +120,7 @@
     "uploadImage": "Drop your image here, or"
   },
   "title": {
+    "ritaseReport": "Trip Report",
     "cashDashboard": "Cash Dashboard",
     "cashMovements": "Cash Flow",
     "cashTransfer": "Transfer Between Accounts",
@@ -174,6 +175,10 @@
     "noResponse": "No response received from the server. Please check your network connection."
   },
   "label": {
+    "thisMonth": "This month",
+    "downloadExcel": "Download Excel",
+    "total": "TOTAL",
+    "filter": "Filter",
     "allCarCategories": "All car categories",
     "close": "Close",
     "confirmVoid": "Void Entry",
