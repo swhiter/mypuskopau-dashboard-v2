@@ -45,7 +45,7 @@
           <tfoot v-if="report">
             <tr>
               <td>{{ $t('label.total') }}</td>
-              <td class="num">-</td>
+              <td class="num">{{ report.total.unitOps }}</td>
               <td class="num">{{ report.total.ritase }}</td>
               <td class="num">{{ formatRupiah(report.total.potongan) }}</td>
               <td class="num">{{ formatRupiah(report.total.pendapatanBersih) }}</td>
@@ -135,7 +135,7 @@ const downloadExcel = (): void => {
     row.rataRata,
     row.keterangan
   ])
-  const totalRow = ['TOTAL', '', total.ritase, total.potongan, total.pendapatanBersih, total.pendapatanKotor, total.rataRata, '']
+  const totalRow = ['TOTAL', total.unitOps, total.ritase, total.potongan, total.pendapatanBersih, total.pendapatanKotor, total.rataRata, '']
   const title = [`Laporan Ritase ${formatDate(startDate)} - ${formatDate(endDate)} (${carCategory ?? 'Semua jenis armada'})`]
 
   const sheet = XLSX.utils.aoa_to_sheet([title, [], header, ...body, totalRow])

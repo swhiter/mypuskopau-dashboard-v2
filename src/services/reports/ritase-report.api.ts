@@ -13,6 +13,7 @@ export interface RitaseRow {
 }
 
 export interface RitaseTotal {
+  unitOps: number
   ritase: number
   potongan: number
   pendapatanBersih: number
@@ -24,7 +25,6 @@ export interface RitaseReport {
   startDate: string
   endDate: string
   carCategory: string | null
-  unitOps: number
   rows: RitaseRow[]
   total: RitaseTotal
 }
