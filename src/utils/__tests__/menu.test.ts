@@ -26,7 +26,12 @@ describe('filterMenusForRole', () => {
 
   it('keeps only allowed children for bendahara and drops empty groups', () => {
     expect(filterMenusForRole(menus, 'bendahara')).toEqual([
-      { title: 'Keuangan', icon: 'x', isMdi: true, children: [leaf('Penggajian', '/payroll')] }
+      {
+        title: 'Keuangan',
+        icon: 'x',
+        isMdi: true,
+        children: [leaf('Penggajian', '/payroll'), leaf('Laporan', '/reports/income')]
+      }
     ])
   })
 })
