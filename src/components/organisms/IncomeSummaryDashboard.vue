@@ -43,7 +43,7 @@
             <tbody>
               <tr v-for="row in summary.byCategory" :key="row.category">
                 <td>{{ row.category }}</td>
-                <td v-for="column in CATEGORY_COLUMNS" :key="column.key" class="num">{{ display(column, row[column.key]) }}</td>
+                <td v-for="column in CATEGORY_COLUMNS" :key="column.key" class="num">{{ display(column, valueOf(row, column.key)) }}</td>
               </tr>
             </tbody>
           </table>
@@ -63,13 +63,13 @@
             <tbody>
               <tr v-for="row in summary.daily" :key="row.date" :class="{ empty: row.orderCount === 0 }">
                 <td>{{ formatDate(row.date) }}</td>
-                <td v-for="column in DAILY_COLUMNS" :key="column.key" class="num">{{ display(column, row[column.key]) }}</td>
+                <td v-for="column in DAILY_COLUMNS" :key="column.key" class="num">{{ display(column, valueOf(row, column.key)) }}</td>
               </tr>
             </tbody>
             <tfoot>
               <tr>
                 <td>{{ $t('label.total') }}</td>
-                <td v-for="column in DAILY_COLUMNS" :key="column.key" class="num">{{ display(column, summary.total[column.key]) }}</td>
+                <td v-for="column in DAILY_COLUMNS" :key="column.key" class="num">{{ display(column, valueOf(summary.total, column.key)) }}</td>
               </tr>
             </tfoot>
           </table>
@@ -92,15 +92,21 @@ import incomeReportService, { type IncomeMetrics, type IncomeSummary } from '@/s
 // Rumus dihitung di backend (/report/income-summary), sama dengan laporan
 // Pendapatan Pengemudi & Dashboard Kas.
 
-type Column = { key: keyof IncomeMetrics; label: string; count?: boolean }
+type Column = { key: keyof IncomeMetrics | 'managementAfterPetty'; label: string; count?: boolean }
+
+// Kas kecil diambil dari pendapatan manajemen (60%), jadi kolom bersihnya
+// dihitung per baris tabel; total sudah dikirim backend.
+const valueOf = (row: IncomeMetrics, key: Column['key']): number =>
+  key === 'managementAfterPetty' ? row.managementIncome - row.pettyCash : row[key]
 
 const CATEGORY_COLUMNS: Column[] = [
   { key: 'orderCount', label: 'Order', count: true },
   { key: 'tarif', label: 'Total Tarif' },
   { key: 'totalPaid', label: 'Total Dibayar Penumpang' },
-  { key: 'managementIncome', label: 'Pendapatan Manajemen' },
-  { key: 'driverIncome', label: 'Total Pendapatan Driver' },
-  { key: 'pettyCash', label: 'Kas Kecil' }
+  { key: 'managementIncome', label: 'Pendapatan Manajemen (60%)' },
+  { key: 'pettyCash', label: 'Kas Kecil' },
+  { key: 'managementAfterPetty', label: 'Manajemen setelah Kas Kecil' },
+  { key: 'driverIncome', label: 'Total Pendapatan Driver' }
 ]
 
 const DAILY_COLUMNS: Column[] = [
@@ -109,9 +115,10 @@ const DAILY_COLUMNS: Column[] = [
   { key: 'chargePassenger', label: 'Tambahan Biaya' },
   { key: 'surcharge', label: 'Surcharge' },
   { key: 'totalPaid', label: 'Total Dibayar' },
-  { key: 'managementIncome', label: 'Pendapatan Manajemen' },
-  { key: 'driverIncome', label: 'Total Pendapatan Driver' },
+  { key: 'managementIncome', label: 'Pendapatan Manajemen (60%)' },
   { key: 'pettyCash', label: 'Kas Kecil' },
+  { key: 'managementAfterPetty', label: 'Manajemen setelah Kas Kecil' },
+  { key: 'driverIncome', label: 'Total Pendapatan Driver' },
   { key: 'midtransFee', label: 'Biaya Midtrans' }
 ]
 
@@ -160,8 +167,8 @@ const groups = computed<{ title: string; items: Stat[] }[]>(() => {
         { label: 'Pendapatan Manajemen (60%)', value: formatRupiah(total.managementIncome), note: '60% x total tarif' },
         { label: 'Potongan Midtrans Driver', value: formatRupiah(total.driverDeduction), note: '0,7% total dibayar + 2% tarif' },
         { label: 'Total Pendapatan Driver', value: formatRupiah(total.driverIncome), note: 'pengemudi + tambahan biaya + surcharge - potongan', tone: 'highlight' },
-        { label: 'Kas Kecil', value: formatRupiah(total.pettyCash), note: '20% x pendapatan manajemen' },
-        { label: 'Pendapatan Manajemen setelah Kas Kecil', value: formatRupiah(total.managementAfterPetty) }
+        { label: 'Kas Kecil', value: formatRupiah(total.pettyCash), note: '20% x pendapatan manajemen (60%)' },
+        { label: 'Pendapatan Manajemen setelah Kas Kecil', value: formatRupiah(total.managementAfterPetty), note: 'pendapatan manajemen (60%) - kas kecil', tone: 'highlight' }
       ]
     },
     {
@@ -217,8 +224,8 @@ const downloadExcel = (): void => {
   summarySheet['!cols'] = [40, 22, 50].map((wch) => ({ wch }))
 
   const header = ['Tanggal', ...DAILY_COLUMNS.map((column) => column.label)]
-  const body = daily.map((row) => [formatDate(row.date), ...DAILY_COLUMNS.map((column) => row[column.key])])
-  const totalRow = ['TOTAL', ...DAILY_COLUMNS.map((column) => total[column.key])]
+  const body = daily.map((row) => [formatDate(row.date), ...DAILY_COLUMNS.map((column) => valueOf(row, column.key))])
+  const totalRow = ['TOTAL', ...DAILY_COLUMNS.map((column) => valueOf(total, column.key))]
   const dailySheet = XLSX.utils.aoa_to_sheet([header, ...body, totalRow])
   dailySheet['!cols'] = [12, ...DAILY_COLUMNS.map(() => 20)].map((wch) => ({ wch }))
 
