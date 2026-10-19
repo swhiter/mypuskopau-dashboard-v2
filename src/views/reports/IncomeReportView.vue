@@ -11,8 +11,11 @@
             </button>
         </div>
 
+        <!-- Ringkasan Pendapatan (dashboard bendahara) -->
+        <IncomeSummaryDashboard v-if="activeTab === 'summary'" />
+
         <!-- Pendapatan Rekapan -->
-        <div v-if="activeTab === 'rekapan'" class="space-y-4">
+        <div v-else-if="activeTab === 'rekapan'" class="space-y-4">
             <PageCard>
                 <!-- Filter Rekapan -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
@@ -59,7 +62,7 @@
         </div>
 
         <!-- Pendapatan Driver -->
-        <div v-else class="space-y-4">
+        <div v-else-if="canViewDetail" class="space-y-4">
             <PageCard>
                 <!-- Filter Pendapatan Driver -->
                 <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
@@ -242,6 +245,7 @@ import PageContainer from '@/components/atoms/PageContainer.vue'
 import PageCard from '@/components/atoms/PageCard.vue'
 import CustomTable from '@/components/atoms/CustomTable.vue'
 import MainButton from '@/components/atoms/MainButton.vue'
+import IncomeSummaryDashboard from '@/components/organisms/IncomeSummaryDashboard.vue'
 import DriverPerformanceChart, {
     type DriverPerformanceItem
 } from '@/components/charts/DriverPerformanceChart.vue'
@@ -251,7 +255,8 @@ import incomeReportService, {
     type IncomeFilterRequest
 } from '@/services/reports/income-report.api'
 import type { TableField, PaginationRequest } from '@/types/Main'
-import { handleErrorResponse } from '@/utils/common'
+import { getCurrentUser, handleErrorResponse } from '@/utils/common'
+import { canViewDriverIncomeDetail } from '@/utils/roles'
 const showDriverGroupedSummary = ref(false)
 
 type DriverGroupedRow = {
@@ -337,10 +342,14 @@ const { t } = useI18n()
 // Tab Rekapan Pendapatan disembunyikan (detailnya sudah ada di Pendapatan Pengemudi).
 // Kode rekapan dipertahankan; tambahkan kembali { key: 'rekapan', label: t('title.revenueRekapan') }
 // dan panggil fetchRekapan() di onMounted bila dibutuhkan lagi.
-const tabs: { key: 'rekapan' | 'driver'; label: string }[] = [
-    { key: 'driver', label: t('title.revenueDriver') }
+// Bendahara hanya melihat ringkasan; rincian per driver untuk role lain.
+const canViewDetail = canViewDriverIncomeDetail(getCurrentUser().role)
+type IncomeTab = 'summary' | 'rekapan' | 'driver'
+const tabs: { key: IncomeTab; label: string }[] = [
+    { key: 'summary', label: 'Ringkasan Pendapatan' },
+    ...(canViewDetail ? [{ key: 'driver' as const, label: t('title.revenueDriver') }] : [])
 ]
-const activeTab = ref<'rekapan' | 'driver'>('driver')
+const activeTab = ref<IncomeTab>('summary')
 
 const driverTotals = computed(() => {
     let totalTarif = 0
@@ -789,6 +798,6 @@ const downloadPendapatanDriverExcel = () => {
 }
 
 onMounted(() => {
-    fetchPendapatanDriver()
+    if (canViewDetail) fetchPendapatanDriver()
 })
 </script>

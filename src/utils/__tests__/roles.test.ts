@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { canManagePayroll, homeRouteFor, routeAllowed } from '../roles'
+import { canManagePayroll, canViewDriverIncomeDetail, homeRouteFor, routeAllowed } from '../roles'
 
 describe('routeAllowed', () => {
   it('limits bendahara to cash and payroll', () => {
@@ -39,5 +39,12 @@ describe('canManagePayroll', () => {
     expect(canManagePayroll('superadmin')).toBe(true)
     expect(canManagePayroll('bendahara')).toBe(false)
     expect(canManagePayroll(undefined)).toBe(false)
+  })
+})
+
+describe('canViewDriverIncomeDetail', () => {
+  it('hides per-driver income detail from bendahara', () => {
+    expect(canViewDriverIncomeDetail('bendahara')).toBe(false)
+    expect(canViewDriverIncomeDetail('superadmin')).toBe(true)
   })
 })

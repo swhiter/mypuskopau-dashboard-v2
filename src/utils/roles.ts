@@ -21,3 +21,6 @@ export const homeRouteFor = (role: string | undefined): string =>
   role === ROLE_BENDAHARA ? '/cash' : '/dashboard'
 
 export const canManagePayroll = (role: string | undefined): boolean => role === ROLE_SUPERADMIN
+
+// Bendahara cukup melihat ringkasan pendapatan, bukan rincian per driver.
+export const canViewDriverIncomeDetail = (role: string | undefined): boolean => role !== ROLE_BENDAHARA

@@ -1,6 +1,6 @@
 // src/services/reports/income-report.api.ts
 import httpClient from '../httpClient'
-import type { PaginatedResponse, PaginationRequest } from '@/types/Main'
+import type { GeneralResponse, PaginatedResponse, PaginationRequest } from '@/types/Main'
 
 // --- TYPE RESPONSE SESUAI API ---
 
@@ -112,6 +112,39 @@ export interface IncomeFilterRequest extends PaginationRequest {
   carCategory?: string // Mobil Puskopau / Mobil Investor (hanya pendapatan driver)
 }
 
+// --- Ringkasan Pendapatan (bendahara) ---
+
+export interface IncomeMetrics {
+  orderCount: number
+  tarif: number
+  discount: number
+  chargePassenger: number
+  surcharge: number
+  totalPaid: number
+  driverCommission: number
+  managementIncome: number
+  driverDeduction: number
+  driverIncome: number
+  pettyCash: number
+  midtransFee: number
+}
+
+export interface IncomeSummary {
+  startDate: string
+  endDate: string
+  total: IncomeMetrics & {
+    midtransMoney: number
+    cashMoney: number
+    otherMoney: number
+    midtransNet: number
+    managementAfterPetty: number
+    activeDrivers: number
+  }
+  byCategory: (IncomeMetrics & { category: string })[]
+  byAccount: { account: string; orderCount: number; totalPaid: number }[]
+  daily: (IncomeMetrics & { date: string })[]
+}
+
 // --- SERVICE CLASS ---
 
 class IncomeReportService {
@@ -131,6 +164,13 @@ class IncomeReportService {
       '/order/pendapatan-driver',
       { params }
     )
+  }
+
+  async getSummary(params: {
+    startDate: string
+    endDate: string
+  }): Promise<GeneralResponse<IncomeSummary>> {
+    return await httpClient.get<GeneralResponse<IncomeSummary>>('/report/income-summary', { params })
   }
 }
 
