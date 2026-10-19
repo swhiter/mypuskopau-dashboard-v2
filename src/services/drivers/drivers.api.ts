@@ -2,6 +2,7 @@ import type { Driver } from '@/types/Data'
 import type { GeneralResponse, PaginatedResponse, PaginationRequest } from '@/types/Main'
 import httpClient from '../httpClient'
 import type { AxiosRequestConfig } from 'axios'
+import { resizeImagesInForm } from '@/utils/image-resize'
 
 class DriverService {
   private config: AxiosRequestConfig
@@ -21,10 +22,10 @@ class DriverService {
     return await httpClient.get<GeneralResponse<Driver>>('/driver/' + id)
   }
   async createDriver(data: FormData): Promise<GeneralResponse<Driver>> {
-    return await httpClient.post<GeneralResponse<Driver>>('/driver', data, this.config)
+    return await httpClient.post<GeneralResponse<Driver>>('/driver', await resizeImagesInForm(data), this.config)
   }
   async updateDriver(data: FormData, id: number): Promise<GeneralResponse<Driver>> {
-    return await httpClient.put<GeneralResponse<Driver>>('/driver/' + id, data, this.config)
+    return await httpClient.put<GeneralResponse<Driver>>('/driver/' + id, await resizeImagesInForm(data), this.config)
   }
   async deleteDriver(id: number): Promise<GeneralResponse<Driver>> {
     return await httpClient.delete<GeneralResponse<Driver>>('/driver/' + id)

@@ -1,6 +1,7 @@
 import type { GeneralResponse } from '@/types/Main'
 import type { AxiosRequestConfig } from 'axios'
 import httpClient from '../httpClient'
+import { resizeImagesInForm } from '@/utils/image-resize'
 
 class ProfileService {
   private config: AxiosRequestConfig
@@ -14,7 +15,7 @@ class ProfileService {
   }
 
   async updateProfile(data: FormData, id: number): Promise<GeneralResponse<any>> {
-    return await httpClient.put<GeneralResponse<any>>('/admin/' + id, data, this.config)
+    return await httpClient.put<GeneralResponse<any>>('/admin/' + id, await resizeImagesInForm(data), this.config)
   }
 }
 

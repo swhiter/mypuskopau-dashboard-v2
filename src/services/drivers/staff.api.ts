@@ -2,6 +2,7 @@ import type { Staff } from '@/types/Data'
 import type { GeneralResponse, PaginatedResponse, PaginationRequest } from '@/types/Main'
 import type { AxiosRequestConfig } from 'axios'
 import httpClient from '../httpClient'
+import { resizeImagesInForm } from '@/utils/image-resize'
 
 class StaffService {
   private config: AxiosRequestConfig
@@ -21,10 +22,10 @@ class StaffService {
     return await httpClient.get<GeneralResponse<Staff>>('/staff/' + id)
   }
   async createStaff(data: FormData): Promise<GeneralResponse<Staff>> {
-    return await httpClient.post<GeneralResponse<Staff>>('/staff', data, this.config)
+    return await httpClient.post<GeneralResponse<Staff>>('/staff', await resizeImagesInForm(data), this.config)
   }
   async updateStaff(data: FormData, id: number): Promise<GeneralResponse<Staff>> {
-    return await httpClient.put<GeneralResponse<Staff>>('/staff/' + id, data, this.config)
+    return await httpClient.put<GeneralResponse<Staff>>('/staff/' + id, await resizeImagesInForm(data), this.config)
   }
   async deleteStaff(id: number): Promise<GeneralResponse<Staff>> {
     return await httpClient.delete<GeneralResponse<Staff>>('/staff/' + id)
