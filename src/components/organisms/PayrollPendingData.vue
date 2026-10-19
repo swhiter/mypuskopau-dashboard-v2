@@ -27,7 +27,7 @@ import ModalPayrollProcess from '../molecules/modals/ModalPayrollProcess.vue'
 import { useModalStore } from '@/stores/modal'
 import { getCurrentUser, handleErrorResponse } from '@/utils/common'
 import { canManagePayroll } from '@/utils/roles'
-import { formatRupiah, formatWib } from '@/utils/payroll-format'
+import { formatRupiah, formatWib, formatWorkDate } from '@/utils/payroll-format'
 import payrollService from '@/services/payroll/payroll.api'
 import type { TableField } from '@/types/Main'
 import type { PendingDriver } from '@/types/Data'
@@ -45,6 +45,7 @@ const loading = ref(false)
 
 const columns: Ref<TableField<any>[]> = ref([
   { name: 'actions', title: t('label.actions') },
+  { name: 'workDate', title: t('names.workDate'), field: (val: string) => formatWorkDate(val) },
   { name: 'driverName', title: t('names.driverName') },
   { name: 'vehicleCode', title: t('names.vehicleCode') },
   { name: 'orderCount', title: t('names.orderCount') },
@@ -73,7 +74,7 @@ const refresh = async (): Promise<void> => {
 const process = (item: PendingDriver): void => {
   modal.openModal({
     component: ModalPayrollProcess,
-    props: { title: t('title.processPayroll'), driverId: item.driverId }
+    props: { title: t('title.processPayroll'), driverId: item.driverId, workDate: item.workDate }
   })
   modal.onOk(() => {
     emits('changed')

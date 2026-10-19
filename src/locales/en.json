@@ -66,6 +66,7 @@
     "vehicleCode": "Vehicle Code",
     "orderCount": "Order Count",
     "orderRange": "Order Range",
+    "workDate": "Work Date",
     "processedAt": "Processed At",
     "processedBy": "Processed By",
     "updatedBy": "Updated By",

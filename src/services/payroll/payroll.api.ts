@@ -34,12 +34,14 @@ class PayrollService {
     })
   }
 
-  async getPendingDetail(driverId: number): Promise<GeneralResponse<PendingDetail>> {
-    return await httpClient.get<GeneralResponse<PendingDetail>>(`/payroll/pending/${driverId}`)
+  async getPendingDetail(driverId: number, workDate: string): Promise<GeneralResponse<PendingDetail>> {
+    return await httpClient.get<GeneralResponse<PendingDetail>>(`/payroll/pending/${driverId}`, {
+      params: { workDate }
+    })
   }
 
   async processPayroll(
-    data: PayrollAdjustmentPayload & { driverId: number; orderIds: number[] }
+    data: PayrollAdjustmentPayload & { driverId: number; workDate: string; orderIds: number[] }
   ): Promise<GeneralResponse<{ id: number; netAmount: number; orderCount: number }>> {
     return await httpClient.post<GeneralResponse<{ id: number; netAmount: number; orderCount: number }>>(
       '/payroll',

@@ -307,6 +307,7 @@ export interface PayrollSummary {
 
 export interface PendingDriver {
   driverId: number
+  workDate: string
   driverName: string
   vehicleCode: string
   orderCount: number
@@ -327,6 +328,7 @@ export interface UnpaidOrder {
 
 export interface PendingDetail {
   driver: { id: number; name: string; vehicleCode: string }
+  workDate: string
   orders: UnpaidOrder[]
   baseAmount: number
 }
@@ -336,6 +338,7 @@ export interface PayrollRow {
   periodId: number
   periodStatus: 'OPEN' | 'CLOSED'
   driverId: number
+  workDate: string | null
   driverName: string
   vehicleCode: string
   orderCount: number

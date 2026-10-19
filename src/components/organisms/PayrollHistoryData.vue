@@ -38,7 +38,7 @@ import ModalPayrollDetail from '../molecules/modals/ModalPayrollDetail.vue'
 import { useModalStore } from '@/stores/modal'
 import { getCurrentUser, handleErrorResponse } from '@/utils/common'
 import { canManagePayroll } from '@/utils/roles'
-import { formatRupiah, formatWib } from '@/utils/payroll-format'
+import { formatRupiah, formatWib, formatWorkDate } from '@/utils/payroll-format'
 import payrollService from '@/services/payroll/payroll.api'
 import type { PaginationRequest, TableField } from '@/types/Main'
 import type { PayrollPeriod, PayrollRow } from '@/types/Data'
@@ -66,6 +66,7 @@ const pagination: Ref<PaginationRequest> = ref({
 const columns: Ref<TableField<any>[]> = ref([
   { name: 'actions', title: t('label.actions') },
   { name: 'processedAt', title: t('names.processedAt'), field: (val: string) => formatWib(val) },
+  { name: 'workDate', title: t('names.workDate'), field: (val: string | null) => formatWorkDate(val) },
   { name: 'driverName', title: t('names.driverName') },
   { name: 'orderCount', title: t('names.orderCount') },
   { name: 'baseAmount', title: t('names.baseSalary'), field: (val: number) => formatRupiah(val) },

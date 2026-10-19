@@ -59,17 +59,19 @@ import ModalBaseWithHeader from './ModalBaseWithHeader.vue'
 import InputForm from '@/components/atoms/InputForm.vue'
 import { useToasterStore } from '@/stores/toaster'
 import { handleErrorResponse } from '@/utils/common'
-import { formatRupiah, formatWib } from '@/utils/payroll-format'
+import { formatRupiah, formatWib, formatWorkDate } from '@/utils/payroll-format'
 import payrollService from '@/services/payroll/payroll.api'
 import type { UnpaidOrder } from '@/types/Data'
 
 const { t } = useI18n()
 const toast = useToasterStore()
 
-// Mode proses: driverId (pratinjau order belum digaji). Mode edit: payrollId.
+// Mode proses: driverId + workDate (pratinjau order belum digaji pada hari
+// kerja itu). Mode edit: payrollId.
 interface Props {
   title: string
   driverId?: number
+  workDate?: string
   payrollId?: number
 }
 
@@ -124,6 +126,7 @@ const save = async (): Promise<void> => {
     } else {
       await payrollService.processPayroll({
         driverId: props.driverId!,
+        workDate: props.workDate!,
         orderIds: orders.value.map((order) => order.orderId),
         ...payload()
       })
@@ -143,6 +146,7 @@ onMounted(async () => {
     if (props.payrollId) {
       const { data } = await payrollService.getPayroll(props.payrollId)
       driverLabel.value = `${data.driverName} (${data.vehicleCode})`
+      if (data.workDate) driverLabel.value += ` · ${formatWorkDate(data.workDate)}`
       baseAmount.value = data.baseAmount
       form.value = {
         deductionAmount: data.deductionAmount,
@@ -150,9 +154,9 @@ onMounted(async () => {
         bonusAmount: data.bonusAmount,
         bonusNote: data.bonusNote ?? ''
       }
-    } else if (props.driverId) {
-      const { data } = await payrollService.getPendingDetail(props.driverId)
-      driverLabel.value = `${data.driver.name} (${data.driver.vehicleCode})`
+    } else if (props.driverId && props.workDate) {
+      const { data } = await payrollService.getPendingDetail(props.driverId, props.workDate)
+      driverLabel.value = `${data.driver.name} (${data.driver.vehicleCode}) · ${formatWorkDate(data.workDate)}`
       orders.value = data.orders
       baseAmount.value = data.baseAmount
     }
