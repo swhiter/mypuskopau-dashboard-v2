@@ -24,3 +24,6 @@ export const canManagePayroll = (role: string | undefined): boolean => role === 
 
 // Bendahara cukup melihat ringkasan pendapatan, bukan rincian per driver.
 export const canViewDriverIncomeDetail = (role: string | undefined): boolean => role !== ROLE_BENDAHARA
+
+// Ringkasan pendapatan (dashboard total) khusus bendahara; admin cukup rincian per driver.
+export const canViewIncomeSummary = (role: string | undefined): boolean => role === ROLE_BENDAHARA

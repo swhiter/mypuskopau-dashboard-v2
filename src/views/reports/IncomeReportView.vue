@@ -12,7 +12,7 @@
         </div>
 
         <!-- Ringkasan Pendapatan (dashboard bendahara) -->
-        <IncomeSummaryDashboard v-if="activeTab === 'summary'" />
+        <IncomeSummaryDashboard v-if="canViewSummary && activeTab === 'summary'" />
 
         <!-- Pendapatan Rekapan -->
         <div v-else-if="activeTab === 'rekapan'" class="space-y-4">
@@ -256,7 +256,7 @@ import incomeReportService, {
 } from '@/services/reports/income-report.api'
 import type { TableField, PaginationRequest } from '@/types/Main'
 import { getCurrentUser, handleErrorResponse } from '@/utils/common'
-import { canViewDriverIncomeDetail } from '@/utils/roles'
+import { canViewDriverIncomeDetail, canViewIncomeSummary } from '@/utils/roles'
 const showDriverGroupedSummary = ref(false)
 
 type DriverGroupedRow = {
@@ -342,14 +342,15 @@ const { t } = useI18n()
 // Tab Rekapan Pendapatan disembunyikan (detailnya sudah ada di Pendapatan Pengemudi).
 // Kode rekapan dipertahankan; tambahkan kembali { key: 'rekapan', label: t('title.revenueRekapan') }
 // dan panggil fetchRekapan() di onMounted bila dibutuhkan lagi.
-// Bendahara hanya melihat ringkasan; rincian per driver untuk role lain.
+// Bendahara hanya melihat ringkasan; role lain hanya rincian per driver.
 const canViewDetail = canViewDriverIncomeDetail(getCurrentUser().role)
+const canViewSummary = canViewIncomeSummary(getCurrentUser().role)
 type IncomeTab = 'summary' | 'rekapan' | 'driver'
 const tabs: { key: IncomeTab; label: string }[] = [
-    { key: 'summary', label: 'Ringkasan Pendapatan' },
+    ...(canViewSummary ? [{ key: 'summary' as const, label: 'Ringkasan Pendapatan' }] : []),
     ...(canViewDetail ? [{ key: 'driver' as const, label: t('title.revenueDriver') }] : [])
 ]
-const activeTab = ref<IncomeTab>('summary')
+const activeTab = ref<IncomeTab>(tabs[0]?.key ?? 'driver')
 
 const driverTotals = computed(() => {
     let totalTarif = 0
