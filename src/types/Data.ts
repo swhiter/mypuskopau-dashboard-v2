@@ -254,7 +254,6 @@ export type CashKind =
   | 'ORDER_QRIS'
   | 'ORDER_CASH'
   | 'MIDTRANS_FEE'
-  | 'PETTY_ALLOCATION'
   | 'PAYROLL'
   | 'OPENING'
   | 'TRANSFER'
@@ -268,11 +267,26 @@ export interface CashAccountSummary {
   hasOpening: boolean
 }
 
+// Jatah kas kecil (20% pendapatan manajemen) vs dana yang sudah dipindahkan ke Kas Kecil
+export interface PettyCashSource {
+  account: 'MIDTRANS' | 'CASH'
+  allocated: number
+  transferred: number
+  outstanding: number
+}
+
+export interface PettyCashSummary {
+  allocated: number
+  transferred: number
+  outstanding: number
+  bySource: PettyCashSource[]
+}
+
 export interface CashSummary {
   startDate: string
   accounts: CashAccountSummary[]
   totalBalance: number
-  midtransBeforeAllocation: number
+  pettyCash: PettyCashSummary
   unknownMethod: { orderCount: number; total: number }
 }
 

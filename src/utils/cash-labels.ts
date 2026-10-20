@@ -14,7 +14,6 @@ export const KIND_LABELS: Record<CashKind, string> = {
   ORDER_QRIS: 'Order QRIS',
   ORDER_CASH: 'Order Cash',
   MIDTRANS_FEE: 'Biaya Midtrans',
-  PETTY_ALLOCATION: 'Jatah Kas Kecil',
   PAYROLL: 'Gaji Driver',
   OPENING: 'Saldo Awal',
   TRANSFER: 'Pindah Antar Akun',

@@ -33,10 +33,36 @@
           <span class="amount" :class="{ negative: item.balance < 0 }">{{ formatRupiah(item.balance) }}</span>
           <span class="text-xs text-green-700">{{ t('label.todayIn', { amount: formatRupiah(item.todayIn) }) }}</span>
           <span class="text-xs text-red-600">{{ t('label.todayOut', { amount: formatRupiah(item.todayOut) }) }}</span>
-          <span v-if="item.account === 'MIDTRANS' && summary" class="text-xs text-accentGray">
-            {{ t('label.midtransBeforeAllocation', { amount: formatRupiah(summary.midtransBeforeAllocation) }) }}
-          </span>
         </DashboardCard>
+      </div>
+      <div v-if="summary" class="petty">
+        <div class="flex flex-wrap gap-6">
+          <div>
+            <p class="text-sm text-accentGray">{{ t('label.pettyAllocated') }}</p>
+            <p class="font-semibold">{{ formatRupiah(summary.pettyCash.allocated) }}</p>
+          </div>
+          <div>
+            <p class="text-sm text-accentGray">{{ t('label.pettyTransferred') }}</p>
+            <p class="font-semibold">{{ formatRupiah(summary.pettyCash.transferred) }}</p>
+          </div>
+          <div>
+            <p class="text-sm text-accentGray">{{ t('label.pettyOutstanding') }}</p>
+            <p class="font-semibold" :class="{ 'text-orange-600': summary.pettyCash.outstanding > 0 }">
+              {{ formatRupiah(summary.pettyCash.outstanding) }}
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <div v-for="source in summary.pettyCash.bySource" :key="source.account" class="petty-source">
+            <span class="text-sm">
+              {{ t('label.pettyFromSource', { account: ACCOUNT_LABELS[source.account] }) }}:
+              <b>{{ formatRupiah(source.outstanding) }}</b>
+            </span>
+            <button v-if="source.outstanding > 0" type="button" class="action-link" @click="movePetty(source)">
+              {{ t('label.pettyMove') }}
+            </button>
+          </div>
+        </div>
       </div>
       <div class="flex justify-end">
         <RouterLink to="/cash/movements" class="action-link">{{ t('label.viewCashMovements') }}</RouterLink>
@@ -58,7 +84,7 @@ import { handleErrorResponse } from '@/utils/common'
 import { formatRupiah } from '@/utils/payroll-format'
 import { ACCOUNT_LABELS } from '@/utils/cash-labels'
 import cashService from '@/services/cash/cash.api'
-import type { CashAccount, CashSummary } from '@/types/Data'
+import type { CashAccount, CashSummary, PettyCashSource } from '@/types/Data'
 
 const { t } = useI18n()
 const modal = useModalStore()
@@ -81,6 +107,23 @@ const refresh = async (): Promise<void> => {
 
 const openForm = (mode: 'TRANSFER' | 'EXPENSE'): void => {
   modal.openModal({ component: ModalCashMovement, props: { mode } })
+  modal.onOk(() => {
+    refresh()
+  })
+}
+
+// Transfer jatah kas kecil yang belum dipindahkan, nominal & akun sudah terisi
+const movePetty = (source: PettyCashSource): void => {
+  modal.openModal({
+    component: ModalCashMovement,
+    props: {
+      mode: 'TRANSFER',
+      fromAccount: source.account,
+      toAccount: 'KAS_KECIL',
+      amount: source.outstanding,
+      description: t('message.pettyMoveDescription', { account: ACCOUNT_LABELS[source.account] })
+    }
+  })
   modal.onOk(() => {
     refresh()
   })
@@ -117,6 +160,14 @@ onMounted(() => {
 
 .notice.warning {
   @apply bg-red-50 border-red-200 text-red-700
+}
+
+.petty {
+  @apply flex flex-col gap-3 rounded-lg border border-buttonGray px-4 py-3
+}
+
+.petty-source {
+  @apply flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2
 }
 
 .action-link {

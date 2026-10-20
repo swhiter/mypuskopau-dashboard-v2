@@ -20,8 +20,8 @@
         bordered :rules="{ required: true, integer: true, min_value: mode === 'OPENING' ? 0 : 1 }" />
       <InputForm name="description" v-model="description" :label="t('names.description')" is-separate-row bordered
         :rules="{ required: true }" />
-      <p v-if="mode !== 'OPENING' && (fromAccount === 'MIDTRANS' || fromAccount === 'CASH')" class="hint">
-        {{ t('message.cashPettyHint', { account: ACCOUNT_LABELS[fromAccount] }) }}
+      <p v-if="mode === 'TRANSFER' && toAccount === 'KAS_KECIL' && pettyOutstanding !== null" class="hint">
+        {{ t('message.cashPettyHint', { account: ACCOUNT_LABELS[fromAccount], amount: formatRupiah(pettyOutstanding) }) }}
       </p>
       <p v-if="exceedsBalance" class="warning">
         {{ t('message.cashExceedsBalance', { account: ACCOUNT_LABELS[fromAccount], balance: formatRupiah(balanceOf(fromAccount)) }) }}
@@ -49,19 +49,24 @@ import type { CashAccount, CashSummary } from '@/types/Data'
 const { t } = useI18n()
 const toast = useToasterStore()
 
-// mode OPENING: saldo awal satu akun (account); TRANSFER/EXPENSE: catatan manual
+// mode OPENING: saldo awal satu akun (account); TRANSFER/EXPENSE: catatan manual,
+// boleh diisi awal (mis. pemindahan jatah kas kecil)
 interface Props {
   mode: 'TRANSFER' | 'EXPENSE' | 'OPENING'
   account?: CashAccount
+  fromAccount?: CashAccount
+  toAccount?: CashAccount
+  amount?: number
+  description?: string
 }
 
 const props = defineProps<Props>()
 
 const summary = ref<CashSummary | null>(null)
-const fromAccount = ref<CashAccount>('MIDTRANS')
-const toAccount = ref<CashAccount>(props.account ?? 'KAS_BESAR')
-const amount = ref<number | string>('')
-const description = ref('')
+const fromAccount = ref<CashAccount>(props.fromAccount ?? 'MIDTRANS')
+const toAccount = ref<CashAccount>(props.account ?? props.toAccount ?? 'KAS_BESAR')
+const amount = ref<number | string>(props.amount ?? '')
+const description = ref(props.description ?? '')
 
 const loading = ref(false)
 const buttonLoading = ref(false)
@@ -77,6 +82,10 @@ const modeTitle = computed(() =>
 
 const toOptions = computed(() =>
   props.mode === 'TRANSFER' ? CASH_ACCOUNTS.filter((item) => item !== fromAccount.value) : CASH_ACCOUNTS
+)
+
+const pettyOutstanding = computed<number | null>(
+  () => summary.value?.pettyCash.bySource.find((item) => item.account === fromAccount.value)?.outstanding ?? null
 )
 
 const balanceOf = (account: CashAccount): number =>
