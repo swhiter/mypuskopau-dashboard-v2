@@ -16,8 +16,8 @@
           <option v-for="item in toOptions" :key="item" :value="item">{{ ACCOUNT_LABELS[item] }}</option>
         </select>
       </div>
-      <InputForm name="amount" v-model="amount" :label="t('names.amount')" type="number" prefix="Rp" is-separate-row
-        bordered :rules="{ required: true, integer: true, min_value: mode === 'OPENING' ? 0 : 1 }" />
+      <InputForm name="amount" v-model="amount" :label="t('names.amount')" prefix="Rp" is-separate-row
+        placeholder="contoh 27.834.210,33" bordered :rules="{ required: true, rupiah: [mode === 'OPENING' ? 0 : 0.01] }" />
       <InputForm name="description" v-model="description" :label="t('names.description')" is-separate-row bordered
         :rules="{ required: true }" />
       <p v-if="mode === 'TRANSFER' && toAccount === 'KAS_KECIL' && pettyOutstanding !== null" class="hint">
@@ -42,7 +42,7 @@ import InputForm from '@/components/atoms/InputForm.vue'
 import { useToasterStore } from '@/stores/toaster'
 import { handleErrorResponse } from '@/utils/common'
 import { formatRupiah } from '@/utils/payroll-format'
-import { ACCOUNT_LABELS, CASH_ACCOUNTS } from '@/utils/cash-labels'
+import { ACCOUNT_LABELS, CASH_ACCOUNTS, parseRupiahInput } from '@/utils/cash-labels'
 import cashService from '@/services/cash/cash.api'
 import type { CashAccount, CashSummary } from '@/types/Data'
 
@@ -66,6 +66,7 @@ const summary = ref<CashSummary | null>(null)
 const fromAccount = ref<CashAccount>(props.fromAccount ?? 'MIDTRANS')
 const toAccount = ref<CashAccount>(props.account ?? props.toAccount ?? 'KAS_BESAR')
 const amount = ref<number | string>(props.amount ?? '')
+const amountValue = computed(() => parseRupiahInput(amount.value) ?? 0)
 const description = ref(props.description ?? '')
 
 const loading = ref(false)
@@ -93,7 +94,7 @@ const balanceOf = (account: CashAccount): number =>
 
 // Pencatatan boleh membuat saldo minus, tetapi diberi peringatan
 const exceedsBalance = computed(
-  () => props.mode !== 'OPENING' && Number(amount.value) > 0 && Number(amount.value) > balanceOf(fromAccount.value)
+  () => props.mode !== 'OPENING' && amountValue.value > 0 && amountValue.value > balanceOf(fromAccount.value)
 )
 
 // Store modal hanya menampung satu modal: konfirmasi memakai dialog bawaan browser.
@@ -114,7 +115,7 @@ const save = async (): Promise<void> => {
     if (props.mode === 'OPENING') {
       await cashService.createOpening({
         account: toAccount.value,
-        amount: Number(amount.value),
+        amount: amountValue.value,
         description: description.value
       })
     } else {
@@ -122,7 +123,7 @@ const save = async (): Promise<void> => {
         type: props.mode,
         fromAccount: fromAccount.value,
         toAccount: props.mode === 'TRANSFER' ? toAccount.value : null,
-        amount: Number(amount.value),
+        amount: amountValue.value,
         description: description.value
       })
     }

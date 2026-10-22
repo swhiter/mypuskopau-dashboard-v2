@@ -20,6 +20,6 @@ export const formatWorkDate = (value: string | null | undefined): string => {
 
 export const formatRupiah = (value: number | null | undefined): string => {
   const amount = Number(value ?? 0)
-  const text = 'Rp ' + Math.abs(amount).toLocaleString('id-ID')
+  const text = 'Rp ' + Math.abs(amount).toLocaleString('id-ID', { maximumFractionDigits: 2 })
   return amount < 0 ? `-${text}` : text
 }

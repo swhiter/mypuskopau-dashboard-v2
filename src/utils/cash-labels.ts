@@ -22,3 +22,17 @@ export const KIND_LABELS: Record<CashKind, string> = {
 
 export const accountLabel = (account: string | null | undefined): string =>
   account ? ACCOUNT_LABELS[account as CashAccount] ?? account : '-'
+
+// Nominal kas yang diketik bendahara -> angka, maksimal 2 desimal (sen).
+// Format Indonesia "27.834.210,33" atau "27834210.33"; null bila tidak valid.
+export const parseRupiahInput = (value: unknown): number | null => {
+  let text = String(value ?? '').replace(/rp|\s/gi, '')
+  if (text.includes(',')) {
+    const [whole, cents, ...rest] = text.split(',')
+    if (rest.length || !/^(\d+|\d{1,3}(\.\d{3})+)$/.test(whole)) return null
+    text = `${whole.replace(/\./g, '')}.${cents}`
+  } else if (/^\d{1,3}(\.\d{3})+$/.test(text)) {
+    text = text.replace(/\./g, '')
+  }
+  return /^\d+(\.\d{1,2})?$/.test(text) ? Number(text) : null
+}
