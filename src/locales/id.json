@@ -260,7 +260,7 @@
     "fillOpening": "Isi saldo awal {account}",
     "todayIn": "Masuk hari ini: {amount}",
     "todayOut": "Keluar hari ini: {amount}",
-    "pettyAllocated": "Jatah kas kecil (20% pendapatan manajemen)",
+    "pettyAllocated": "Jatah kas kecil (20% pendapatan manajemen + 2% potongan driver)",
     "pettyTransferred": "Sudah dipindahkan ke Kas Kecil",
     "pettyOutstanding": "Belum dipindahkan",
     "pettyFromSource": "Dari {account}",

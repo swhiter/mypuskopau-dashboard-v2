@@ -94,10 +94,10 @@ import incomeReportService, { type IncomeMetrics, type IncomeSummary } from '@/s
 
 type Column = { key: keyof IncomeMetrics | 'managementAfterPetty'; label: string; count?: boolean }
 
-// Kas kecil diambil dari pendapatan manajemen (60%), jadi kolom bersihnya
-// dihitung per baris tabel; total sudah dikirim backend.
+// Kas kecil = 20% pendapatan manajemen + potongan 2% tarif driver. Hanya bagian
+// 20% yang mengurangi manajemen; kolom bersih dihitung per baris, total dari backend.
 const valueOf = (row: IncomeMetrics, key: Column['key']): number =>
-  key === 'managementAfterPetty' ? row.managementIncome - row.pettyCash : row[key]
+  key === 'managementAfterPetty' ? row.managementIncome - row.pettyFromManagement : row[key]
 
 const CATEGORY_COLUMNS: Column[] = [
   { key: 'orderCount', label: 'Order', count: true },
@@ -167,8 +167,8 @@ const groups = computed<{ title: string; items: Stat[] }[]>(() => {
         { label: 'Pendapatan Manajemen (60%)', value: formatRupiah(total.managementIncome), note: '60% x total tarif' },
         { label: 'Potongan Midtrans Driver', value: formatRupiah(total.driverDeduction), note: '0,7% total dibayar + 2% tarif' },
         { label: 'Total Pendapatan Driver', value: formatRupiah(total.driverIncome), note: 'pengemudi + tambahan biaya + surcharge - potongan', tone: 'highlight' },
-        { label: 'Kas Kecil', value: formatRupiah(total.pettyCash), note: '20% x pendapatan manajemen (60%)' },
-        { label: 'Pendapatan Manajemen setelah Kas Kecil', value: formatRupiah(total.managementAfterPetty), note: 'pendapatan manajemen (60%) - kas kecil', tone: 'highlight' }
+        { label: 'Kas Kecil', value: formatRupiah(total.pettyCash), note: `20% pendapatan manajemen ${formatRupiah(total.pettyFromManagement)} + 2% tarif potongan driver ${formatRupiah(total.pettyFromDriver)}` },
+        { label: 'Pendapatan Manajemen setelah Kas Kecil', value: formatRupiah(total.managementAfterPetty), note: 'pendapatan manajemen (60%) - 20% kas kecil', tone: 'highlight' }
       ]
     },
     {

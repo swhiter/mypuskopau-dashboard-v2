@@ -205,7 +205,7 @@
     "fillOpening": "Set opening balance for {account}",
     "todayIn": "In today: {amount}",
     "todayOut": "Out today: {amount}",
-    "pettyAllocated": "Petty cash share (20% of management income)",
+    "pettyAllocated": "Petty cash share (20% of management income + 2% driver deduction)",
     "pettyTransferred": "Already moved to Petty Cash",
     "pettyOutstanding": "Not yet moved",
     "pettyFromSource": "From {account}",

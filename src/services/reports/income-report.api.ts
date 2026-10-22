@@ -126,6 +126,8 @@ export interface IncomeMetrics {
   driverDeduction: number
   driverIncome: number
   pettyCash: number
+  pettyFromManagement: number
+  pettyFromDriver: number
   midtransFee: number
 }
 
