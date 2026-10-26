@@ -137,6 +137,7 @@ export interface IncomeSummary {
   total: IncomeMetrics & {
     midtransMoney: number
     cashMoney: number
+    vendorMoney: number
     otherMoney: number
     midtransNet: number
     managementAfterPetty: number

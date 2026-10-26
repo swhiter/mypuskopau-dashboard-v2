@@ -147,6 +147,7 @@ const groups = computed<{ title: string; items: Stat[] }[]>(() => {
   const account = (name: string) => summary.value?.byAccount.find((item) => item.account === name)
   const midtransOrders = account('MIDTRANS')?.orderCount ?? 0
   const cashOrders = account('CASH')?.orderCount ?? 0
+  const vendorOrders = account('VENDOR')?.orderCount ?? 0
   const other = account('LAINNYA')
 
   return [
@@ -178,6 +179,7 @@ const groups = computed<{ title: string; items: Stat[] }[]>(() => {
         { label: 'Biaya Midtrans', value: formatRupiah(total.midtransFee), note: 'MDR 0,7% transaksi QRIS' },
         { label: 'Uang Midtrans Bersih', value: formatRupiah(total.midtransNet), note: 'uang Midtrans - biaya Midtrans' },
         { label: 'Total Uang Cash', value: formatRupiah(total.cashMoney), note: `${formatCount(cashOrders)} order` },
+        { label: 'Total Uang Kas Vendor', value: formatRupiah(total.vendorMoney), note: `${formatCount(vendorOrders)} struk vendor` },
         ...(other
           ? [{ label: 'Metode Bayar Lainnya', value: formatRupiah(other.totalPaid), note: `${formatCount(other.orderCount)} order`, tone: 'warning' }]
           : [])

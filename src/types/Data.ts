@@ -249,10 +249,11 @@ export interface VendorOrderForm {
 }
 
 // Kas bendahara
-export type CashAccount = 'MIDTRANS' | 'CASH' | 'KAS_BESAR' | 'KAS_KECIL'
+export type CashAccount = 'MIDTRANS' | 'CASH' | 'VENDOR' | 'KAS_BESAR' | 'KAS_KECIL'
 export type CashKind =
   | 'ORDER_QRIS'
   | 'ORDER_CASH'
+  | 'ORDER_VENDOR'
   | 'MIDTRANS_FEE'
   | 'PAYROLL'
   | 'OPENING'
@@ -269,7 +270,7 @@ export interface CashAccountSummary {
 
 // Jatah kas kecil (20% pendapatan manajemen) vs dana yang sudah dipindahkan ke Kas Kecil
 export interface PettyCashSource {
-  account: 'MIDTRANS' | 'CASH'
+  account: 'MIDTRANS' | 'CASH' | 'VENDOR'
   allocated: number
   transferred: number
   outstanding: number

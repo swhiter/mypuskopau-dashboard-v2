@@ -28,7 +28,7 @@
         {{ t('message.cashUnknownMethod', { count: summary.unknownMethod.orderCount, total: formatRupiah(summary.unknownMethod.total) }) }}
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         <DashboardCard v-for="item in summary?.accounts ?? []" :key="item.account" :title="ACCOUNT_LABELS[item.account]">
           <span class="amount" :class="{ negative: item.balance < 0 }">{{ formatRupiah(item.balance) }}</span>
           <span class="text-xs text-green-700">{{ t('label.todayIn', { amount: formatRupiah(item.todayIn) }) }}</span>
