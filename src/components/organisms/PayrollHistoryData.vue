@@ -8,6 +8,9 @@
       <input v-model="search" type="search" class="filter" :placeholder="t('label.searchDriver')"
         @keyup.enter="applyFilters" />
       <MainButton :label="t('label.search')" outline white @click="applyFilters" />
+      <div class="flex-1" />
+      <MainButton :label="t('label.downloadExcel')" :loading="downloading" :disabled="downloading"
+        @click="downloadExcel" />
     </div>
     <CustomTable :columns="columns" :rows="rows">
       <template #cell(actions)="{ item }">
@@ -30,6 +33,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { onMounted, ref, type Ref } from 'vue'
+import * as XLSX from 'xlsx'
 import MainButton from '../atoms/MainButton.vue'
 import CustomTable from '../atoms/CustomTable.vue'
 import CustomTablePagination from '../atoms/CustomTablePagination.vue'
@@ -39,6 +43,7 @@ import { useModalStore } from '@/stores/modal'
 import { getCurrentUser, handleErrorResponse } from '@/utils/common'
 import { canManagePayroll } from '@/utils/roles'
 import { formatRupiah, formatWib, formatWorkDate } from '@/utils/payroll-format'
+import { buildPayrollSheetRows, PAYROLL_EXPORT_WIDTHS } from '@/utils/payroll-export'
 import payrollService from '@/services/payroll/payroll.api'
 import type { PaginationRequest, TableField } from '@/types/Main'
 import type { PayrollPeriod, PayrollRow } from '@/types/Data'
@@ -121,6 +126,39 @@ const applyFilters = (): void => {
 const changePage = (page: number): void => {
   pagination.value.page = page
   loadPayrolls().catch(handleErrorResponse)
+}
+
+// Excel berisi semua baris sesuai filter periode & pencarian (bukan hanya halaman yang tampil).
+// Backend membatasi 100 baris per halaman, jadi diambil per halaman.
+const EXPORT_PAGE_SIZE = 100
+const downloading = ref(false)
+
+const downloadExcel = async (): Promise<void> => {
+  downloading.value = true
+  try {
+    const params = { periodId: periodId.value, search: search.value.trim(), limit: EXPORT_PAGE_SIZE }
+    const all: PayrollRow[] = []
+    let pageCount = 1
+    for (let page = 1; page <= pageCount; page++) {
+      const response = await payrollService.getPayrolls({ ...params, page })
+      all.push(...response.data)
+      pageCount = response.pageCount
+    }
+
+    const period = periods.value.find((item) => item.id === periodId.value)
+    const periodText = period ? periodLabel(period) : 'Semua periode'
+    const searchText = params.search ? ` - pencarian "${params.search}"` : ''
+    const sheet = XLSX.utils.aoa_to_sheet(buildPayrollSheetRows(all, `Riwayat Penggajian ${periodText}${searchText}`))
+    sheet['!cols'] = PAYROLL_EXPORT_WIDTHS.map((wch) => ({ wch }))
+    const book = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(book, sheet, 'Riwayat Penggajian')
+    const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Jakarta' })
+    XLSX.writeFile(book, `riwayat_penggajian${period ? `_periode_${period.id}` : ''}_${today}.xlsx`)
+  } catch (error) {
+    handleErrorResponse(error)
+  } finally {
+    downloading.value = false
+  }
 }
 
 const detail = (id: number): void => {
