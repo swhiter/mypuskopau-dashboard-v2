@@ -1,14 +1,16 @@
 import type { CashAccount, CashKind } from '@/types/Data'
 
 // Label akun & jenis pergerakan kas bendahara.
-export const CASH_ACCOUNTS: CashAccount[] = ['MIDTRANS', 'CASH', 'VENDOR', 'KAS_BESAR', 'KAS_KECIL']
+export const CASH_ACCOUNTS: CashAccount[] = ['MIDTRANS', 'CASH', 'VENDOR', 'KAS_BESAR', 'KAS_KECIL', 'KAS_INVESTOR', 'KAS_PUSKOPAU']
 
 export const ACCOUNT_LABELS: Record<CashAccount, string> = {
   MIDTRANS: 'Saldo Midtrans',
   CASH: 'Saldo Cash',
   VENDOR: 'Kas Vendor',
   KAS_BESAR: 'Kas Besar',
-  KAS_KECIL: 'Kas Kecil'
+  KAS_KECIL: 'Kas Kecil',
+  KAS_INVESTOR: 'Kas Investor',
+  KAS_PUSKOPAU: 'Kas Puskopau'
 }
 
 export const KIND_LABELS: Record<CashKind, string> = {

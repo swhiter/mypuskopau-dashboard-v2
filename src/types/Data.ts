@@ -249,7 +249,7 @@ export interface VendorOrderForm {
 }
 
 // Kas bendahara
-export type CashAccount = 'MIDTRANS' | 'CASH' | 'VENDOR' | 'KAS_BESAR' | 'KAS_KECIL'
+export type CashAccount = 'MIDTRANS' | 'CASH' | 'VENDOR' | 'KAS_BESAR' | 'KAS_KECIL' | 'KAS_INVESTOR' | 'KAS_PUSKOPAU'
 export type CashKind =
   | 'ORDER_QRIS'
   | 'ORDER_CASH'
