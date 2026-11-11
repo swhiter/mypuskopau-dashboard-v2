@@ -21,8 +21,25 @@ export const KIND_LABELS: Record<CashKind, string> = {
   PAYROLL: 'Gaji Driver',
   OPENING: 'Saldo Awal',
   TRANSFER: 'Pindah Antar Akun',
-  EXPENSE: 'Pengeluaran'
+  EXPENSE: 'Pengeluaran',
+  INCOME: 'Pemasukan'
 }
+
+// Tanggal transaksi kas (Pemasukan/Pengeluaran) memakai kalender WIB.
+const WIB_DATE = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Asia/Jakarta',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit'
+})
+
+export const todayWib = (now: Date = new Date()): string => WIB_DATE.format(now)
+
+// Rentang input tanggal: dari awal kas (startDate dari ringkasan kas) sampai hari ini.
+export const cashDateRange = (startDate: string, now: Date = new Date()): { min: string; max: string } => ({
+  min: startDate,
+  max: todayWib(now)
+})
 
 export const accountLabel = (account: string | null | undefined): string =>
   account ? ACCOUNT_LABELS[account as CashAccount] ?? account : '-'

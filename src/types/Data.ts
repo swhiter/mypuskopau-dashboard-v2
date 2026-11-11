@@ -259,6 +259,7 @@ export type CashKind =
   | 'OPENING'
   | 'TRANSFER'
   | 'EXPENSE'
+  | 'INCOME'
 
 export interface CashAccountSummary {
   account: CashAccount

@@ -12,11 +12,13 @@ export interface CashMovementParams {
 }
 
 export interface CashManualPayload {
-  type: 'TRANSFER' | 'EXPENSE'
-  fromAccount: CashAccount
+  type: 'TRANSFER' | 'EXPENSE' | 'INCOME'
+  fromAccount: CashAccount | null
   toAccount?: CashAccount | null
   amount: number
   description: string
+  // YYYY-MM-DD, hanya Pemasukan/Pengeluaran; kosong = hari ini
+  movementDate?: string
 }
 
 class CashService {

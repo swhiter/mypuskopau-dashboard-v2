@@ -14,6 +14,7 @@
       <input v-model="filters.endDate" type="date" class="filter" @change="applyFilters" />
       <div class="flex-1" />
       <MainButton :label="t('title.cashTransfer')" outline white @click="openForm('TRANSFER')" />
+      <MainButton :label="t('title.cashIncome')" outline white @click="openForm('INCOME')" />
       <MainButton :label="t('title.cashExpense')" @click="openForm('EXPENSE')" />
     </div>
     <CustomTable :columns="columns" :rows="rows">
@@ -141,7 +142,7 @@ const changePage = (page: number): void => {
   load()
 }
 
-const openForm = (mode: 'TRANSFER' | 'EXPENSE'): void => {
+const openForm = (mode: 'TRANSFER' | 'EXPENSE' | 'INCOME'): void => {
   modal.openModal({ component: ModalCashMovement, props: { mode } })
   modal.onOk(() => {
     load()

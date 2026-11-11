@@ -13,6 +13,7 @@
         </div>
         <div class="flex gap-3">
           <MainButton :label="t('title.cashTransfer')" outline white @click="openForm('TRANSFER')" />
+          <MainButton :label="t('title.cashIncome')" outline white @click="openForm('INCOME')" />
           <MainButton :label="t('title.cashExpense')" @click="openForm('EXPENSE')" />
         </div>
       </div>
@@ -105,7 +106,7 @@ const refresh = async (): Promise<void> => {
   }
 }
 
-const openForm = (mode: 'TRANSFER' | 'EXPENSE'): void => {
+const openForm = (mode: 'TRANSFER' | 'EXPENSE' | 'INCOME'): void => {
   modal.openModal({ component: ModalCashMovement, props: { mode } })
   modal.onOk(() => {
     refresh()

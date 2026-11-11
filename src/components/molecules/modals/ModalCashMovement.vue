@@ -2,7 +2,7 @@
   <ModalBaseWithHeader :title="modeTitle" has-save-button :is-add="true" :loading="loading"
     :button-loading="buttonLoading" form="cash-movement-form" :submitted="submitted">
     <Form id="cash-movement-form" class="flex flex-col space-y-3" @submit="onSubmit">
-      <div class="select-group" v-if="mode !== 'OPENING'">
+      <div class="select-group" v-if="mode !== 'OPENING' && mode !== 'INCOME'">
         <label for="fromAccount">{{ t('names.fromAccount') }}</label>
         <select id="fromAccount" v-model="fromAccount" class="select">
           <option v-for="account in CASH_ACCOUNTS" :key="account" :value="account">
@@ -10,11 +10,16 @@
           </option>
         </select>
       </div>
-      <div class="select-group" v-if="mode === 'TRANSFER' || mode === 'OPENING'">
+      <div class="select-group" v-if="mode === 'TRANSFER' || mode === 'OPENING' || mode === 'INCOME'">
         <label for="toAccount">{{ mode === 'OPENING' ? t('names.account') : t('names.toAccount') }}</label>
         <select id="toAccount" v-model="toAccount" class="select" :disabled="mode === 'OPENING' && !!account">
           <option v-for="item in toOptions" :key="item" :value="item">{{ ACCOUNT_LABELS[item] }}</option>
         </select>
+      </div>
+      <div class="select-group" v-if="hasDate">
+        <label for="movementDate">{{ t('names.transactionDate') }}</label>
+        <input id="movementDate" v-model="movementDate" type="date" class="select" required
+          :min="dateRange?.min" :max="dateRange?.max" />
       </div>
       <InputForm name="amount" v-model="amount" :label="t('names.amount')" prefix="Rp" is-separate-row
         placeholder="contoh 27.834.210,33" bordered :rules="{ required: true, rupiah: [mode === 'OPENING' ? 0 : 0.01] }" />
@@ -42,17 +47,17 @@ import InputForm from '@/components/atoms/InputForm.vue'
 import { useToasterStore } from '@/stores/toaster'
 import { handleErrorResponse } from '@/utils/common'
 import { formatRupiah } from '@/utils/payroll-format'
-import { ACCOUNT_LABELS, CASH_ACCOUNTS, parseRupiahInput } from '@/utils/cash-labels'
+import { ACCOUNT_LABELS, CASH_ACCOUNTS, cashDateRange, parseRupiahInput, todayWib } from '@/utils/cash-labels'
 import cashService from '@/services/cash/cash.api'
 import type { CashAccount, CashSummary } from '@/types/Data'
 
 const { t } = useI18n()
 const toast = useToasterStore()
 
-// mode OPENING: saldo awal satu akun (account); TRANSFER/EXPENSE: catatan manual,
-// boleh diisi awal (mis. pemindahan jatah kas kecil)
+// mode OPENING: saldo awal satu akun (account); TRANSFER/EXPENSE/INCOME: catatan manual,
+// boleh diisi awal (mis. pemindahan jatah kas kecil). INCOME/EXPENSE memakai tanggal transaksi.
 interface Props {
-  mode: 'TRANSFER' | 'EXPENSE' | 'OPENING'
+  mode: 'TRANSFER' | 'EXPENSE' | 'INCOME' | 'OPENING'
   account?: CashAccount
   fromAccount?: CashAccount
   toAccount?: CashAccount
@@ -64,10 +69,13 @@ const props = defineProps<Props>()
 
 const summary = ref<CashSummary | null>(null)
 const fromAccount = ref<CashAccount>(props.fromAccount ?? 'MIDTRANS')
-const toAccount = ref<CashAccount>(props.account ?? props.toAccount ?? 'KAS_BESAR')
+const toAccount = ref<CashAccount>(props.account ?? props.toAccount ?? (props.mode === 'INCOME' ? 'KAS_PUSKOPAU' : 'KAS_BESAR'))
 const amount = ref<number | string>(props.amount ?? '')
 const amountValue = computed(() => parseRupiahInput(amount.value) ?? 0)
 const description = ref(props.description ?? '')
+const hasDate = computed(() => props.mode === 'INCOME' || props.mode === 'EXPENSE')
+const movementDate = ref(todayWib())
+const dateRange = computed(() => (summary.value ? cashDateRange(summary.value.startDate) : null))
 
 const loading = ref(false)
 const buttonLoading = ref(false)
@@ -78,7 +86,9 @@ const modeTitle = computed(() =>
     ? t('title.cashTransfer')
     : props.mode === 'EXPENSE'
       ? t('title.cashExpense')
-      : t('title.cashOpening')
+      : props.mode === 'INCOME'
+        ? t('title.cashIncome')
+        : t('title.cashOpening')
 )
 
 const toOptions = computed(() =>
@@ -92,15 +102,24 @@ const pettyOutstanding = computed<number | null>(
 const balanceOf = (account: CashAccount): number =>
   summary.value?.accounts.find((item) => item.account === account)?.balance ?? 0
 
-// Pencatatan boleh membuat saldo minus, tetapi diberi peringatan
+// Pencatatan boleh membuat saldo minus, tetapi diberi peringatan (Pemasukan tidak mengurangi saldo)
 const exceedsBalance = computed(
-  () => props.mode !== 'OPENING' && amountValue.value > 0 && amountValue.value > balanceOf(fromAccount.value)
+  () =>
+    props.mode !== 'OPENING' &&
+    props.mode !== 'INCOME' &&
+    amountValue.value > 0 &&
+    amountValue.value > balanceOf(fromAccount.value)
 )
 
 // Store modal hanya menampung satu modal: konfirmasi memakai dialog bawaan browser.
 const onSubmit = (): void => {
   if (props.mode === 'TRANSFER' && fromAccount.value === toAccount.value) {
     toast.error({ text: t('message.cashSameAccount') })
+    return
+  }
+  const range = dateRange.value
+  if (hasDate.value && (!movementDate.value || (range && (movementDate.value < range.min || movementDate.value > range.max)))) {
+    toast.error({ text: t('message.cashDateOutOfRange', { min: range?.min ?? '-', max: range?.max ?? '-' }) })
     return
   }
   const warning = exceedsBalance.value ? `${t('message.cashNegativeConfirm')}\n` : ''
@@ -121,10 +140,11 @@ const save = async (): Promise<void> => {
     } else {
       await cashService.createMovement({
         type: props.mode,
-        fromAccount: fromAccount.value,
-        toAccount: props.mode === 'TRANSFER' ? toAccount.value : null,
+        fromAccount: props.mode === 'INCOME' ? null : fromAccount.value,
+        toAccount: props.mode === 'TRANSFER' || props.mode === 'INCOME' ? toAccount.value : null,
         amount: amountValue.value,
-        description: description.value
+        description: description.value,
+        ...(hasDate.value ? { movementDate: movementDate.value } : {})
       })
     }
     toast.success({ text: t('alert.successSave') })
