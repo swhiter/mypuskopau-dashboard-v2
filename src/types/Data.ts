@@ -316,6 +316,7 @@ export interface PayrollSummary {
   totalBase: number
   totalDeduction: number
   totalBonus: number
+  totalDebtDeduction?: number
   totalNet: number
   pendingDriverCount: number
   pendingTotal: number
@@ -347,6 +348,52 @@ export interface PendingDetail {
   workDate: string
   orders: UnpaidOrder[]
   baseAmount: number
+  // hutang aktif driver + saran cicilan (menu Hutang Driver)
+  debts?: PendingDebt[]
+  suggestedDebtDeduction?: number
+}
+
+export interface PendingDebt {
+  id: number
+  kind: string
+  description: string
+  totalAmount: number
+  installmentAmount: number
+  remaining: number
+}
+
+export interface DriverDebt {
+  id: number
+  driverId: number
+  driverName: string
+  vehicleCode: string
+  kind: string
+  description: string
+  totalAmount: number
+  installmentAmount: number
+  paid: number
+  remaining: number
+  status: 'ACTIVE' | 'PAID' | 'VOID'
+  voidReason: string | null
+  createdBy: string
+  createdAt: string
+}
+
+export interface DriverDebtPayment {
+  id: number
+  source: 'PAYROLL' | 'CASH'
+  payrollId: number | null
+  cashMovementId: number | null
+  amount: number
+  paidAt: string
+  note: string | null
+  status: 'ACTIVE' | 'VOID'
+  voidReason: string | null
+  createdBy: string
+}
+
+export interface DriverDebtDetail extends DriverDebt {
+  payments: DriverDebtPayment[]
 }
 
 export interface PayrollRow {
@@ -363,6 +410,7 @@ export interface PayrollRow {
   deductionNote: string | null
   bonusAmount: number
   bonusNote: string | null
+  debtDeductionAmount: number
   netAmount: number
   processedBy: string
   processedAt: string
@@ -384,6 +432,7 @@ export interface PayrollPeriod {
   totalBase: number
   totalDeduction: number
   totalBonus: number
+  totalDebtDeduction?: number
   totalNet: number
 }
 

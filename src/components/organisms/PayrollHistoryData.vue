@@ -76,6 +76,7 @@ const columns: Ref<TableField<any>[]> = ref([
   { name: 'orderCount', title: t('names.orderCount') },
   { name: 'baseAmount', title: t('names.baseSalary'), field: (val: number) => formatRupiah(val) },
   { name: 'deductionAmount', title: t('names.deduction'), field: (val: number) => formatRupiah(val) },
+  { name: 'debtDeductionAmount', title: t('names.debtInstallment'), field: (val: number) => formatRupiah(val ?? 0) },
   { name: 'bonusAmount', title: t('names.bonus'), field: (val: number) => formatRupiah(val) },
   { name: 'netAmount', title: t('names.netSalary') },
   { name: 'processedBy', title: t('names.processedBy') }

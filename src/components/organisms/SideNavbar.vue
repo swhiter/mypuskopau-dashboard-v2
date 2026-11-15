@@ -68,6 +68,7 @@ const menus: MenuEntry[] = [
     isMdi: true,
     children: [
       { title: 'Penggajian Driver', href: '/payroll', icon: 'payments', isMdi: true },
+      { title: 'Hutang Driver', href: '/driver-debt', icon: 'request_quote', isMdi: true },
       { title: 'Laporan Pendapatan', href: '/reports/income', icon: 'bar_chart', isMdi: true },
       { title: 'Laporan Ritase', href: '/reports/ritase', icon: 'event_note', isMdi: true }
     ]

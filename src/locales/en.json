@@ -116,7 +116,18 @@
     "description": "Description",
     "orderType": "Order Type",
     "rentalHours": "Rental Duration (hours)",
-    "rentalDriverShare": "Driver Share (40%, no deductions)"
+    "rentalDriverShare": "Driver Share (40%, no deductions)",
+    "debtKind": "Debt Type",
+    "debtDescription": "Description",
+    "debtTotal": "Total Debt",
+    "debtPaid": "Paid",
+    "debtRemaining": "Remaining",
+    "installmentPerDay": "Daily Installment",
+    "debtInstallment": "Debt Installment",
+    "totalDebtInstallment": "Total Debt Installments",
+    "source": "Source",
+    "note": "Note",
+    "createdBy": "Created By"
   },
   "placeholder": {
     "inputUsername": "Input User ID",
@@ -178,7 +189,12 @@
     "failedOrder": "Failed Order",
     "tariffByDistanceData": "Minimum Tariff By Distance Data",
     "carManagement": "Car Management",
-    "carData": "Cars Data"
+    "carData": "Cars Data",
+    "driverDebt": "Driver Debts",
+    "addDebt": "Add Driver Debt",
+    "editDebt": "Edit Driver Debt",
+    "debtDetail": "Driver Debt Card",
+    "debtCashPayment": "Record Cash Repayment"
   },
   "errors": {
     "badRequest": "Something wrong with your request.",
@@ -272,7 +288,25 @@
     "driverPercentage": "Driver Percentage",
     "managementPercentage": "Management Percentage",
     "orderTypeRegular": "Regular",
-    "orderTypeRental": "Rental"
+    "orderTypeRental": "Rental",
+    "done": "Done",
+    "voided": "Voided",
+    "allStatus": "All Statuses",
+    "addDebt": "Add Debt",
+    "recordPayment": "Record Repayment",
+    "voidDebt": "Void This Debt",
+    "debtSourcePayroll": "Payroll (slip #{id})",
+    "debtSourceCash": "Cash",
+    "debtKind": {
+      "CLAIM_LAKA": "Accident Claim",
+      "KASBON": "Cash Advance",
+      "LAINNYA": "Other"
+    },
+    "debtStatus": {
+      "ACTIVE": "Active",
+      "PAID": "Paid",
+      "VOID": "Voided"
+    }
   },
   "alert": {
     "cashVoided": "Cash entry voided",
@@ -315,7 +349,19 @@
     "max_value": "The {field} field must be {max} or less",
     "rentalInfo": "Rentals are split 40% driver / 60% management with no driver deductions and no petty cash.",
     "rentalHoursRequired": "Rental duration is required: more than 0 and at most {max} hours (2 decimals).",
-    "confirmManualRental": "Save RENTAL order of {hours} hours for {name} with total {total}?"
+    "confirmManualRental": "Save RENTAL order of {hours} hours for {name} with total {total}?",
+    "debtDriverRequired": "Please choose a driver.",
+    "debtDescriptionRequired": "Debt description is required.",
+    "debtAmountInvalid": "Total and installment must be whole rupiah above 0.",
+    "debtInstallmentTooHigh": "Daily installment cannot exceed the total debt.",
+    "debtTotalLocked": "Total cannot change because payments exist.",
+    "debtOpeningHint": "For an existing debt, enter the current remaining amount.",
+    "debtInstallmentInfo": "The installment is pre-filled in Driver Payroll each time pay is processed (admin can change it); it stops once paid off.",
+    "debtInstallmentMax": "Installment at most {amount} (remaining debt and pay left).",
+    "debtCashPaymentInfo": "A cash repayment is recorded as Income in the chosen cash account.",
+    "debtNoPayments": "No payments yet.",
+    "debtPaymentInvalid": "Repayment must be a whole number above 0 and at most {amount}.",
+    "confirmDebtPayment": "Record cash repayment of {amount} to {account}?"
   },
   "driverStatus": {
     "online": "Online",

@@ -155,7 +155,18 @@
     "phoneNumber": "Nomor Telepon",
     "orderType": "Jenis Order",
     "rentalHours": "Durasi Sewa (jam)",
-    "rentalDriverShare": "Bagian Driver (40%, tanpa potongan)"
+    "rentalDriverShare": "Bagian Driver (40%, tanpa potongan)",
+    "debtKind": "Jenis Hutang",
+    "debtDescription": "Keterangan",
+    "debtTotal": "Total Hutang",
+    "debtPaid": "Sudah Dibayar",
+    "debtRemaining": "Sisa Hutang",
+    "installmentPerDay": "Cicilan per Hari",
+    "debtInstallment": "Cicilan Hutang",
+    "totalDebtInstallment": "Total Cicilan Hutang",
+    "source": "Sumber",
+    "note": "Catatan",
+    "createdBy": "Dibuat Oleh"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",
@@ -235,7 +246,12 @@
     "revenueDriver": "Pendapatan Pengemudi",
     "driverPerformanceChart": "Grafik Performa Pengemudi",
     "incomeReport": "Laporan Pendapatan",
-    "driverGroupedSummary": "Ringkasan pendapatan per pengemudi"
+    "driverGroupedSummary": "Ringkasan pendapatan per pengemudi",
+    "driverDebt": "Hutang Driver",
+    "addDebt": "Tambah Hutang Driver",
+    "editDebt": "Ubah Hutang Driver",
+    "debtDetail": "Kartu Hutang Driver",
+    "debtCashPayment": "Catat Pelunasan Tunai"
   },
   "errors": {
     "badRequest": "Ada kesalahan dalam request Anda.",
@@ -338,7 +354,25 @@
     "downloadExcel": "Unduh Excel",
     "showDriverGroupedSummary": "Tampilkan Rekapan per Pengemudi",
     "orderTypeRegular": "Reguler",
-    "orderTypeRental": "Sewa"
+    "orderTypeRental": "Sewa",
+    "done": "Selesai",
+    "voided": "Dibatalkan",
+    "allStatus": "Semua Status",
+    "addDebt": "Tambah Hutang",
+    "recordPayment": "Catat Pelunasan",
+    "voidDebt": "Batalkan Hutang Ini",
+    "debtSourcePayroll": "Gaji (slip #{id})",
+    "debtSourceCash": "Tunai",
+    "debtKind": {
+      "CLAIM_LAKA": "Claim Laka",
+      "KASBON": "Kasbon",
+      "LAINNYA": "Lainnya"
+    },
+    "debtStatus": {
+      "ACTIVE": "Aktif",
+      "PAID": "Lunas",
+      "VOID": "Dibatalkan"
+    }
   },
   "alert": {
     "cashVoided": "Catatan kas dibatalkan",
@@ -381,7 +415,19 @@
     "max_value": "Nilai {field} tidak boleh lebih dari {max}",
     "rentalInfo": "Sewa dibagi 40% driver / 60% manajemen tanpa potongan driver dan tanpa kas kecil.",
     "rentalHoursRequired": "Durasi sewa wajib diisi, lebih dari 0 dan maksimal {max} jam (2 desimal).",
-    "confirmManualRental": "Simpan order SEWA {hours} jam untuk {name} dengan total {total}?"
+    "confirmManualRental": "Simpan order SEWA {hours} jam untuk {name} dengan total {total}?",
+    "debtDriverRequired": "Driver wajib dipilih.",
+    "debtDescriptionRequired": "Keterangan hutang wajib diisi.",
+    "debtAmountInvalid": "Total dan cicilan harus bilangan bulat rupiah lebih dari 0.",
+    "debtInstallmentTooHigh": "Cicilan per hari tidak boleh melebihi total hutang.",
+    "debtTotalLocked": "Total tidak bisa diubah karena sudah ada pembayaran.",
+    "debtOpeningHint": "Untuk hutang lama, isi sisa hutang saat ini.",
+    "debtInstallmentInfo": "Cicilan otomatis terisi di Penggajian Driver setiap gaji diproses (bisa diubah admin); berhenti sendiri bila lunas.",
+    "debtInstallmentMax": "Cicilan maksimal {amount} (sisa hutang dan gaji yang tersisa).",
+    "debtCashPaymentInfo": "Pelunasan tunai otomatis tercatat sebagai Pemasukan di akun kas yang dipilih.",
+    "debtNoPayments": "Belum ada pembayaran.",
+    "debtPaymentInvalid": "Jumlah pelunasan harus bilangan bulat > 0 dan maksimal {amount}.",
+    "confirmDebtPayment": "Catat pelunasan tunai {amount} ke {account}?"
   },
   "driverStatus": {
     "online": "Online",

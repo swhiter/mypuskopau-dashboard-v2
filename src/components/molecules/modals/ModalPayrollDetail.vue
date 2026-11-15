@@ -13,6 +13,9 @@
           <span class="label">{{ t('names.bonus') }}</span>{{ formatRupiah(payroll.bonusAmount) }}
           <span v-if="payroll.bonusNote" class="text-accentGray">— {{ payroll.bonusNote }}</span>
         </div>
+        <div v-if="payroll.debtDeductionAmount">
+          <span class="label">{{ t('names.debtInstallment') }}</span>{{ formatRupiah(payroll.debtDeductionAmount) }}
+        </div>
         <div :class="{ negative: payroll.netAmount < 0 }">
           <span class="label">{{ t('names.netSalary') }}</span>{{ formatRupiah(payroll.netAmount) }}
         </div>

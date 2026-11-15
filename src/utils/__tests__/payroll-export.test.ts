@@ -16,6 +16,7 @@ const row = (over: Partial<PayrollRow>): PayrollRow => ({
   deductionNote: 'kasbon',
   bonusAmount: 0,
   bonusNote: null,
+  debtDeductionAmount: 0,
   netAmount: 95000,
   processedBy: 'admin',
   processedAt: '2026-10-26T15:00:00.000Z',
@@ -27,17 +28,22 @@ const row = (over: Partial<PayrollRow>): PayrollRow => ({
 describe('buildPayrollSheetRows', () => {
   it('writes title, header, one line per payroll and a total line', () => {
     const sheet = buildPayrollSheetRows(
-      [row({}), row({ id: 2, driverName: 'B', periodStatus: 'CLOSED', baseAmount: 50000, deductionAmount: 0, bonusAmount: 10000, netAmount: 60000, orderCount: 1 })],
+      [
+        row({}),
+        row({ id: 2, driverName: 'B', periodStatus: 'CLOSED', baseAmount: 50000, deductionAmount: 0, bonusAmount: 10000, debtDeductionAmount: 30000, netAmount: 30000, orderCount: 1 })
+      ],
       'Riwayat Penggajian'
     )
 
     expect(sheet[0]).toEqual(['Riwayat Penggajian'])
     expect(sheet[2]).toEqual(PAYROLL_EXPORT_HEADER)
     expect(sheet[3]).toEqual([
-      1, '26/10/2026, 22.00', '26/10/2026', 'AHMAD YANI', 'PK-01', 2, 100000, 5000, 'kasbon', 0, '', 95000, 'admin', '', 'Berjalan'
+      1, '26/10/2026, 22.00', '26/10/2026', 'AHMAD YANI', 'PK-01', 2, 100000, 5000, 'kasbon', 0, 0, '', 95000, 'admin', '', 'Berjalan'
     ])
-    expect(sheet[4][14]).toBe('Ditutup')
-    expect(sheet[5]).toEqual(['TOTAL', '', '', '', '', 3, 150000, 5000, '', 10000, '', 155000, '', '', ''])
+    expect(PAYROLL_EXPORT_HEADER[9]).toBe('Cicilan Hutang')
+    expect(sheet[4][9]).toBe(30000)
+    expect(sheet[4][15]).toBe('Ditutup')
+    expect(sheet[5]).toEqual(['TOTAL', '', '', '', '', 3, 150000, 5000, '', 30000, 10000, '', 125000, '', '', ''])
   })
 
   it('keeps every line as wide as the header', () => {

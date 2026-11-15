@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { canManagePayroll, canViewDriverIncomeDetail, canViewIncomeSummary, homeRouteFor, routeAllowed } from '../roles'
+import {
+  canManagePayroll,
+  canRecordDebtPayment,
+  canViewDriverIncomeDetail,
+  canViewIncomeSummary,
+  homeRouteFor,
+  routeAllowed
+} from '../roles'
 
 describe('routeAllowed', () => {
   it('limits bendahara to cash and payroll', () => {
@@ -53,5 +60,15 @@ describe('canViewIncomeSummary', () => {
   it('shows the income summary only to bendahara', () => {
     expect(canViewIncomeSummary('bendahara')).toBe(true)
     expect(canViewIncomeSummary('superadmin')).toBe(false)
+  })
+})
+
+describe('hutang driver', () => {
+  it('bendahara can open the debt page and record cash payments; admin too', () => {
+    expect(routeAllowed('bendahara', '/driver-debt')).toBe(true)
+    expect(routeAllowed('superadmin', '/driver-debt')).toBe(true)
+    expect(canRecordDebtPayment('bendahara')).toBe(true)
+    expect(canRecordDebtPayment('superadmin')).toBe(true)
+    expect(canRecordDebtPayment('staff')).toBe(false)
   })
 })

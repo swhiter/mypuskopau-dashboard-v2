@@ -161,6 +161,13 @@ const router = createRouter({
             requiresAuth: true
           }
         }, {
+          path: '/driver-debt',
+          name: 'driverDebt',
+          component: () => import('@/views/main/DriverDebtView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        }, {
           path: '/cash',
           name: 'cashDashboard',
           component: () => import('@/views/main/CashDashboardView.vue'),

@@ -10,13 +10,16 @@
       <MainButton v-if="canManage" :label="t('label.closeBook')" :disabled="!summary || closing" :loading="closing"
         @click="confirmClose" />
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
       <DashboardCard :title="t('names.totalBaseSalary')" :loading="loading">
         <span class="amount">{{ formatRupiah(summary?.totalBase) }}</span>
         <span class="text-xs text-accentGray">{{ t('label.payrollCount', { count: summary?.payrollCount ?? 0 }) }}</span>
       </DashboardCard>
       <DashboardCard :title="t('names.totalDeduction')" :loading="loading">
         <span class="amount">{{ formatRupiah(summary?.totalDeduction) }}</span>
+      </DashboardCard>
+      <DashboardCard :title="t('names.totalDebtInstallment')" :loading="loading">
+        <span class="amount">{{ formatRupiah(summary?.totalDebtDeduction ?? 0) }}</span>
       </DashboardCard>
       <DashboardCard :title="t('names.totalBonus')" :loading="loading">
         <span class="amount">{{ formatRupiah(summary?.totalBonus) }}</span>

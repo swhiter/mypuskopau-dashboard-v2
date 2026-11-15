@@ -39,10 +39,27 @@
         <InputForm name="bonusNote" v-model="form.bonusNote" :label="t('names.bonusNote')" is-separate-row bordered />
       </div>
 
+      <!-- Cicilan hutang driver (menu Hutang Driver): terisi otomatis, bisa diubah -->
+      <div v-if="showDebt" class="debt-box">
+        <p class="font-semibold">{{ t('title.driverDebt') }}</p>
+        <ul v-if="debts.length" class="text-xs text-accentGray">
+          <li v-for="debt in debts" :key="debt.id">
+            {{ t(`label.debtKind.${debt.kind}`) }} — {{ debt.description }}:
+            {{ t('names.debtRemaining') }} {{ formatRupiah(debt.remaining) }} · {{ t('names.installmentPerDay') }}
+            {{ formatRupiah(debt.installmentAmount) }}
+          </li>
+        </ul>
+        <InputForm name="debtDeductionAmount" v-model="form.debtDeductionAmount" :label="t('names.debtInstallment')"
+          type="number" prefix="Rp" is-separate-row bordered
+          :rules="{ required: true, integer: true, min_value: 0, max_value: maxDebt }" />
+        <p class="text-xs text-accentGray">{{ t('message.debtInstallmentMax', { amount: formatRupiah(maxDebt) }) }}</p>
+      </div>
+
       <div class="totals">
         <div class="flex justify-between"><span>{{ t('names.baseSalary') }}</span><span>{{ formatRupiah(baseAmount) }}</span></div>
         <div class="flex justify-between"><span>{{ t('names.deduction') }}</span><span>- {{ formatRupiah(Number(form.deductionAmount) || 0) }}</span></div>
         <div class="flex justify-between"><span>{{ t('names.bonus') }}</span><span>+ {{ formatRupiah(Number(form.bonusAmount) || 0) }}</span></div>
+        <div v-if="showDebt" class="flex justify-between"><span>{{ t('names.debtInstallment') }}</span><span>- {{ formatRupiah(Number(form.debtDeductionAmount) || 0) }}</span></div>
         <div class="flex justify-between font-semibold text-base" :class="{ negative: netAmount < 0 }">
           <span>{{ t('names.netSalary') }}</span><span>{{ formatRupiah(netAmount) }}</span>
         </div>
@@ -61,7 +78,9 @@ import { useToasterStore } from '@/stores/toaster'
 import { handleErrorResponse } from '@/utils/common'
 import { formatRupiah, formatWib, formatWorkDate } from '@/utils/payroll-format'
 import payrollService from '@/services/payroll/payroll.api'
-import type { UnpaidOrder } from '@/types/Data'
+import driverDebtService from '@/services/driver-debt/driver-debt.api'
+import { maxDebtDeduction, payrollNet } from '@/utils/driver-debt'
+import type { PendingDebt, UnpaidOrder } from '@/types/Data'
 
 const { t } = useI18n()
 const toast = useToasterStore()
@@ -81,8 +100,12 @@ const form = ref({
   deductionAmount: 0 as number | string,
   deductionNote: '',
   bonusAmount: 0 as number | string,
-  bonusNote: ''
+  bonusNote: '',
+  debtDeductionAmount: 0 as number | string
 })
+const debts = ref<PendingDebt[]>([])
+// total sisa hutang yang masih bisa dipotong dari slip ini
+const debtRemaining = ref(0)
 const orders = ref<UnpaidOrder[]>([])
 const baseAmount = ref(0)
 const driverLabel = ref('')
@@ -91,15 +114,20 @@ const modalLoading = ref(false)
 const buttonLoading = ref(false)
 const submitted = ref(false)
 
-const netAmount = computed(
-  () => baseAmount.value - (Number(form.value.deductionAmount) || 0) + (Number(form.value.bonusAmount) || 0)
+const netAmount = computed(() =>
+  payrollNet(baseAmount.value, form.value.deductionAmount, form.value.bonusAmount, form.value.debtDeductionAmount)
 )
+const maxDebt = computed(() =>
+  maxDebtDeduction(baseAmount.value, form.value.deductionAmount, form.value.bonusAmount, debtRemaining.value)
+)
+const showDebt = computed(() => debtRemaining.value > 0 || Number(form.value.debtDeductionAmount) > 0)
 
 const payload = () => ({
   deductionAmount: Number(form.value.deductionAmount) || 0,
   deductionNote: form.value.deductionNote,
   bonusAmount: Number(form.value.bonusAmount) || 0,
-  bonusNote: form.value.bonusNote
+  bonusNote: form.value.bonusNote,
+  debtDeductionAmount: Number(form.value.debtDeductionAmount) || 0
 })
 
 // Store modal hanya menampung satu modal: konfirmasi memakai dialog bawaan browser.
@@ -110,6 +138,10 @@ const onSubmit = (): void => {
     (Number(form.value.bonusAmount) > 0 && !form.value.bonusNote.trim())
   if (missingNote) {
     toast.error({ text: t('message.noteRequired') })
+    return
+  }
+  if ((Number(form.value.debtDeductionAmount) || 0) > maxDebt.value) {
+    toast.error({ text: t('message.debtInstallmentMax', { amount: formatRupiah(maxDebt.value) }) })
     return
   }
   const message = t('message.confirmPayroll', { name: driverLabel.value, net: formatRupiah(netAmount.value) })
@@ -152,13 +184,26 @@ onMounted(async () => {
         deductionAmount: data.deductionAmount,
         deductionNote: data.deductionNote ?? '',
         bonusAmount: data.bonusAmount,
-        bonusNote: data.bonusNote ?? ''
+        bonusNote: data.bonusNote ?? '',
+        debtDeductionAmount: data.debtDeductionAmount ?? 0
       }
+      // sisa semua hutang driver + cicilan slip ini (yang akan dialokasikan ulang)
+      const debtList = await driverDebtService.getDebts({ driverId: data.driverId, page: 1, limit: 100 })
+      debts.value = debtList.data
+        .filter((debt) => debt.status !== 'VOID')
+        .map(({ id, kind, description, totalAmount, installmentAmount, remaining }) => ({
+          id, kind, description, totalAmount, installmentAmount, remaining
+        }))
+      debtRemaining.value =
+        debts.value.reduce((total, debt) => total + debt.remaining, 0) + (data.debtDeductionAmount ?? 0)
     } else if (props.driverId && props.workDate) {
       const { data } = await payrollService.getPendingDetail(props.driverId, props.workDate)
       driverLabel.value = `${data.driver.name} (${data.driver.vehicleCode}) · ${formatWorkDate(data.workDate)}`
       orders.value = data.orders
       baseAmount.value = data.baseAmount
+      debts.value = data.debts ?? []
+      debtRemaining.value = debts.value.reduce((total, debt) => total + debt.remaining, 0)
+      form.value.debtDeductionAmount = data.suggestedDebtDeduction ?? 0
     }
   } catch (error) {
     handleErrorResponse(error)
@@ -188,5 +233,9 @@ onMounted(async () => {
 
 .negative {
   @apply text-red-600
+}
+
+.debt-box {
+  @apply flex flex-col space-y-2 rounded-lg border border-buttonGray p-3 text-sm
 }
 </style>

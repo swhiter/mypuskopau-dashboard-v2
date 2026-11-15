@@ -12,6 +12,7 @@ export const PAYROLL_EXPORT_HEADER = [
   'Gaji Dasar',
   'Potongan',
   'Keterangan Potongan',
+  'Cicilan Hutang',
   'Bonus',
   'Keterangan Bonus',
   'Gaji Bersih',
@@ -20,7 +21,7 @@ export const PAYROLL_EXPORT_HEADER = [
   'Status Periode'
 ]
 
-export const PAYROLL_EXPORT_WIDTHS = [5, 18, 13, 28, 15, 13, 14, 12, 26, 12, 26, 14, 20, 20, 15]
+export const PAYROLL_EXPORT_WIDTHS = [5, 18, 13, 28, 15, 13, 14, 12, 26, 14, 12, 26, 14, 20, 20, 15]
 
 type Cell = string | number
 
@@ -36,6 +37,7 @@ export const buildPayrollSheetRows = (rows: PayrollRow[], title: string): Cell[]
     Number(row.baseAmount),
     Number(row.deductionAmount),
     row.deductionNote ?? '',
+    Number(row.debtDeductionAmount ?? 0),
     Number(row.bonusAmount),
     row.bonusNote ?? '',
     Number(row.netAmount),
@@ -46,7 +48,7 @@ export const buildPayrollSheetRows = (rows: PayrollRow[], title: string): Cell[]
   const sum = (key: keyof PayrollRow): number => rows.reduce((total, row) => total + Number(row[key] ?? 0), 0)
   const total = [
     'TOTAL', '', '', '', '',
-    sum('orderCount'), sum('baseAmount'), sum('deductionAmount'), '',
+    sum('orderCount'), sum('baseAmount'), sum('deductionAmount'), '', sum('debtDeductionAmount'),
     sum('bonusAmount'), '', sum('netAmount'), '', '', ''
   ]
   return [[title], [], PAYROLL_EXPORT_HEADER, ...body, total]

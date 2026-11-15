@@ -14,6 +14,7 @@ export interface PayrollAdjustmentPayload {
   deductionNote: string
   bonusAmount: number
   bonusNote: string
+  debtDeductionAmount: number
 }
 
 export interface PayrollListParams {
