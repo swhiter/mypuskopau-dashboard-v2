@@ -21,10 +21,10 @@ describe('cash labels', () => {
     expect(KIND_LABELS.ORDER_VENDOR).toBe('Struk Vendor')
   })
 
-  it('has Kas Investor & Kas Puskopau after Kas Kecil', () => {
+  it('names the bank accounts as the bendahara does: Rek 67 (Puskopau) & Rek 87 (Investor)', () => {
     expect(CASH_ACCOUNTS.slice(4)).toEqual(['KAS_KECIL', 'KAS_INVESTOR', 'KAS_PUSKOPAU'])
-    expect(accountLabel('KAS_INVESTOR')).toBe('Kas Investor')
-    expect(accountLabel('KAS_PUSKOPAU')).toBe('Kas Puskopau')
+    expect(accountLabel('KAS_PUSKOPAU')).toBe('Rek 67 (Kas Puskopau)')
+    expect(accountLabel('KAS_INVESTOR')).toBe('Rek 87 (Kas Investor)')
   })
 
   it('labels every account', () => {

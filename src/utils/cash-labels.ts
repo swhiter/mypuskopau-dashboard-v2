@@ -9,8 +9,9 @@ export const ACCOUNT_LABELS: Record<CashAccount, string> = {
   VENDOR: 'Kas Vendor',
   KAS_BESAR: 'Kas Besar',
   KAS_KECIL: 'Kas Kecil',
-  KAS_INVESTOR: 'Kas Investor',
-  KAS_PUSKOPAU: 'Kas Puskopau'
+  // rekening bank Mandiri; bendahara menyebutnya "Rek 87" / "Rek 67"
+  KAS_INVESTOR: 'Rek 87 (Kas Investor)',
+  KAS_PUSKOPAU: 'Rek 67 (Kas Puskopau)'
 }
 
 export const KIND_LABELS: Record<CashKind, string> = {
