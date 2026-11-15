@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { MINIMUM_PRICE, buildManualOrderPayload, manualOrderTotals, type ManualOrderForm } from '../manual-order'
+import {
+  MINIMUM_PRICE,
+  buildManualOrderPayload,
+  manualOrderTotals,
+  validateManualOrder,
+  type ManualOrderForm
+} from '../manual-order'
 
 const form = (overrides: Partial<ManualOrderForm> = {}): ManualOrderForm => ({
   customerName: ' Budi ',
@@ -18,6 +24,8 @@ const form = (overrides: Partial<ManualOrderForm> = {}): ManualOrderForm => ({
   price: '150000',
   chargePassenger: '',
   discount: '',
+  orderType: 'REGULER',
+  rentalHours: '',
   ...overrides
 })
 
@@ -41,7 +49,8 @@ describe('buildManualOrderPayload', () => {
         vaAccount: '-',
         price: 150000,
         chargePassenger: 0,
-        discount: 0
+        discount: 0,
+        orderType: 'REGULER'
       }
     })
   })
@@ -68,11 +77,43 @@ describe('manualOrderTotals', () => {
       minimumApplied: true,
       chargePassenger: 10000,
       discount: 5000,
-      total: 80000
+      total: 80000,
+      isRental: false,
+      driverShare: null
     })
   })
 
   it('totals price + charge - discount', () => {
     expect(manualOrderTotals(form({ chargePassenger: '20000', discount: '10000' })).total).toBe(160000)
+  })
+})
+
+describe('jenis order Reguler/Sewa', () => {
+  it('sends REGULER without rental hours by default', () => {
+    const detail = buildManualOrderPayload(form({ rentalHours: '5' })).orderDetail
+    expect(detail.orderType).toBe('REGULER')
+    expect(detail).not.toHaveProperty('rentalHours')
+  })
+
+  it('sends SEWA with rental hours as a number', () => {
+    const detail = buildManualOrderPayload(form({ orderType: 'SEWA', rentalHours: '3' })).orderDetail
+    expect(detail.orderType).toBe('SEWA')
+    expect(detail.rentalHours).toBe(3)
+    expect(detail.paymentMethod).toBe('cash')
+  })
+
+  it('requires 0-24 rental hours with at most 2 decimals for SEWA', () => {
+    expect(validateManualOrder(form())).toBeNull()
+    expect(validateManualOrder(form({ orderType: 'SEWA', rentalHours: '2.5' }))).toBeNull()
+    for (const rentalHours of ['', '0', '25', '-1', '1.555', 'abc']) {
+      expect(validateManualOrder(form({ orderType: 'SEWA', rentalHours }))).toBe('message.rentalHoursRequired')
+    }
+  })
+
+  it('shows the driver share: 40% without deductions for SEWA', () => {
+    const sewa = manualOrderTotals(form({ orderType: 'SEWA', rentalHours: '3', price: '300000' }))
+    expect(sewa.isRental).toBe(true)
+    expect(sewa.driverShare).toBe(120000)
+    expect(manualOrderTotals(form()).isRental).toBe(false)
   })
 })

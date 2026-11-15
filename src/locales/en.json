@@ -113,7 +113,10 @@
     "carName": "Car Name",
     "driverPercentage": "Driver Percentage",
     "managementPercentage": "Management Percentage",
-    "description": "Description"
+    "description": "Description",
+    "orderType": "Order Type",
+    "rentalHours": "Rental Duration (hours)",
+    "rentalDriverShare": "Driver Share (40%, no deductions)"
   },
   "placeholder": {
     "inputUsername": "Input User ID",
@@ -267,7 +270,9 @@
     "driverIncome": "Driver Income",
     "managementIncome": "Management Income",
     "driverPercentage": "Driver Percentage",
-    "managementPercentage": "Management Percentage"
+    "managementPercentage": "Management Percentage",
+    "orderTypeRegular": "Regular",
+    "orderTypeRental": "Rental"
   },
   "alert": {
     "cashVoided": "Cash entry voided",
@@ -307,7 +312,10 @@
     "overlap": "Value must not overlap with other data",
     "overlap_min_distance": "Value must not overlap with data in tariff by distance",
     "min_value": "The {field} field must be {min} or more",
-    "max_value": "The {field} field must be {max} or less"
+    "max_value": "The {field} field must be {max} or less",
+    "rentalInfo": "Rentals are split 40% driver / 60% management with no driver deductions and no petty cash.",
+    "rentalHoursRequired": "Rental duration is required: more than 0 and at most {max} hours (2 decimals).",
+    "confirmManualRental": "Save RENTAL order of {hours} hours for {name} with total {total}?"
   },
   "driverStatus": {
     "online": "Online",

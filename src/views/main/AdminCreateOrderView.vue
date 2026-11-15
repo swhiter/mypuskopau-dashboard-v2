@@ -115,6 +115,18 @@
           <h2>{{ $t('title.paymentSummary') }}</h2>
         </header>
         <span class="badge">{{ $t('label.paymentCash') }}</span>
+        <div class="field">
+          <label for="orderType">{{ $t('names.orderType') }}</label>
+          <select id="orderType" v-model="form.orderType" class="select">
+            <option value="REGULER">{{ $t('label.orderTypeRegular') }}</option>
+            <option value="SEWA">{{ $t('label.orderTypeRental') }}</option>
+          </select>
+        </div>
+        <template v-if="form.orderType === 'SEWA'">
+          <InputForm name="rentalHours" :label="$t('names.rentalHours')" v-model="form.rentalHours" is-separate-row
+            bordered :rules="{ required: true, min_value: 0.01, max_value: MAX_RENTAL_HOURS }" type="number" />
+          <p class="hint">{{ $t('message.rentalInfo') }}</p>
+        </template>
         <!-- harga di bawah tarif minimum ditolak di sini agar backend tidak mengubah harga diam-diam -->
         <InputForm name="price" :label="$t('names.price')" v-model="form.price" is-separate-row bordered prefix="Rp"
           :rules="{ required: true, integer: true, min_value: MINIMUM_PRICE }" type="number" />
@@ -130,6 +142,9 @@
           <div><dt>{{ $t('names.chargePassenger') }}</dt><dd>+ {{ formatRupiah(totals.chargePassenger) }}</dd></div>
           <div><dt>{{ $t('names.discount') }}</dt><dd>− {{ formatRupiah(totals.discount) }}</dd></div>
           <div class="grand"><dt>{{ $t('names.totalPaid') }}</dt><dd>{{ formatRupiah(totals.total) }}</dd></div>
+          <div v-if="totals.isRental">
+            <dt>{{ $t('names.rentalDriverShare') }}</dt><dd>{{ formatRupiah(totals.driverShare ?? 0) }}</dd>
+          </div>
         </dl>
         <p class="hint">{{ $t('message.manualOrderInfo') }}</p>
 
@@ -151,10 +166,12 @@ import { useToasterStore } from '@/stores/toaster'
 import { handleErrorResponse } from '@/utils/common'
 import { formatRupiah } from '@/utils/payroll-format'
 import {
+  MAX_RENTAL_HOURS,
   MINIMUM_PRICE,
   buildManualOrderPayload,
   emptyManualOrderForm,
   manualOrderTotals,
+  validateManualOrder,
   type ManualOrderForm
 } from '@/utils/manual-order'
 import orderService from '@/services/order/order.api'
@@ -210,9 +227,15 @@ const selectedCar = computed(() => cars.value.find((car) => String(car.id) === S
 
 // Store modal hanya menampung satu modal: konfirmasi memakai dialog bawaan browser.
 const onSubmit = (): void => {
-  const message = t('message.confirmManualOrder', {
+  const invalid = validateManualOrder(form.value)
+  if (invalid) {
+    toast.error({ text: t(invalid, { max: MAX_RENTAL_HOURS }) })
+    return
+  }
+  const message = t(totals.value.isRental ? 'message.confirmManualRental' : 'message.confirmManualOrder', {
     name: form.value.customerName,
-    total: formatRupiah(totals.value.total)
+    total: formatRupiah(totals.value.total),
+    hours: form.value.rentalHours
   })
   if (window.confirm(message)) {
     save()

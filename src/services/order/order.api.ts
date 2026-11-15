@@ -22,6 +22,8 @@ export interface CreateOrderPayload {
     price: number
     chargePassenger: number
     discount: number
+    orderType?: 'REGULER' | 'SEWA'
+    rentalHours?: number
   }
   staffId?: number
 }

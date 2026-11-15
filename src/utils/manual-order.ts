@@ -4,6 +4,12 @@ import type { CreateOrderPayload } from '@/services/order/order.api'
 // minimum ditolak di form supaya createOrder tidak mengubah harga.
 export const MINIMUM_PRICE = 75000
 
+// Jenis order: SEWA = sewa taksi per jam, dibagi 40/60 tanpa potongan driver
+// dan tanpa jatah kas kecil (aturan di backend). Durasi wajib 0–24 jam.
+export type ManualOrderType = 'REGULER' | 'SEWA'
+export const MAX_RENTAL_HOURS = 24
+const DRIVER_SHARE_RATE = 0.4
+
 export interface ManualOrderForm {
   customerName: string
   customerPhone: string
@@ -22,6 +28,8 @@ export interface ManualOrderForm {
   price: number | string
   chargePassenger: number | string
   discount: number | string
+  orderType: ManualOrderType
+  rentalHours: number | string
 }
 
 const num = (value: unknown): number => Number(value) || 0
@@ -43,7 +51,9 @@ export const emptyManualOrderForm = (): ManualOrderForm => ({
   staffId: '',
   price: '',
   chargePassenger: '',
-  discount: ''
+  discount: '',
+  orderType: 'REGULER',
+  rentalHours: ''
 })
 
 export const buildManualOrderPayload = (form: ManualOrderForm): CreateOrderPayload => ({
@@ -66,9 +76,25 @@ export const buildManualOrderPayload = (form: ManualOrderForm): CreateOrderPaylo
     vaAccount: '-',
     price: num(form.price),
     chargePassenger: num(form.chargePassenger),
-    discount: num(form.discount)
+    discount: num(form.discount),
+    orderType: form.orderType,
+    ...(form.orderType === 'SEWA' ? { rentalHours: Number(form.rentalHours) } : {})
   }
 })
+
+const isValidRentalHours = (value: unknown): boolean => {
+  const text = String(value ?? '').trim()
+  const hours = Number(text)
+  return /^\d+(\.\d{1,2})?$/.test(text) && hours > 0 && hours <= MAX_RENTAL_HOURS
+}
+
+// Mengembalikan key pesan i18n bila tidak valid, null bila valid.
+export const validateManualOrder = (form: ManualOrderForm): string | null => {
+  if (form.orderType === 'SEWA' && !isValidRentalHours(form.rentalHours)) {
+    return 'message.rentalHoursRequired'
+  }
+  return null
+}
 
 export const manualOrderTotals = (form: ManualOrderForm) => {
   const price = Math.max(num(form.price), MINIMUM_PRICE)
@@ -79,6 +105,9 @@ export const manualOrderTotals = (form: ManualOrderForm) => {
     minimumApplied: num(form.price) < MINIMUM_PRICE,
     chargePassenger,
     discount,
-    total: price + chargePassenger - discount
+    total: price + chargePassenger - discount,
+    isRental: form.orderType === 'SEWA',
+    // bagian driver Sewa = 40% tarif penuh (tanpa potongan)
+    driverShare: form.orderType === 'SEWA' ? Math.round((price - discount) * DRIVER_SHARE_RATE) : null
   }
 }

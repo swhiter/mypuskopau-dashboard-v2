@@ -152,7 +152,10 @@
     "totalPotonganMidtrans": "Total Biaya Midtrans",
     "surcharge": "Surcharge",
     "totalPendapatanDriverRow": "Total Pendapatan Driver",
-    "phoneNumber": "Nomor Telepon"
+    "phoneNumber": "Nomor Telepon",
+    "orderType": "Jenis Order",
+    "rentalHours": "Durasi Sewa (jam)",
+    "rentalDriverShare": "Bagian Driver (40%, tanpa potongan)"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",
@@ -333,7 +336,9 @@
     "filter": "Filter",
     "reset": "Atur Ulang",
     "downloadExcel": "Unduh Excel",
-    "showDriverGroupedSummary": "Tampilkan Rekapan per Pengemudi"
+    "showDriverGroupedSummary": "Tampilkan Rekapan per Pengemudi",
+    "orderTypeRegular": "Reguler",
+    "orderTypeRental": "Sewa"
   },
   "alert": {
     "cashVoided": "Catatan kas dibatalkan",
@@ -373,7 +378,10 @@
     "overlap": "Nilai tidak boleh beririsan dengan data lain",
     "overlap_min_distance": "Nilai tidak boleh beririsan dengan data tarif minimum berdasarkan jarak",
     "min_value": "Nilai {field} tidak boleh kurang dari {min}",
-    "max_value": "Nilai {field} tidak boleh lebih dari {max}"
+    "max_value": "Nilai {field} tidak boleh lebih dari {max}",
+    "rentalInfo": "Sewa dibagi 40% driver / 60% manajemen tanpa potongan driver dan tanpa kas kecil.",
+    "rentalHoursRequired": "Durasi sewa wajib diisi, lebih dari 0 dan maksimal {max} jam (2 desimal).",
+    "confirmManualRental": "Simpan order SEWA {hours} jam untuk {name} dengan total {total}?"
   },
   "driverStatus": {
     "online": "Online",
