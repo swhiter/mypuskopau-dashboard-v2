@@ -42,9 +42,22 @@
           {{ t('label.voidedBecause', { reason: item.void_reason, by: item.voided_by }) }}
         </span>
       </template>
+      <template #cell(coa)="{ item }">
+        <template v-if="item.source === 'MANUAL' && needsClassification(item.kind, item.from_account)">
+          <span v-if="item.coa_code" :class="{ voided: item.status === 'VOID' }">
+            {{ coaLabel(item.coa_code, coaAccounts) }}
+            <span class="block text-xs text-accentGray">{{ UNIT_LABELS[item.business_unit as BusinessUnit] ?? '' }}</span>
+          </span>
+          <span v-else class="text-xs font-semibold text-orange-600">{{ t('label.unclassified') }}</span>
+        </template>
+        <span v-else class="text-accentGray">-</span>
+      </template>
       <template #cell(actions)="{ item }">
-        <button v-if="item.source === 'MANUAL' && item.status === 'ACTIVE'" type="button" class="action-link"
-          @click="voidRow(item)">{{ t('label.voidEntry') }}</button>
+        <div v-if="item.source === 'MANUAL' && item.status === 'ACTIVE'" class="flex gap-3">
+          <button v-if="needsClassification(item.kind, item.from_account)" type="button" class="action-link-blue"
+            @click="classifyRow(item)">{{ t('label.classify') }}</button>
+          <button type="button" class="action-link" @click="voidRow(item)">{{ t('label.voidEntry') }}</button>
+        </div>
         <span v-else>-</span>
       </template>
     </CustomTable>
@@ -62,6 +75,9 @@ import CustomTable from '../atoms/CustomTable.vue'
 import CustomTablePagination from '../atoms/CustomTablePagination.vue'
 import ModalCashMovement from '../molecules/modals/ModalCashMovement.vue'
 import ModalCashVoid from '../molecules/modals/ModalCashVoid.vue'
+import ModalCashClassify from '../molecules/modals/ModalCashClassify.vue'
+import accountingService from '@/services/accounting/accounting.api'
+import { UNIT_LABELS, coaLabel, needsClassification, type BusinessUnit, type CoaAccount } from '@/utils/accounting'
 import { useModalStore } from '@/stores/modal'
 import { handleErrorResponse } from '@/utils/common'
 import { formatRupiah, formatWib } from '@/utils/payroll-format'
@@ -94,6 +110,7 @@ const columns: Ref<TableField<any>[]> = ref([
   { name: 'route', title: t('names.fromTo') },
   { name: 'amount', title: t('names.amount') },
   { name: 'description', title: t('names.description') },
+  { name: 'coa', title: t('names.account') },
   { name: 'created_by', title: t('names.recordedBy') },
   { name: 'actions', title: t('label.actions') }
 ])
@@ -162,10 +179,33 @@ const voidRow = (row: CashMovementRow): void => {
   })
 }
 
+const coaAccounts = ref<CoaAccount[]>([])
+
+const classifyRow = (row: CashMovementRow): void => {
+  modal.openModal({
+    component: ModalCashClassify,
+    props: {
+      id: row.id,
+      type: row.kind,
+      cashAccount: row.kind === 'INCOME' ? row.to_account : row.from_account,
+      summaryText: `${KIND_LABELS[row.kind]} ${formatRupiah(row.amount)} — ${row.description ?? ''}`,
+      coaCode: row.coa_code,
+      businessUnit: row.business_unit
+    }
+  })
+  modal.onOk(() => {
+    load()
+  })
+}
+
 defineExpose({ load })
 
 onMounted(() => {
   load()
+  accountingService
+    .getAccounts()
+    .then((response) => (coaAccounts.value = response.data))
+    .catch(handleErrorResponse)
 })
 </script>
 
@@ -184,5 +224,9 @@ onMounted(() => {
 
 .action-link {
   @apply text-red-600 font-semibold underline
+}
+
+.action-link-blue {
+  @apply text-primaryDarkBlue font-semibold underline
 }
 </style>

@@ -72,3 +72,11 @@ describe('hutang driver', () => {
     expect(canRecordDebtPayment('staff')).toBe(false)
   })
 })
+
+describe('akuntansi', () => {
+  it('bendahara and admin can open the accounting pages', () => {
+    expect(routeAllowed('bendahara', '/accounting/trial-balance')).toBe(true)
+    expect(routeAllowed('bendahara', '/accounting/ledger')).toBe(true)
+    expect(routeAllowed('superadmin', '/accounting/accounts')).toBe(true)
+  })
+})

@@ -127,7 +127,19 @@
     "totalDebtInstallment": "Total Debt Installments",
     "source": "Source",
     "note": "Note",
-    "createdBy": "Created By"
+    "createdBy": "Created By",
+    "sourceAccount": "Source Account",
+    "targetAccount": "Target Account",
+    "businessUnit": "Business Unit",
+    "accountCode": "Account Code",
+    "accountName": "Account Name",
+    "accountType": "Account Type",
+    "normalBalance": "Normal Balance",
+    "cashAccount": "Cash Account",
+    "accountParent": "Parent Account",
+    "openingBalance": "Opening Balance",
+    "closingBalance": "Closing Balance",
+    "balance": "Balance"
   },
   "placeholder": {
     "inputUsername": "Input User ID",
@@ -194,7 +206,13 @@
     "addDebt": "Add Driver Debt",
     "editDebt": "Edit Driver Debt",
     "debtDetail": "Driver Debt Card",
-    "debtCashPayment": "Record Cash Repayment"
+    "debtCashPayment": "Record Cash Repayment",
+    "cashClassify": "Income/Expense Account",
+    "chartOfAccounts": "Chart of Accounts",
+    "editAccount": "Edit Account",
+    "addAccount": "Add Account",
+    "trialBalance": "Trial Balance",
+    "generalLedger": "General Ledger"
   },
   "errors": {
     "badRequest": "Something wrong with your request.",
@@ -306,7 +324,29 @@
       "ACTIVE": "Active",
       "PAID": "Paid",
       "VOID": "Voided"
-    }
+    },
+    "unclassified": "Unclassified",
+    "classify": "Account",
+    "searchAccount": "Search code / name",
+    "showInactive": "Show inactive accounts",
+    "addAccount": "Add Account",
+    "systemAccount": "system",
+    "inactive": "inactive",
+    "debit": "Debit",
+    "credit": "Credit",
+    "accountActive": "Active account",
+    "allUnits": "All Units (Combined)",
+    "hideZero": "Hide accounts without balance",
+    "openCash": "Open Cash",
+    "balanced": "Balanced ✓",
+    "notBalanced": "NOT BALANCED",
+    "chooseAccount": "Choose account",
+    "ledgerSummary": "Summary of {count} lines",
+    "ledgerSourceCash": "Cash #{id}",
+    "ledgerSourceDebt": "Driver debt #{id}",
+    "ledgerSourceOrder": "Paid orders (daily)",
+    "ledgerSourcePayroll": "Payroll (daily)",
+    "save": "Save"
   },
   "alert": {
     "cashVoided": "Cash entry voided",
@@ -361,7 +401,15 @@
     "debtCashPaymentInfo": "A cash repayment is recorded as Income in the chosen cash account.",
     "debtNoPayments": "No payments yet.",
     "debtPaymentInvalid": "Repayment must be a whole number above 0 and at most {amount}.",
-    "confirmDebtPayment": "Record cash repayment of {amount} to {account}?"
+    "confirmDebtPayment": "Record cash repayment of {amount} to {account}?",
+    "pettyExpenseAccount": "Petty cash expenses reduce the Petty Cash Fund automatically (no account needed).",
+    "accountRequired": "Please choose an account.",
+    "classifyInfo": "Only the account and business unit change; the amount stays. Wrong amount: void and re-enter.",
+    "coaInfo": "The code cannot change once saved. System accounts cannot be edited.",
+    "unclassifiedWarning": "{count} income/expense entries ({amount}) have no account yet; expenses go to Unclassified Expense.",
+    "trialBalanceInfo": "Computed directly from orders, payroll, driver debts and cash since 1 Nov 2026. Non-cash opening balances (October Excel GL) are not in yet.",
+    "ledgerEmpty": "No movements in this range.",
+    "ledgerChooseAccount": "Choose an account to view its ledger."
   },
   "driverStatus": {
     "online": "Online",

@@ -19,6 +19,9 @@ export interface CashManualPayload {
   description: string
   // YYYY-MM-DD, hanya Pemasukan/Pengeluaran; kosong = hari ini
   movementDate?: string
+  // akuntansi: wajib untuk Pemasukan & Pengeluaran selain dari Kas Kecil
+  coaCode?: string
+  businessUnit?: string
 }
 
 class CashService {
@@ -40,6 +43,13 @@ class CashService {
 
   async createMovement(data: CashManualPayload): Promise<GeneralResponse<unknown>> {
     return await httpClient.post<GeneralResponse<unknown>>('/cash/movements', data)
+  }
+
+  async classifyMovement(
+    id: number,
+    data: { coaCode: string; businessUnit: string }
+  ): Promise<GeneralResponse<unknown>> {
+    return await httpClient.put<GeneralResponse<unknown>>(`/cash/movements/${id}/classify`, data)
   }
 
   async voidMovement(id: number, reason: string): Promise<GeneralResponse<{ id: number }>> {

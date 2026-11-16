@@ -166,7 +166,19 @@
     "totalDebtInstallment": "Total Cicilan Hutang",
     "source": "Sumber",
     "note": "Catatan",
-    "createdBy": "Dibuat Oleh"
+    "createdBy": "Dibuat Oleh",
+    "sourceAccount": "Akun Sumber",
+    "targetAccount": "Akun Tujuan",
+    "businessUnit": "Unit Usaha",
+    "accountCode": "Kode Akun",
+    "accountName": "Nama Akun",
+    "accountType": "Jenis Akun",
+    "normalBalance": "Saldo Normal",
+    "cashAccount": "Akun Kas",
+    "accountParent": "Induk Akun",
+    "openingBalance": "Saldo Awal",
+    "closingBalance": "Saldo Akhir",
+    "balance": "Saldo"
   },
   "placeholder": {
     "inputUsername": "Masukkan Nomor ID",
@@ -251,7 +263,13 @@
     "addDebt": "Tambah Hutang Driver",
     "editDebt": "Ubah Hutang Driver",
     "debtDetail": "Kartu Hutang Driver",
-    "debtCashPayment": "Catat Pelunasan Tunai"
+    "debtCashPayment": "Catat Pelunasan Tunai",
+    "cashClassify": "Akun Pemasukan/Pengeluaran",
+    "chartOfAccounts": "Daftar Akun",
+    "editAccount": "Ubah Akun",
+    "addAccount": "Tambah Akun",
+    "trialBalance": "Neraca Saldo",
+    "generalLedger": "Buku Besar"
   },
   "errors": {
     "badRequest": "Ada kesalahan dalam request Anda.",
@@ -372,7 +390,28 @@
       "ACTIVE": "Aktif",
       "PAID": "Lunas",
       "VOID": "Dibatalkan"
-    }
+    },
+    "unclassified": "Belum diklasifikasi",
+    "classify": "Akun",
+    "searchAccount": "Cari kode / nama akun",
+    "showInactive": "Tampilkan akun nonaktif",
+    "addAccount": "Tambah Akun",
+    "systemAccount": "sistem",
+    "debit": "Debit",
+    "credit": "Kredit",
+    "accountActive": "Akun aktif",
+    "allUnits": "Semua Unit (Gabungan)",
+    "hideZero": "Sembunyikan akun tanpa saldo",
+    "openCash": "Buka Kas",
+    "balanced": "Balance ✓",
+    "notBalanced": "TIDAK BALANCE",
+    "chooseAccount": "Pilih akun",
+    "ledgerSummary": "Ringkasan {count} baris",
+    "ledgerSourceCash": "Kas #{id}",
+    "ledgerSourceDebt": "Hutang driver #{id}",
+    "ledgerSourceOrder": "Order lunas (harian)",
+    "ledgerSourcePayroll": "Penggajian (harian)",
+    "save": "Simpan"
   },
   "alert": {
     "cashVoided": "Catatan kas dibatalkan",
@@ -427,7 +466,15 @@
     "debtCashPaymentInfo": "Pelunasan tunai otomatis tercatat sebagai Pemasukan di akun kas yang dipilih.",
     "debtNoPayments": "Belum ada pembayaran.",
     "debtPaymentInvalid": "Jumlah pelunasan harus bilangan bulat > 0 dan maksimal {amount}.",
-    "confirmDebtPayment": "Catat pelunasan tunai {amount} ke {account}?"
+    "confirmDebtPayment": "Catat pelunasan tunai {amount} ke {account}?",
+    "pettyExpenseAccount": "Pengeluaran dari Kas Kecil otomatis mengurangi Dana Kas Kecil (tidak perlu memilih akun).",
+    "accountRequired": "Akun wajib dipilih.",
+    "classifyInfo": "Hanya akun dan unit usaha yang berubah; nominal tetap. Salah nominal: batalkan lalu catat ulang.",
+    "coaInfo": "Kode tidak bisa diubah setelah disimpan. Akun sistem (kas, hutang gaji driver, dll.) tidak bisa diubah.",
+    "unclassifiedWarning": "{count} pemasukan/pengeluaran ({amount}) belum punya akun; pengeluaran masuk Beban Belum Diklasifikasi.",
+    "trialBalanceInfo": "Dihitung langsung dari order, penggajian, hutang driver dan kas sejak 1 Nov 2026. Saldo awal pos bukan kas (dari Excel GL Oktober) belum dimasukkan.",
+    "ledgerEmpty": "Tidak ada mutasi pada rentang ini.",
+    "ledgerChooseAccount": "Pilih akun untuk melihat Buku Besar."
   },
   "driverStatus": {
     "online": "Online",

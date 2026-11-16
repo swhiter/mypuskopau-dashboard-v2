@@ -168,6 +168,27 @@ const router = createRouter({
             requiresAuth: true
           }
         }, {
+          path: '/accounting/accounts',
+          name: 'accountingAccounts',
+          component: () => import('@/views/main/AccountingAccountsView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        }, {
+          path: '/accounting/trial-balance',
+          name: 'accountingTrialBalance',
+          component: () => import('@/views/main/AccountingTrialBalanceView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        }, {
+          path: '/accounting/ledger',
+          name: 'accountingLedger',
+          component: () => import('@/views/main/AccountingLedgerView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        }, {
           path: '/cash',
           name: 'cashDashboard',
           component: () => import('@/views/main/CashDashboardView.vue'),

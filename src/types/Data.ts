@@ -307,6 +307,9 @@ export interface CashMovementRow {
   void_reason: string | null
   created_by: string | null
   voided_by: string | null
+  // akuntansi: akun tujuan/sumber & unit usaha (null = belum diklasifikasi)
+  coa_code?: string | null
+  business_unit?: string | null
 }
 
 // Penggajian driver

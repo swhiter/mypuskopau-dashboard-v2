@@ -21,6 +21,24 @@
         <input id="movementDate" v-model="movementDate" type="date" class="select" required
           :min="dateRange?.min" :max="dateRange?.max" />
       </div>
+      <template v-if="showClassification">
+        <div class="select-group">
+          <label for="coaCode">{{ mode === 'INCOME' ? t('names.sourceAccount') : t('names.targetAccount') }}</label>
+          <select id="coaCode" v-model="coaCode" class="select" required>
+            <option value="" disabled>{{ t('label.choose') }}</option>
+            <option v-for="account in coaOptions" :key="account.code" :value="account.code">
+              {{ account.code }} {{ account.name }}
+            </option>
+          </select>
+        </div>
+        <div class="select-group">
+          <label for="businessUnit">{{ t('names.businessUnit') }}</label>
+          <select id="businessUnit" v-model="businessUnit" class="select">
+            <option v-for="unit in UNITS" :key="unit" :value="unit">{{ UNIT_LABELS[unit] }}</option>
+          </select>
+        </div>
+      </template>
+      <p v-else-if="mode === 'EXPENSE' && fromAccount === 'KAS_KECIL'" class="hint">{{ t('message.pettyExpenseAccount') }}</p>
       <InputForm name="amount" v-model="amount" :label="t('names.amount')" prefix="Rp" is-separate-row
         placeholder="contoh 27.834.210,33" bordered :rules="{ required: true, rupiah: [mode === 'OPENING' ? 0 : 0.01] }" />
       <InputForm name="description" v-model="description" :label="t('names.description')" is-separate-row bordered
@@ -41,7 +59,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { Form } from 'vee-validate'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import ModalBaseWithHeader from './ModalBaseWithHeader.vue'
 import InputForm from '@/components/atoms/InputForm.vue'
 import { useToasterStore } from '@/stores/toaster'
@@ -49,6 +67,16 @@ import { handleErrorResponse } from '@/utils/common'
 import { formatRupiah } from '@/utils/payroll-format'
 import { ACCOUNT_LABELS, CASH_ACCOUNTS, cashDateRange, parseRupiahInput, todayWib } from '@/utils/cash-labels'
 import cashService from '@/services/cash/cash.api'
+import accountingService from '@/services/accounting/accounting.api'
+import {
+  UNITS,
+  UNIT_LABELS,
+  accountOptions,
+  defaultUnitFor,
+  needsClassification,
+  type BusinessUnit,
+  type CoaAccount
+} from '@/utils/accounting'
 import type { CashAccount, CashSummary } from '@/types/Data'
 
 const { t } = useI18n()
@@ -76,6 +104,22 @@ const description = ref(props.description ?? '')
 const hasDate = computed(() => props.mode === 'INCOME' || props.mode === 'EXPENSE')
 const movementDate = ref(todayWib())
 const dateRange = computed(() => (summary.value ? cashDateRange(summary.value.startDate) : null))
+
+// Akuntansi: akun tujuan (pengeluaran) / sumber (pemasukan) & unit usaha
+const coaAccounts = ref<CoaAccount[]>([])
+const coaCode = ref('')
+const businessUnit = ref<BusinessUnit>('INVESTOR')
+const showClassification = computed(() => needsClassification(props.mode, props.mode === 'INCOME' ? null : fromAccount.value))
+const coaOptions = computed(() =>
+  props.mode === 'EXPENSE' || props.mode === 'INCOME' ? accountOptions(coaAccounts.value, props.mode) : []
+)
+watch(
+  [fromAccount, toAccount],
+  () => {
+    businessUnit.value = defaultUnitFor(props.mode === 'INCOME' ? toAccount.value : fromAccount.value)
+  },
+  { immediate: true }
+)
 
 const loading = ref(false)
 const buttonLoading = ref(false)
@@ -122,6 +166,10 @@ const onSubmit = (): void => {
     toast.error({ text: t('message.cashDateOutOfRange', { min: range?.min ?? '-', max: range?.max ?? '-' }) })
     return
   }
+  if (showClassification.value && !coaCode.value) {
+    toast.error({ text: t('message.accountRequired') })
+    return
+  }
   const warning = exceedsBalance.value ? `${t('message.cashNegativeConfirm')}\n` : ''
   if (window.confirm(`${warning}${t('message.save')}`)) {
     save()
@@ -144,7 +192,8 @@ const save = async (): Promise<void> => {
         toAccount: props.mode === 'TRANSFER' || props.mode === 'INCOME' ? toAccount.value : null,
         amount: amountValue.value,
         description: description.value,
-        ...(hasDate.value ? { movementDate: movementDate.value } : {})
+        ...(hasDate.value ? { movementDate: movementDate.value } : {}),
+        ...(showClassification.value ? { coaCode: coaCode.value, businessUnit: businessUnit.value } : {})
       })
     }
     toast.success({ text: t('alert.successSave') })
@@ -159,7 +208,9 @@ const save = async (): Promise<void> => {
 onMounted(async () => {
   loading.value = true
   try {
-    summary.value = (await cashService.getSummary()).data
+    const [cash, coa] = await Promise.all([cashService.getSummary(), accountingService.getAccounts()])
+    summary.value = cash.data
+    coaAccounts.value = coa.data
     if (props.mode === 'EXPENSE') fromAccount.value = 'KAS_KECIL'
   } catch (error) {
     handleErrorResponse(error)

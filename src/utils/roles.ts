@@ -3,7 +3,7 @@ export const ROLE_SUPERADMIN = 'superadmin'
 export const ROLE_BENDAHARA = 'bendahara'
 
 // Menu bendahara; menu bendahara berikutnya ditambahkan di sini.
-export const BENDAHARA_ROUTES = ['/cash', '/payroll', '/driver-debt', '/reports/income', '/reports/ritase']
+export const BENDAHARA_ROUTES = ['/cash', '/payroll', '/driver-debt', '/accounting', '/reports/income', '/reports/ritase']
 // Halaman yang hanya untuk bendahara (role lain tidak boleh membuka).
 export const BENDAHARA_ONLY_ROUTES = ['/cash']
 
