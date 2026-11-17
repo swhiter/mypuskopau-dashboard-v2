@@ -78,6 +78,8 @@ const menus: MenuEntry[] = [
     icon: 'menu_book',
     isMdi: true,
     children: [
+      { title: 'Laporan Keuangan', href: '/accounting/reports', icon: 'summarize', isMdi: true },
+      { title: 'Jurnal', href: '/accounting/journals', icon: 'edit_note', isMdi: true },
       { title: 'Neraca Saldo', href: '/accounting/trial-balance', icon: 'balance', isMdi: true },
       { title: 'Buku Besar', href: '/accounting/ledger', icon: 'library_books', isMdi: true },
       { title: 'Daftar Akun', href: '/accounting/accounts', icon: 'account_tree', isMdi: true }

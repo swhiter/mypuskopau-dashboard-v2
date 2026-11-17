@@ -182,6 +182,20 @@ const router = createRouter({
             requiresAuth: true
           }
         }, {
+          path: '/accounting/reports',
+          name: 'accountingReports',
+          component: () => import('@/views/main/AccountingReportView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        }, {
+          path: '/accounting/journals',
+          name: 'accountingJournals',
+          component: () => import('@/views/main/AccountingJournalView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        }, {
           path: '/accounting/ledger',
           name: 'accountingLedger',
           component: () => import('@/views/main/AccountingLedgerView.vue'),

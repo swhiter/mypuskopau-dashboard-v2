@@ -269,7 +269,9 @@
     "editAccount": "Ubah Akun",
     "addAccount": "Tambah Akun",
     "trialBalance": "Neraca Saldo",
-    "generalLedger": "Buku Besar"
+    "generalLedger": "Buku Besar",
+    "journal": "Jurnal",
+    "financialReports": "Laporan Keuangan"
   },
   "errors": {
     "badRequest": "Ada kesalahan dalam request Anda.",
@@ -411,7 +413,8 @@
     "ledgerSourceDebt": "Hutang driver #{id}",
     "ledgerSourceOrder": "Order lunas (harian)",
     "ledgerSourcePayroll": "Penggajian (harian)",
-    "save": "Simpan"
+    "save": "Simpan",
+    "ledgerSourceJournal": "Jurnal J-{id}"
   },
   "alert": {
     "cashVoided": "Catatan kas dibatalkan",
@@ -472,7 +475,7 @@
     "classifyInfo": "Hanya akun dan unit usaha yang berubah; nominal tetap. Salah nominal: batalkan lalu catat ulang.",
     "coaInfo": "Kode tidak bisa diubah setelah disimpan. Akun sistem (kas, hutang gaji driver, dll.) tidak bisa diubah.",
     "unclassifiedWarning": "{count} pemasukan/pengeluaran ({amount}) belum punya akun; pengeluaran masuk Beban Belum Diklasifikasi.",
-    "trialBalanceInfo": "Dihitung langsung dari order, penggajian, hutang driver dan kas sejak 1 Nov 2026. Saldo awal pos bukan kas (dari Excel GL Oktober) belum dimasukkan.",
+    "trialBalanceInfo": "Jurnal otomatis (order, penggajian, hutang driver, kas) dihitung sejak 1 Nov 2026. Saldo awal 31 Agu dan riwayat Sep–Okt berasal dari Excel GL bendahara (jurnal manual).",
     "ledgerEmpty": "Tidak ada mutasi pada rentang ini.",
     "ledgerChooseAccount": "Pilih akun untuk melihat Buku Besar."
   },

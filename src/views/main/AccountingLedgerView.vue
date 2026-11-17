@@ -70,12 +70,13 @@ import PageContainer from '@/components/atoms/PageContainer.vue'
 import { handleErrorResponse } from '@/utils/common'
 import { formatRupiah } from '@/utils/payroll-format'
 import { todayWib } from '@/utils/cash-labels'
+import { REPORT_START } from '@/utils/accounting-report'
 import { UNITS, UNIT_LABELS, displayBalance, type BusinessUnit, type CoaAccount } from '@/utils/accounting'
 import accountingService, { type Ledger, type LedgerRow } from '@/services/accounting/accounting.api'
 
 const { t } = useI18n()
 const route = useRoute()
-const GL_START = '2026-11-01'
+const GL_START = REPORT_START
 
 const today = todayWib()
 const monthStart = `${today.slice(0, 7)}-01`
@@ -95,6 +96,7 @@ const formatDay = (day: string): string => day.split('-').reverse().join('/')
 const sourceLabel = (row: LedgerRow): string => {
   if (row.source === 'CASH') return t('label.ledgerSourceCash', { id: row.source_id })
   if (row.source === 'DEBT') return t('label.ledgerSourceDebt', { id: row.source_id })
+  if (row.source === 'JOURNAL') return t('label.ledgerSourceJournal', { id: row.source_id })
   return row.source === 'ORDER' ? t('label.ledgerSourceOrder') : t('label.ledgerSourcePayroll')
 }
 

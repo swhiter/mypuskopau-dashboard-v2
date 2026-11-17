@@ -212,7 +212,9 @@
     "editAccount": "Edit Account",
     "addAccount": "Add Account",
     "trialBalance": "Trial Balance",
-    "generalLedger": "General Ledger"
+    "generalLedger": "General Ledger",
+    "journal": "Journal",
+    "financialReports": "Financial Reports"
   },
   "errors": {
     "badRequest": "Something wrong with your request.",
@@ -346,7 +348,8 @@
     "ledgerSourceDebt": "Driver debt #{id}",
     "ledgerSourceOrder": "Paid orders (daily)",
     "ledgerSourcePayroll": "Payroll (daily)",
-    "save": "Save"
+    "save": "Save",
+    "ledgerSourceJournal": "Journal J-{id}"
   },
   "alert": {
     "cashVoided": "Cash entry voided",
@@ -407,7 +410,7 @@
     "classifyInfo": "Only the account and business unit change; the amount stays. Wrong amount: void and re-enter.",
     "coaInfo": "The code cannot change once saved. System accounts cannot be edited.",
     "unclassifiedWarning": "{count} income/expense entries ({amount}) have no account yet; expenses go to Unclassified Expense.",
-    "trialBalanceInfo": "Computed directly from orders, payroll, driver debts and cash since 1 Nov 2026. Non-cash opening balances (October Excel GL) are not in yet.",
+    "trialBalanceInfo": "Automatic entries (orders, payroll, driver debts, cash) start on 1 Nov 2026. The 31 Aug opening and Sep–Oct history come from the treasurer's Excel GL (manual journals).",
     "ledgerEmpty": "No movements in this range.",
     "ledgerChooseAccount": "Choose an account to view its ledger."
   },

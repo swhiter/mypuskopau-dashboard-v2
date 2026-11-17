@@ -75,11 +75,12 @@ import PageContainer from '@/components/atoms/PageContainer.vue'
 import { handleErrorResponse } from '@/utils/common'
 import { formatRupiah } from '@/utils/payroll-format'
 import { todayWib } from '@/utils/cash-labels'
+import { REPORT_START } from '@/utils/accounting-report'
 import { COA_TYPES, COA_TYPE_LABELS, UNITS, UNIT_LABELS, displayBalance, type CoaType } from '@/utils/accounting'
 import accountingService, { type TrialBalance } from '@/services/accounting/accounting.api'
 
 const { t } = useI18n()
-const GL_START = '2026-11-01'
+const GL_START = REPORT_START
 
 const today = todayWib()
 const monthStart = `${today.slice(0, 7)}-01`
