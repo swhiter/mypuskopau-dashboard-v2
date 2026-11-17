@@ -48,6 +48,7 @@ const menus: MenuEntry[] = [
     children: [
       { title: 'Manajemen Pesanan', href: '/order-management', icon: 'list_alt', isMdi: true },
       { title: 'Buat Struk Manual', href: '/orders/create-manual', icon: 'add_shopping_cart', isMdi: true },
+      { title: 'Unduh Struk', href: '/orders/receipts', icon: 'download', isMdi: true },
       { title: 'Input Struk Vendor', href: '/vendor-orders', icon: 'receipt_long', isMdi: true },
       { title: 'Trip Bermasalah', href: '/unfinished-trips', icon: 'report_problem', isMdi: true }
     ]

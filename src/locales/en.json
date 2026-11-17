@@ -214,7 +214,8 @@
     "trialBalance": "Trial Balance",
     "generalLedger": "General Ledger",
     "journal": "Journal",
-    "financialReports": "Financial Reports"
+    "financialReports": "Financial Reports",
+    "receiptDownload": "Download Receipt"
   },
   "errors": {
     "badRequest": "Something wrong with your request.",

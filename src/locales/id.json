@@ -271,7 +271,8 @@
     "trialBalance": "Neraca Saldo",
     "generalLedger": "Buku Besar",
     "journal": "Jurnal",
-    "financialReports": "Laporan Keuangan"
+    "financialReports": "Laporan Keuangan",
+    "receiptDownload": "Unduh Struk"
   },
   "errors": {
     "badRequest": "Ada kesalahan dalam request Anda.",

@@ -139,6 +139,13 @@ const router = createRouter({
             requiresAuth: true
           }
         }, {
+          path: '/orders/receipts',
+          name: 'receiptDownload',
+          component: () => import('@/views/main/ReceiptDownloadView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        }, {
           path: '/orders/create-manual',
           name: 'AdminCreateOrder',
           component: () => import('@/views/main/AdminCreateOrderView.vue'),
